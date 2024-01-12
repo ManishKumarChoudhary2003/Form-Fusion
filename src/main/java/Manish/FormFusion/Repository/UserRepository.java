@@ -3,13 +3,15 @@ package Manish.FormFusion.Repository;
 
 import Manish.FormFusion.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
+@Repository
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
-    public List<User> findByuserId(long userId);
+   Optional<User> findByusername(String username);
 }
