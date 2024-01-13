@@ -24,6 +24,7 @@ public class JwtService {
     public static String generateToken(String username) {
         Map<String, Objects> claims = new HashMap<>();
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -67,31 +68,3 @@ public class JwtService {
     }
 }
 
-
-
-
-
-
-//    public static String generateToken(String username) {
-//
-//        return Jwts.builder()
-//                .setSubject(username)
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-//                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-//                .compact();
-//    }
-//
-//    public static boolean validateToken(String token) {
-//        try {
-//            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
-//            return true;
-//        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-//            return false;
-//        }
-//    }
-//
-//    public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
-//        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-//        String username = claims.getSubject();
-//        return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-//    }

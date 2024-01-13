@@ -29,10 +29,16 @@ public class UserService implements UserDetailsService {
     }
 
     public String addUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "User Added Successfully";
+        String rawPassword = user.getPassword();
+        if (rawPassword != null) {
+            user.setPassword(passwordEncoder.encode(rawPassword));
+            userRepository.save(user);
+            return "User Added Successfully";
+        } else {
+            return "Error: Password cannot be null";
+        }
     }
+
 
     public List<User> getAllUsers(){
         return userRepository.findAll();

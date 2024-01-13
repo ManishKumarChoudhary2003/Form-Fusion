@@ -29,14 +29,14 @@ public class UserController {
 
     @GetMapping("/welcome")
     public String welcome(){
-        return "Welcome to Spring Security tutorials !!";
+        return "Welcome to Spring Security !!";
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestBody User user){
+    public String addUser(@RequestBody User user) {
         return userService.addUser(user);
-
     }
+
     @PostMapping("/login")
     public String addUser(@RequestBody AuthRequest authRequest){
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -51,59 +51,11 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
+
     @GetMapping("/getUsers/{id}")
     @PreAuthorize("hasAuthority('USER_ROLES')")
     public User getAllUsers(@PathVariable Long id){
         return userService.getUser(id);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @GetMapping("/")
-//    public String createUser(){
-//        return  "Welcome To Form Fusion";
-//    }
-//
-//    @GetMapping("/user/{userId}")
-//    public User getUser(@PathVariable long userId){
-//        List<User> user = userRepository.findByuserId(userId);
-//        return user.get(0);
-//    }
-//
-//    @PutMapping("/update-user/{userId}")
-//    public void updateUser(@PathVariable long userId){
-//        List<User> users = userRepository.findByuserId(userId);
-//        User user = users.get(0);
-//        String username = "Manish Choudhary";
-//        String email = "manishchoudhary@mail.com";
-//
-//        user.setUsername(username);
-//        user.setEmail(email);
-//
-//        userRepository.save(user);
-//    }
-//
-//    @PostMapping("/create-user")
-//    public void createUser(@RequestBody User user){
-//        userRepository.save(user);
-//    }
 }

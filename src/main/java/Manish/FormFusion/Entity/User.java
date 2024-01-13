@@ -1,5 +1,6 @@
 package Manish.FormFusion.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class User {
 
     private String username;
 
+//    @JsonIgnore
     private String password;
 
     private String email;
