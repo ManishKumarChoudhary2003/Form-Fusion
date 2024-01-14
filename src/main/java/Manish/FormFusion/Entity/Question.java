@@ -2,6 +2,7 @@ package Manish.FormFusion.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,6 +35,22 @@ public class Question {
         this.options = options;
         this.form = form;
         this.answers = answers;
+
+        // Only create options for single choice or multiple choice questions
+//        if ("single_choice".equals(type) || "multiple_choice".equals(type)) {
+//            createOptions();
+//        }
+    }
+
+    public void addOption(String option) {
+        if ("single_choice".equals(type) || "multiple_choice".equals(type)) {
+            if (options == null) {
+                options = new ArrayList<>();
+            }
+            options.add(option);
+        } else {
+            throw new IllegalArgumentException("Options can only be added to single choice or multiple choice questions.");
+        }
     }
 
     public Long getQuestionId() {

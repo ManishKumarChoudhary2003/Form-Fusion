@@ -1,5 +1,6 @@
 package Manish.FormFusion.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,6 +21,7 @@ public class Form {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
