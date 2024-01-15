@@ -10,7 +10,7 @@ import java.util.List;
 public class Form {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long formId;
 
     private String title;
@@ -106,9 +106,22 @@ public class Form {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", link='" + link + '\'' +
-                ", user=" + user +
+                ", user=" + (user != null ? user.getUserId() : null) +  // Avoid circular reference
                 ", questions=" + questions +
                 ", responses=" + responses +
                 '}';
     }
+
+//    @Override
+//    public String toString() {
+//        return "Form{" +
+//                "formId=" + formId +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", link='" + link + '\'' +
+//                ", user=" + user +
+//                ", questions=" + questions +
+//                ", responses=" + responses +
+//                '}';
+//    }
 }

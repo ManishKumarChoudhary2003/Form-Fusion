@@ -10,7 +10,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     private String username;
@@ -106,8 +106,21 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
-                ", forms=" + forms +
+                ", forms=" + forms.size() +  // Avoid circular reference
                 ", responses=" + responses +
                 '}';
     }
+
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "userId=" + userId +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", email='" + email + '\'' +
+//                ", role='" + role + '\'' +
+//                ", forms=" + forms +
+//                ", responses=" + responses +
+//                '}';
+//    }
 }

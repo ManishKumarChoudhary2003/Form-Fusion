@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -22,6 +24,7 @@ public class QuestionController {
     @Autowired
     private QuestionRepository questionRepository;
 
+
     @PostMapping("/{formId}/create-question")
     public ResponseEntity<String> createQuestionForForm(@PathVariable Long formId, @RequestBody Question question) {
         Form form = formRepository.findById(formId)
@@ -31,6 +34,33 @@ public class QuestionController {
         questionRepository.save(question);
         return ResponseEntity.status(HttpStatus.CREATED).body("Question successfully created for the form");
     }
+
+    @PutMapping("/{formId}/update-question/{questionId}")
+    public ResponseEntity<String> updateQuestionForForm(
+            @PathVariable Long formId,
+            @PathVariable Long questionId,
+            @RequestBody Question updatedQuestion) {
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new RuntimeException("Form not found with id: " + formId));
+
+        Question existingQuestion = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+
+        // Check if the existing question belongs to the specified form
+        if (!form.getQuestions().contains(existingQuestion)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+        }
+
+        // Update the existing question with the new values
+        existingQuestion.setText(updatedQuestion.getText());
+        existingQuestion.setType(updatedQuestion.getType());
+        existingQuestion.setOptions(updatedQuestion.getOptions());
+        // Update other properties as needed
+
+        questionRepository.save(existingQuestion);
+        return ResponseEntity.status(HttpStatus.OK).body("Question successfully updated for the form");
+    }
+
 
 
     @PostMapping("/{formId}/{questionId}/create-options")
@@ -54,7 +84,7 @@ public class QuestionController {
 
         for (String optionText : optionTexts) {
             QuestionOption questionOption = new QuestionOption(question, optionText);
-            question.getOptions().add(String.valueOf(questionOption));
+            question.getOptions().add(String.valueOf((questionOption)));
         }
 
         questionRepository.save(question);

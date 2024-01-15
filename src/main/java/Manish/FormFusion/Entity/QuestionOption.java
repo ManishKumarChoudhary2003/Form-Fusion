@@ -18,19 +18,13 @@ public class QuestionOption {
     public QuestionOption() {
     }
 
-    public QuestionOption(Question question, String optionText) {
-        this.question = question;
-
-        // Check if the question type allows options
-        if ("single_choice".equals(question.getType()) || "multiple_choice".equals(question.getType())) {
-            this.optionText = optionText;
-            if (!question.getOptions().contains(optionText)) {
-                question.getOptions().add(optionText);
-            }
-        } else {
-            throw new IllegalArgumentException("Options can only be added to single choice or multiple choice questions.");
-        }
+    public QuestionOption(String optionText) {
+        this.optionText = optionText;
     }
+
+    public QuestionOption(Question question, String optionText) {
+    }
+
 
     public Long getId() {
         return id;
@@ -46,9 +40,6 @@ public class QuestionOption {
 
     public void setQuestion(Question question) {
         this.question = question;
-        if (!question.getOptions().contains(optionText)) {
-            question.getOptions().add(optionText);
-        }
     }
 
     public String getOptionText() {
@@ -63,7 +54,7 @@ public class QuestionOption {
     public String toString() {
         return "QuestionOption{" +
                 "id=" + id +
-                ", question=" + question +
+                ", question=" + (question != null ? question.getQuestionId() : null) + // Avoid circular reference
                 ", optionText='" + optionText + '\'' +
                 '}';
     }

@@ -16,7 +16,10 @@ public class Question {
     private String type;
 
     @ElementCollection
+    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
+    @Column(name = "options", length = 255)
     private List<String> options;
+
 
     @ManyToOne
     @JoinColumn(name = "form_id")
@@ -108,8 +111,9 @@ public class Question {
                 ", text='" + text + '\'' +
                 ", type='" + type + '\'' +
                 ", options=" + options +
-                ", form=" + form +
+                ", form=" + (form != null ? form.getFormId() : null) + // Avoid circular reference
                 ", answers=" + answers +
                 '}';
     }
+
 }
