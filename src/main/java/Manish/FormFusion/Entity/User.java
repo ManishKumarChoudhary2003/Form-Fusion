@@ -111,16 +111,4 @@ public class User {
                 '}';
     }
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "userId=" + userId +
-//                ", username='" + username + '\'' +
-//                ", password='" + password + '\'' +
-//                ", email='" + email + '\'' +
-//                ", role='" + role + '\'' +
-//                ", forms=" + forms +
-//                ", responses=" + responses +
-//                '}';
-//    }
 }

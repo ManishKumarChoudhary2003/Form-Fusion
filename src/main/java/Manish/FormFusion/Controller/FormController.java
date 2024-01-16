@@ -1,26 +1,16 @@
 package Manish.FormFusion.Controller;
 
 import Manish.FormFusion.Entity.Form;
-import Manish.FormFusion.Entity.Question;
-import Manish.FormFusion.Entity.QuestionOption;
 import Manish.FormFusion.Entity.User;
 import Manish.FormFusion.Repository.FormRepository;
-import Manish.FormFusion.Repository.QuestionOptionRepository;
-import Manish.FormFusion.Repository.QuestionRepository;
 import Manish.FormFusion.Repository.UserRepository;
 import Manish.FormFusion.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/form")
@@ -62,7 +52,7 @@ public class FormController {
     }
 
 
-    @GetMapping("/getForms/{userId}")
+    @GetMapping("/{userId}/getForms")
     public List<Form> getAllFormsForUser(@PathVariable(name = "userId") Long userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authenticatedUsername = authentication.getName();

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,13 @@ public class UserService implements UserDetailsService {
     }
 
     public String addUser(User user){
+        System.out.println("IN Add user Method........................");
         String rawPassword = user.getPassword();
         if (rawPassword != null) {
+            System.out.println("password Not nulllllllllllllllllllllllllllllllllllll");
             user.setPassword(passwordEncoder.encode(rawPassword));
             userRepository.save(user);
+            System.out.println("User Registered successfully.....................");
             return "User Added Successfully";
         } else {
             return "Error: Password cannot be null";

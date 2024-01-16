@@ -1,5 +1,6 @@
 package Manish.FormFusion.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,13 +14,8 @@ public class Question {
 
     private String text;
 
-    private String type;
-
-    @ElementCollection
-    @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
-    @Column(name = "options", length = 255)
+    @Column(columnDefinition = "TEXT")
     private List<String> options;
-
 
     @ManyToOne
     @JoinColumn(name = "form_id")
@@ -28,32 +24,14 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers;
 
-    public Question(){
-
+    public Question() {
     }
 
-    public Question(String text, String type, List<String> options, Form form, List<Answer> answers) {
+    public Question(String text, List<String> options, Form form, List<Answer> answers) {
         this.text = text;
-        this.type = type;
         this.options = options;
         this.form = form;
         this.answers = answers;
-
-        // Only create options for single choice or multiple choice questions
-//        if ("single_choice".equals(type) || "multiple_choice".equals(type)) {
-//            createOptions();
-//        }
-    }
-
-    public void addOption(String option) {
-        if ("single_choice".equals(type) || "multiple_choice".equals(type)) {
-            if (options == null) {
-                options = new ArrayList<>();
-            }
-            options.add(option);
-        } else {
-            throw new IllegalArgumentException("Options can only be added to single choice or multiple choice questions.");
-        }
     }
 
     public Long getQuestionId() {
@@ -70,14 +48,6 @@ public class Question {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public List<String> getOptions() {
@@ -109,11 +79,9 @@ public class Question {
         return "Question{" +
                 "questionId=" + questionId +
                 ", text='" + text + '\'' +
-                ", type='" + type + '\'' +
                 ", options=" + options +
-                ", form=" + (form != null ? form.getFormId() : null) + // Avoid circular reference
+                ", form=" + form +
                 ", answers=" + answers +
                 '}';
     }
-
 }

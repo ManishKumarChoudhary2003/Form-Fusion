@@ -2,7 +2,6 @@ package Manish.FormFusion.Controller;
 
 import Manish.FormFusion.Entity.Form;
 import Manish.FormFusion.Entity.Question;
-import Manish.FormFusion.Entity.QuestionOption;
 import Manish.FormFusion.Repository.FormRepository;
 import Manish.FormFusion.Repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,55 +37,45 @@ public class QuestionController {
             @PathVariable Long formId,
             @PathVariable Long questionId,
             @RequestBody Question updatedQuestion) {
+
         Form form = formRepository.findById(formId)
                 .orElseThrow(() -> new RuntimeException("Form not found with id: " + formId));
 
         Question existingQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
 
-        // Check if the existing question belongs to the specified form
         if (!form.getQuestions().contains(existingQuestion)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
         }
 
-        // Update the existing question with the new values
         existingQuestion.setText(updatedQuestion.getText());
-        existingQuestion.setType(updatedQuestion.getType());
-        existingQuestion.setOptions(updatedQuestion.getOptions());
-        // Update other properties as needed
-
+        existingQuestion.setOptions(updatedQuestion.getOptions().subList(0, 4)); // Limit to four options
         questionRepository.save(existingQuestion);
         return ResponseEntity.status(HttpStatus.OK).body("Question successfully updated for the form");
     }
 
-
-
     @PostMapping("/{formId}/{questionId}/create-options")
-    public ResponseEntity<String> createOptionsForQuestion(@PathVariable Long formId, @PathVariable Long questionId, @RequestBody List<String> optionTexts) {
+    public ResponseEntity<String> createOptionsForQuestion(@PathVariable Long formId, @PathVariable Long questionId,
+                                                           @RequestBody List<String> optionTexts) {
         Form form = formRepository.findById(formId)
                 .orElseThrow(() -> new RuntimeException("Form not found with id: " + formId));
 
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
 
-        // Check if the question belongs to the specified form
         if (!form.getQuestions().contains(question)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
         }
 
-        // Check if the question type allows options
-        if (!"single_choice".equals(question.getType()) && !"multiple_choice".equals(question.getType())) {
-            System.out.println("Options Not setted...........................");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Options can only be added to single choice or multiple choice questions.");
+        if (optionTexts.size() != 4) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exactly four options are required.");
         }
 
-        for (String optionText : optionTexts) {
-            QuestionOption questionOption = new QuestionOption(question, optionText);
-            question.getOptions().add(String.valueOf((questionOption)));
-        }
-
+        question.getOptions().clear(); // Remove existing options
+        question.getOptions().addAll(optionTexts);
         questionRepository.save(question);
         return ResponseEntity.status(HttpStatus.CREATED).body("Options successfully created for the question");
     }
+
 
 }

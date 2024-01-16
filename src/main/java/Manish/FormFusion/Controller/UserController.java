@@ -32,8 +32,9 @@ public class UserController {
         return "Welcome to Spring Security !!";
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/register")
     public String addUser(@RequestBody User user) {
+        System.out.println("IN register Api...............................");
         return userService.addUser(user);
     }
 
