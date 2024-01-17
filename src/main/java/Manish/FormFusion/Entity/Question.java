@@ -1,9 +1,7 @@
 package Manish.FormFusion.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,6 +11,7 @@ public class Question {
     private Long questionId;
 
     private String text;
+
 
     @Column(columnDefinition = "TEXT")
     private List<String> options;

@@ -1,4 +1,11 @@
 package Manish.FormFusion.Repository;
 
-public interface ResponseRepository {
+import Manish.FormFusion.Entity.Response;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+@Transactional
+public interface ResponseRepository extends JpaRepository<Response,Long> {
 }

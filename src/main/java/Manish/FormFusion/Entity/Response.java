@@ -22,18 +22,18 @@ public class Response {
 
     private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy = "response", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Answer> answers;
+//    @OneToMany(mappedBy = "response", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Answer> answers;
 
     public Response(){
 
     }
 
-    public Response(Form form, User user, LocalDateTime timestamp, List<Answer> answers) {
+    public Response(Form form, User user, LocalDateTime timestamp) {
         this.form = form;
         this.user = user;
         this.timestamp = timestamp;
-        this.answers = answers;
+//        this.answers = answers;
     }
 
     public Long getResponseId() {
@@ -68,13 +68,13 @@ public class Response {
         this.timestamp = timestamp;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
+//    public List<Answer> getAnswers() {
+//        return answers;
+//    }
+//
+//    public void setAnswers(List<Answer> answers) {
+//        this.answers = answers;
+//    }
 
     @Override
     public String toString() {
@@ -83,7 +83,6 @@ public class Response {
                 ", form=" + form +
                 ", user=" + user +
                 ", timestamp=" + timestamp +
-                ", answers=" + answers +
                 '}';
     }
 }

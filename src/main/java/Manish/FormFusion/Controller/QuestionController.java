@@ -54,28 +54,28 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.OK).body("Question successfully updated for the form");
     }
 
-    @PostMapping("/{formId}/{questionId}/create-options")
-    public ResponseEntity<String> createOptionsForQuestion(@PathVariable Long formId, @PathVariable Long questionId,
-                                                           @RequestBody List<String> optionTexts) {
-        Form form = formRepository.findById(formId)
-                .orElseThrow(() -> new RuntimeException("Form not found with id: " + formId));
-
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
-
-        if (!form.getQuestions().contains(question)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
-        }
-
-        if (optionTexts.size() != 4) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exactly four options are required.");
-        }
-
-        question.getOptions().clear(); // Remove existing options
-        question.getOptions().addAll(optionTexts);
-        questionRepository.save(question);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Options successfully created for the question");
-    }
+//    @PostMapping("/{formId}/{questionId}/create-options")
+//    public ResponseEntity<String> createOptionsForQuestion(@PathVariable Long formId, @PathVariable Long questionId,
+//                                                           @RequestBody List<String> optionTexts) {
+//        Form form = formRepository.findById(formId)
+//                .orElseThrow(() -> new RuntimeException("Form not found with id: " + formId));
+//
+//        Question question = questionRepository.findById(questionId)
+//                .orElseThrow(() -> new RuntimeException("Question not found with id: " + questionId));
+//
+//        if (!form.getQuestions().contains(question)) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+//        }
+//
+//        if (optionTexts.size() != 4) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exactly four options are required.");
+//        }
+//
+//        question.getOptions().clear(); // Remove existing options
+//        question.getOptions().addAll(optionTexts);
+//        questionRepository.save(question);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Options successfully created for the question");
+//    }
 
 
 }
