@@ -21,7 +21,6 @@ public class QuestionController {
     @Autowired
     private QuestionRepository questionRepository;
 
-
     @PostMapping("/{formId}/create-question")
     public ResponseEntity<String> createQuestionForForm(@PathVariable Long formId, @RequestBody Question question) {
         Form form = formRepository.findById(formId)
