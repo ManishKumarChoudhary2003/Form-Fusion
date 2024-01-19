@@ -30,13 +30,10 @@ public class UserService implements UserDetailsService {
     }
 
     public String addUser(User user){
-        System.out.println("IN Add user Method........................");
         String rawPassword = user.getPassword();
         if (rawPassword != null) {
-            System.out.println("password Not nulllllllllllllllllllllllllllllllllllll");
             user.setPassword(passwordEncoder.encode(rawPassword));
             userRepository.save(user);
-            System.out.println("User Registered successfully.....................");
             return "User Added Successfully";
         } else {
             return "Error: Password cannot be null";

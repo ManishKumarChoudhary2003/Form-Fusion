@@ -25,59 +25,65 @@ public class AnswerController {
     @Autowired
     private AnswerRepository answerRepository;
 
-    @PostMapping("/{form_id}/{question_id}/submit-answer")
-    public ResponseEntity<String> submitQuestion(@RequestBody Answer answer,
-                                                 @PathVariable Long form_id,
-                                                 @PathVariable Long question_id) {
+    @PostMapping("/{formId}/{questionId}/submit-answer")
+    public ResponseEntity<String> submitAnswerForQuestion(
+            @PathVariable Long formId,
+            @PathVariable Long questionId,
+            @RequestBody String answer) {
 
-        Form form = formRepository.findById(form_id)
-                .orElseThrow(() -> new EntityNotFoundException("Form not found"));
+        try {
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
 
-        Question question = questionRepository.findById(question_id)
-                .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+            Question question = questionRepository.findById(questionId)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
 
-        if (!form.getQuestions().contains(question)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Question with ID " + question_id + " does not belong to Form with ID " + form_id);
+            if (!form.getQuestions().contains(question)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+            }
+
+            Answer submittedAnswer = new Answer(question, answer);
+            answerRepository.save(submittedAnswer);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Answer successfully submitted for the question");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error submitting the answer");
         }
-
-        answer.setQuestion(question);
-        answerRepository.save(answer);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Answer submitted successfully for the Question ID -> " + question_id);
     }
 
 
-    @PutMapping("/{form_id}/{question_id}/update-answer")
-    public ResponseEntity<String> updateAnswer(@RequestBody Answer updatedAnswer,
-                                               @PathVariable Long form_id,
-                                               @PathVariable Long question_id) {
 
-        Form form = formRepository.findById(form_id)
-                .orElseThrow(() -> new EntityNotFoundException("Form not found"));
+    @PutMapping("/{formId}/{questionId}/update-answer")
+    public ResponseEntity<String> updateAnswerForQuestion(
+            @PathVariable Long formId,
+            @PathVariable Long questionId,
+            @RequestBody String updatedAnswer) {
 
-        Question question = questionRepository.findById(question_id)
-                .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+        try {
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
 
-        if (!form.getQuestions().contains(question)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Question with ID " + question_id + " does not belong to Form with ID " + form_id);
+            Question question = questionRepository.findById(questionId)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
+
+            if (!form.getQuestions().contains(question)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+            }
+
+            Answer existingAnswer = answerRepository.findByQuestion(question)
+                    .orElseThrow(() -> new EntityNotFoundException("Answer not found for the specified question"));
+
+            existingAnswer.setAnswer(updatedAnswer);
+            answerRepository.save(existingAnswer);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Answer successfully updated for the question");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating the answer");
         }
-
-        Answer existingAnswer = answerRepository.findByQuestionAndResponse_ResponseId(question, updatedAnswer.getResponse().getResponseId());
-
-        if (existingAnswer == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Answer not found for the specified Question ID and Response ID");
-        }
-
-        // Update the answer with the new content
-        existingAnswer.setAnswer(updatedAnswer.getAnswer());
-        answerRepository.save(existingAnswer);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Answer updated successfully for the Question ID -> " + question_id);
     }
 
 

@@ -43,7 +43,8 @@ public class ResponseController {
 
         Response newResponse = new Response(form, user, LocalDateTime.now());
         responseRepository.save(newResponse);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Response submitted successfully for the Form id is -> " + form_id);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Response submitted successfully for the Form id -> " + form_id +
+                " and User id ->" + user_id);
 
     }
 

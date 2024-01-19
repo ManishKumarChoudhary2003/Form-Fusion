@@ -8,9 +8,10 @@ public class Answer {
     @Id
     @GeneratedValue
     private Long answerId;
-    @ManyToOne
-    @JoinColumn(name = "response_id")
-    private Response response;
+
+//    @ManyToOne
+//    @JoinColumn(name = "response_id")
+//    private Response response;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
@@ -22,8 +23,7 @@ public class Answer {
 
     }
 
-    public Answer(Response response, Question question, String answer) {
-        this.response = response;
+    public Answer(Question question, String answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -36,13 +36,13 @@ public class Answer {
         this.answerId = answerId;
     }
 
-    public Response getResponse() {
-        return response;
-    }
+//    public Response getResponse() {
+//        return response;
+//    }
 
-    public void setResponse(Response response) {
-        this.response = response;
-    }
+//    public void setResponse(Response response) {
+//        this.response = response;
+//    }
 
     public Question getQuestion() {
         return question;
@@ -64,7 +64,6 @@ public class Answer {
     public String toString() {
         return "Answer{" +
                 "answerId=" + answerId +
-                ", response=" + response +
                 ", question=" + question +
                 ", answer='" + answer + '\'' +
                 '}';

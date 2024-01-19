@@ -12,9 +12,8 @@ public class Question {
 
     private String text;
 
-
-    @Column(columnDefinition = "TEXT")
-    private List<String> options;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Options> options;
 
     @ManyToOne
     @JoinColumn(name = "form_id")
@@ -26,7 +25,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(String text, List<String> options, Form form, List<Answer> answers) {
+    public Question(String text, List<Options> options, Form form, List<Answer> answers) {
         this.text = text;
         this.options = options;
         this.form = form;
@@ -49,11 +48,11 @@ public class Question {
         this.text = text;
     }
 
-    public List<String> getOptions() {
+    public List<Options> getOptions() {
         return options;
     }
 
-    public void setOptions(List<String> options) {
+    public void setOptions(List<Options> options) {
         this.options = options;
     }
 

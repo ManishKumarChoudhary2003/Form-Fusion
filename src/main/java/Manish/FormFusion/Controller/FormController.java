@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -48,7 +47,6 @@ public class FormController {
         formRepository.save(form);
         return "Form successfully created for user";
     }
-
 
     @GetMapping("/{userId}/getForms")
     public List<Form> getAllFormsForUser(@PathVariable(name = "userId") Long userId) {
