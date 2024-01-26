@@ -106,7 +106,7 @@ public class Form {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", link='" + link + '\'' +
-                ", user=" + (user != null ? user.getUserId() : null) +  // Avoid circular reference
+                ", user=" + (user != null ? user.getUserId() : null) +
                 ", questions=" + questions +
                 ", responses=" + responses +
                 '}';
