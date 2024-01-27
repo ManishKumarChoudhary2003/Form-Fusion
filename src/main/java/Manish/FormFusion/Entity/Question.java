@@ -78,7 +78,7 @@ public class Question {
                 "questionId=" + questionId +
                 ", text='" + text + '\'' +
                 ", options=" + options +
-                ", form=" + form +
+                ", form=" + (form != null ? form.getFormId() : null) +
                 ", answers=" + answers +
                 '}';
     }
