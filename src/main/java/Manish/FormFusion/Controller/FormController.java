@@ -70,8 +70,4 @@ public class FormController {
         List<Form> forms = formRepository.findByUser(user);
         return forms;
     }
-
-
-
-
 }

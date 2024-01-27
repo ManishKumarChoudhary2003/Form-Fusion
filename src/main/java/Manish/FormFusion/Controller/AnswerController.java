@@ -69,6 +69,46 @@ public class AnswerController {
         }
     }
 
+    @PutMapping("/{userId}/{formId}/{questionId}/update-answer")
+    public ResponseEntity<String> updateAnswerForQuestion(
+            @PathVariable Long userId,
+            @PathVariable Long formId,
+            @PathVariable Long questionId,
+            @RequestBody String updatedAnswerText) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            Question question = questionRepository.findById(questionId)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
+
+            if (!form.getQuestions().contains(question)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+            }
+
+            // Check if an answer exists for the question in the specified form and user
+            Optional<Answer> existingAnswer = answerRepository.findByQuestionAndFormAndUser(question, form, user);
+            if (existingAnswer.isPresent()) {
+                // Update the existing answer with the new text
+                Answer answerToUpdate = existingAnswer.get();
+                answerToUpdate.setAnswer(updatedAnswerText);
+                answerRepository.save(answerToUpdate);
+
+                return ResponseEntity.status(HttpStatus.OK).body("Answer successfully updated for the question");
+            } else {
+                // If no existing answer is found, return a not found response
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existing answer found for the question in the specified form and user.");
+            }
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating the answer");
+        }
+    }
+
 
 
 // second

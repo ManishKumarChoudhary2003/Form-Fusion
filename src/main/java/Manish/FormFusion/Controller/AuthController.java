@@ -43,4 +43,5 @@ public class AuthController {
             throw new UsernameNotFoundException("Invalid user request");
         }
     }
+
 }
