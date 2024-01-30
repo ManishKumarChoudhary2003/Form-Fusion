@@ -109,6 +109,33 @@ public class QuestionController {
         }
     }
 
+    @GetMapping("/{userId}/{formId}/get-questions")
+    public ResponseEntity<List<Question>> getAllQuestionsForForm(
+            @PathVariable Long userId,
+            @PathVariable Long formId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            // Check if the form belongs to the specified user
+            if (!form.getUser().equals(user)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
+            List<Question> questions = questionRepository.findByForm(form);
+            return ResponseEntity.ok(questions);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
 
 //    @PostMapping("/{userId}/{formId}/create-question")
 //    public ResponseEntity<String> createQuestionForForm(@PathVariable Long userId,
