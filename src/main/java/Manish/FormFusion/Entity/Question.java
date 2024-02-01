@@ -72,14 +72,22 @@ public class Question {
         this.answers = answers;
     }
 
+    //    @Override
+//    public String toString() {
+//        return "Question{" +
+//                "questionId=" + questionId +
+//                ", text='" + text + '\'' +
+//                ", options=" + options +
+//                ", form=" + (form != null ? form.getFormId() : null) +
+//                ", answers=" + answers +
+//                '}';
+//    }
     @Override
     public String toString() {
         return "Question{" +
                 "questionId=" + questionId +
                 ", text='" + text + '\'' +
-                ", options=" + options +
                 ", form=" + (form != null ? form.getFormId() : null) +
-                ", answers=" + answers +
                 '}';
     }
 }

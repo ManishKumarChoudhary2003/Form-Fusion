@@ -80,7 +80,7 @@ public class Answer {
     public String toString() {
         return "Answer{" +
                 "answerId=" + answerId +
-                ", question=" + question +
+                ", question=" + (question != null ? question.getQuestionId() : null) +
                 ", user=" + (user != null ? user.getUserId() : null) +
                 ", form=" + (form != null ? form.getFormId() : null) +
                 ", answer='" + answer + '\'' +

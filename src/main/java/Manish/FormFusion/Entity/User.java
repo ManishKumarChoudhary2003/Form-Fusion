@@ -13,7 +13,7 @@ public class User {
 
     private String username;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     private String password;
 
     private String email;
@@ -27,7 +27,7 @@ public class User {
     private List<Response> responses;
 
 
-    public User(){
+    public User() {
 
     }
 
@@ -104,8 +104,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
-                ", forms=" + forms +
-                ", responses=" + responses +
+//                ", forms=" + forms +
+//                ", responses=" + responses +
                 '}';
     }
 

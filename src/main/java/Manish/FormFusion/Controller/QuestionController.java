@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -110,7 +111,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{userId}/{formId}/get-questions")
-    public ResponseEntity<List<Question>> getAllQuestionsForForm(
+    public ResponseEntity<String> getAllQuestionsForForm(
             @PathVariable Long userId,
             @PathVariable Long formId) {
         try {
@@ -126,7 +127,7 @@ public class QuestionController {
             }
 
             List<Question> questions = questionRepository.findByForm(form);
-            return ResponseEntity.ok(questions);
+            return ResponseEntity.ok((questions.toString()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (Exception e) {

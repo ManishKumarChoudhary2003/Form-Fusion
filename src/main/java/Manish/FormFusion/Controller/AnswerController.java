@@ -92,14 +92,12 @@ public class AnswerController {
             // Check if an answer exists for the question in the specified form and user
             Optional<Answer> existingAnswer = answerRepository.findByQuestionAndFormAndUser(question, form, user);
             if (existingAnswer.isPresent()) {
-                // Update the existing answer with the new text
                 Answer answerToUpdate = existingAnswer.get();
                 answerToUpdate.setAnswer(updatedAnswerText);
                 answerRepository.save(answerToUpdate);
 
                 return ResponseEntity.status(HttpStatus.OK).body("Answer successfully updated for the question");
             } else {
-                // If no existing answer is found, return a not found response
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existing answer found for the question in the specified form and user.");
             }
         } catch (EntityNotFoundException e) {
