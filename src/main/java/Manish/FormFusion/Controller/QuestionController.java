@@ -13,9 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/question")
@@ -60,7 +59,7 @@ public class QuestionController {
         }
     }
 
-    @PutMapping("/{userId}/{formId}/update-question/{questionId}")
+    @PutMapping("/{userId}/{formId}/{questionId}/update-question")
     public ResponseEntity<String> updateQuestionForForm(@PathVariable Long userId,
                                                         @PathVariable Long formId,
                                                         @PathVariable Long questionId,
@@ -110,7 +109,7 @@ public class QuestionController {
         }
     }
 
-    @GetMapping("/{userId}/{formId}/get-questions")
+    @GetMapping("/{userId}/{formId}/all-questions")
     public ResponseEntity<String> getAllQuestionsForForm(
             @PathVariable Long userId,
             @PathVariable Long formId) {
@@ -123,86 +122,29 @@ public class QuestionController {
 
             // Check if the form belongs to the specified user
             if (!form.getUser().equals(user)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: This form does not belong to the specified user.");
             }
 
             List<Question> questions = questionRepository.findByForm(form);
+
+            if (questions.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for the specified form.");
+            }
+
             return ResponseEntity.ok((questions.toString()));
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
         }
     }
 
 
-
-
-//    @PostMapping("/{userId}/{formId}/create-question")
-//    public ResponseEntity<String> createQuestionForForm(@PathVariable Long userId,
-//                                                        @PathVariable Long formId,
-//                                                        @RequestBody Question question) {
-//        try {
-//            User user = userRepository.findById(userId)
-//                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-//
-//            Form form = formRepository.findById(formId)
-//                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
-//
-//            question.setForm(form);
-//
-//            questionRepository.save(question);
-//
-//            return ResponseEntity.status(HttpStatus.CREATED).body("Question successfully created for the form");
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the question");
-//        }
-//    }
-
-
-//    @PutMapping("/{userId}/{formId}/update-question/{questionId}")
-//    public ResponseEntity<String> updateQuestionForForm(
-//            @PathVariable Long userId,
-//            @PathVariable Long formId,
-//            @PathVariable Long questionId,
-//            @RequestBody Question updatedQuestion) {
-//
-//        try {
-//            User user = userRepository.findById(userId)
-//                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-//
-//            Form form = formRepository.findById(formId)
-//                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
-//
-//            Question existingQuestion = questionRepository.findById(questionId)
-//                    .orElse(null);
-//
-//            if (existingQuestion == null || !form.getQuestions().contains(existingQuestion)) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                        .body("Question does not exist or does not belong to the specified form. Update failed.");
-//            }
-//
-//            existingQuestion.setText(updatedQuestion.getText());
-//            questionRepository.save(existingQuestion);
-//
-//            return ResponseEntity.status(HttpStatus.OK).body("Question text successfully updated for the form");
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating the question text");
-//        }
-//    }
-
-
-    @PostMapping("/{userId}/{formId}/create-options/{questionId}")
-    public ResponseEntity<String> createOptionsForQuestion(
+    @GetMapping("/{userId}/{formId}/{questionId}/get-question")
+    public ResponseEntity<String> getQuestionById(
             @PathVariable Long userId,
             @PathVariable Long formId,
-            @PathVariable Long questionId,
-            @RequestBody List<String> options) {
-
+            @PathVariable Long questionId) {
         try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
@@ -210,38 +152,37 @@ public class QuestionController {
             Form form = formRepository.findById(formId)
                     .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
 
-            Question question = questionRepository.findById(questionId)
-                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
-
-            if (!form.getQuestions().contains(question)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+            // Check if the form belongs to the specified user
+            if (!form.getUser().equals(user)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access: The specified form does not belong to the user.");
             }
 
-            List<Options> questionOptions = new ArrayList<>();
-            for (String optionData : options) {
-                Options option = new Options(optionData, question);
-                questionOptions.add(option);
+            Optional<Question> questionOptional = questionRepository.findById(questionId);
+
+            if (questionOptional.isPresent()) {
+                Question question = questionOptional.get();
+
+                // Check if the question belongs to the specified form
+                if (!question.getForm().equals(form)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access: The specified question does not belong to the form.");
+                }
+
+                return ResponseEntity.ok(question.toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question not found with id: " + questionId);
             }
-
-            question.setOptions(questionOptions);
-            questionRepository.save(question);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("Options successfully created for the question");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating options for the question");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: Unable to retrieve the question.");
         }
     }
 
-
-    @PutMapping("/{userId}/{formId}/update-options/{questionId}")
-    public ResponseEntity<String> updateOptionsForQuestion(
+    @GetMapping("/{userId}/{formId}/{questionId}/get-options")
+    public ResponseEntity<String> getOptionsForQuestion(
             @PathVariable Long userId,
             @PathVariable Long formId,
-            @PathVariable Long questionId,
-            @RequestBody List<String> updatedOptions) {
-
+            @PathVariable Long questionId) {
         try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
@@ -249,29 +190,30 @@ public class QuestionController {
             Form form = formRepository.findById(formId)
                     .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
 
-            Question question = questionRepository.findById(questionId)
-                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
-
-            if (!form.getQuestions().contains(question)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not belong to the specified form.");
+            // Check if the form belongs to the specified user
+            if (!form.getUser().equals(user)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access: The specified form does not belong to the user.");
             }
 
-            List<Options> existingOptions = question.getOptions();
-            if (existingOptions == null || existingOptions.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question does not have existing options to update.");
+            Optional<Question> questionOptional = questionRepository.findById(questionId);
+
+            if (questionOptional.isPresent()) {
+                Question question = questionOptional.get();
+
+                // Check if the question belongs to the specified form
+                if (!question.getForm().equals(form)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access: The specified question does not belong to the form.");
+                }
+
+                List<Options> options = question.getOptions();
+                return ResponseEntity.ok(options.toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question not found with id: " + questionId);
             }
-
-            for (int i = 0; i < Math.min(updatedOptions.size(), existingOptions.size()); i++) {
-                existingOptions.get(i).setOptionData(updatedOptions.get(i));
-            }
-
-            questionRepository.save(question);
-
-            return ResponseEntity.status(HttpStatus.OK).body("Options successfully updated for the question");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating options for the question");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: Unable to retrieve the options for the question.");
         }
     }
 

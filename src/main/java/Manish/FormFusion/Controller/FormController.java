@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/form")
@@ -28,7 +29,7 @@ public class FormController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/{userId}/create")
+    @PostMapping("/{userId}/create-form")
     public ResponseEntity<String> createForm(@PathVariable Long userId, @RequestBody Form form) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,7 +48,48 @@ public class FormController {
         }
     }
 
-    @GetMapping("/{userId}/all")
+    @PutMapping("/{userId}/{formId}/update-form")
+    public ResponseEntity<String> updateForm(
+            @PathVariable Long userId,
+            @PathVariable Long formId,
+            @RequestBody Form updatedForm) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username);
+
+            if (userId != null && !userId.equals(user.getUserId())) {
+                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+            }
+
+            Optional<Form> existingFormOptional = formRepository.findById(formId);
+
+            if (((Optional<?>) existingFormOptional).isPresent()) {
+                Form existingForm = existingFormOptional.get();
+
+                // Check if the authenticated user owns the existing form
+                if (!existingForm.getUser().equals(user)) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to update this form.");
+                }
+
+                // Update form properties
+                existingForm.setTitle(updatedForm.getTitle());
+                existingForm.setDescription(updatedForm.getDescription());
+                existingForm.setLink(updatedForm.getLink());
+                // Update other properties as needed
+
+                formRepository.save(existingForm);
+                return ResponseEntity.ok("Form successfully updated");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Form not found with id: " + formId);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/{userId}/all-forms")
     public ResponseEntity<String> getAllFormsForUser(@PathVariable Long userId) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,6 +106,38 @@ public class FormController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+    @GetMapping("/{userId}/{formId}/getForm")
+    public ResponseEntity<String> getFormById(
+            @PathVariable Long userId,
+            @PathVariable Long formId) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username);
+
+            if (userId != null && !userId.equals(user.getUserId())) {
+                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+            }
+
+            Optional<Form> formOptional = formRepository.findById(formId);
+
+            if (formOptional.isPresent()) {
+                Form form = formOptional.get();
+
+                // Check if the authenticated user owns the requested form
+                if (!form.getUser().equals(user)) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to access this form.");
+                }
+
+                return ResponseEntity.ok(form.toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Form not found with id: " + formId);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 //    @PostMapping("/{userId}/create-form")
 //    public String createForm(@PathVariable(name = "userId", required = false) Long userId,

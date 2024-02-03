@@ -3,6 +3,8 @@ package Manish.FormFusion.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 public class Answer {
 
@@ -86,6 +88,8 @@ public class Answer {
                 ", answer='" + answer + '\'' +
                 '}';
     }
+
+
 }
 
 

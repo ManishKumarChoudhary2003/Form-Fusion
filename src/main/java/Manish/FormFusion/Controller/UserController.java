@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -28,7 +25,6 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
 
     @GetMapping("/all")
     public ResponseEntity<String> getAllUsers() {
@@ -53,13 +49,6 @@ public class UserController {
             }
 
             return ResponseEntity.ok(user.toString());
-
-//            Optional<User> user = userRepository.findById(userId);
-//            if (user.isPresent()) {
-//                return ResponseEntity.ok(user.get());
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//            }
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
