@@ -72,22 +72,40 @@ public class Question {
         this.answers = answers;
     }
 
-    //    @Override
-//    public String toString() {
+
+//    Original
+//    @Override
+//    public String toString() { // Without Options
 //        return "Question{" +
 //                "questionId=" + questionId +
 //                ", text='" + text + '\'' +
-//                ", options=" + options +
 //                ", form=" + (form != null ? form.getFormId() : null) +
-//                ", answers=" + answers +
 //                '}';
 //    }
+
     @Override
-    public String toString() {
-        return "Question{" +
-                "questionId=" + questionId +
-                ", text='" + text + '\'' +
-                ", form=" + (form != null ? form.getFormId() : null) +
-                '}';
+    public String toString() { // with Options
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Question{")
+                .append("questionId=").append(questionId)
+                .append(", text='").append(text).append('\'')
+                .append(", form=").append(form != null ? form.getFormId() : null);
+
+        if (options != null && !options.isEmpty()) {
+            stringBuilder.append(", options=[");
+            for (Options option : options) {
+                stringBuilder.append("{optionId=").append(option.getOptionId())
+                        .append(", optionData='").append(option.getOptionData()).append("'}, ");
+            }
+            // Remove the last ", " added after the last option
+            stringBuilder.setLength(stringBuilder.length() - 2);
+            stringBuilder.append("]");
+        } else {
+            stringBuilder.append(", options=[]");
+        }
+
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
+
 }

@@ -43,7 +43,6 @@ public class ResponseController {
 
         Form form = formRepository.findById(formId)
                 .orElseThrow(() -> new EntityNotFoundException("Form not found"));
-
         Response newResponse = new Response(form, user, LocalDateTime.now());
         responseRepository.save(newResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body("Response submitted successfully for the Form id -> " + formId +

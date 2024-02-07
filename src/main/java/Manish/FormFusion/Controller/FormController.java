@@ -5,6 +5,7 @@ import Manish.FormFusion.Entity.User;
 import Manish.FormFusion.Repository.FormRepository;
 import Manish.FormFusion.Repository.UserRepository;
 import Manish.FormFusion.Service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,30 @@ public class FormController {
             if (userId != null && !userId.equals(user.getUserId())) {
                 throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
             }
-
             form.setUser(user);
             formRepository.save(form);
             return ResponseEntity.ok("Form successfully created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{userId}/{formId}/set-link")
+    public ResponseEntity<String> setFormUrl(@PathVariable Long userId, @PathVariable Long formId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with ID: " + formId));
+
+            String url = "http://localhost:8080/form/" + userId + "/" + formId;
+            form.setLink(url);
+            formRepository.save(form);
+            return ResponseEntity.ok("Successfully Set the form Link -> " + url);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating form URL");
         }
     }
 
@@ -67,16 +86,14 @@ public class FormController {
             if (((Optional<?>) existingFormOptional).isPresent()) {
                 Form existingForm = existingFormOptional.get();
 
-                // Check if the authenticated user owns the existing form
                 if (!existingForm.getUser().equals(user)) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to update this form.");
                 }
 
-                // Update form properties
+                String existingFormLink = existingForm.getLink();
                 existingForm.setTitle(updatedForm.getTitle());
                 existingForm.setDescription(updatedForm.getDescription());
-                existingForm.setLink(updatedForm.getLink());
-                // Update other properties as needed
+                existingForm.setLink(existingFormLink);
 
                 formRepository.save(existingForm);
                 return ResponseEntity.ok("Form successfully updated");
