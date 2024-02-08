@@ -34,6 +34,7 @@ public class AuthController {
         return userService.addUser(user);
     }
 
+
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest authRequest){
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
