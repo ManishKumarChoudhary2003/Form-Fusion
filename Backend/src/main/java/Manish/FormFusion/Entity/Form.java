@@ -108,7 +108,10 @@ public class Form {
                 ", link='" + link + '\'' +
                 ", user=" + (user != null ? user.getUserId() : null) +
                 ", questions=" + (questions != null ? questions : null) +
+<<<<<<< HEAD
                 ", responses=" + responses +
+=======
+>>>>>>> 051ed27d61723b9f1e308689d53dfdea8ecaa139
                 '}';
     }
 
