@@ -99,7 +99,6 @@ public class Form {
         this.responses = responses;
     }
 
-
     @Override
     public String toString() {
         return "Form{" +
@@ -109,21 +108,9 @@ public class Form {
                 ", link='" + link + '\'' +
                 ", user=" + (user != null ? user.getUserId() : null) +
                 ", questions=" + (questions != null ? questions : null) +
+                ", responses=" + responses +
                 '}';
     }
-
-//    @Override // Original
-//    public String toString() {
-//        return "Form{" +
-//                "formId=" + formId +
-//                ", title='" + title + '\'' +
-//                ", description='" + description + '\'' +
-//                ", link='" + link + '\'' +
-//                ", user=" + (user != null ? user.getUserId() : null) +
-//                ", questions=" + (questions != null ? questions : null) +
-//                ", responses=" + responses +
-//                '}';
-//    }
 
 //    @Override
 //    public String toString() {
