@@ -108,7 +108,6 @@ public class Form {
                 ", link='" + link + '\'' +
                 ", user=" + (user != null ? user.getUserId() : null) +
                 ", questions=" + (questions != null ? questions : null) +
-                ", responses=" + responses +
                 '}';
     }
 
