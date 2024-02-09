@@ -1,13 +1,13 @@
-package Manish.FormFusion.Controller;
+package Manish.FormFusion.controller;
 
-import Manish.FormFusion.Entity.Answer;
-import Manish.FormFusion.Entity.Form;
-import Manish.FormFusion.Entity.Question;
-import Manish.FormFusion.Entity.User;
-import Manish.FormFusion.Repository.AnswerRepository;
-import Manish.FormFusion.Repository.FormRepository;
-import Manish.FormFusion.Repository.QuestionRepository;
-import Manish.FormFusion.Repository.UserRepository;
+import Manish.FormFusion.entity.Answer;
+import Manish.FormFusion.entity.Form;
+import Manish.FormFusion.entity.Question;
+import Manish.FormFusion.entity.User;
+import Manish.FormFusion.repository.AnswerRepository;
+import Manish.FormFusion.repository.FormRepository;
+import Manish.FormFusion.repository.QuestionRepository;
+import Manish.FormFusion.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

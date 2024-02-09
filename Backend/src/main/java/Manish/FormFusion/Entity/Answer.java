@@ -1,9 +1,7 @@
-package Manish.FormFusion.Entity;
+package Manish.FormFusion.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.util.Collection;
 
 @Entity
 public class Answer {

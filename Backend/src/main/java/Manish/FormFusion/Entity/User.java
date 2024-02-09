@@ -1,4 +1,4 @@
-package Manish.FormFusion.Entity;
+package Manish.FormFusion.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

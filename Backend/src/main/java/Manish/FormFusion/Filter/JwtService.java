@@ -1,14 +1,12 @@
-package Manish.FormFusion.Filter;
+package Manish.FormFusion.filter;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.*;
 import java.util.Objects;

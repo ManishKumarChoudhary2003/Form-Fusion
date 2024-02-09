@@ -1,4 +1,4 @@
-package Manish.FormFusion.Entity;
+package Manish.FormFusion.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

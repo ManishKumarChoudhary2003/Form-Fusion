@@ -1,6 +1,6 @@
-package Manish.FormFusion.Filter;
+package Manish.FormFusion.filter;
 
-import Manish.FormFusion.Service.UserService;
+import Manish.FormFusion.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,14 +1,13 @@
-package Manish.FormFusion.Service;
+package Manish.FormFusion.service;
 
-import Manish.FormFusion.Entity.User;
-import Manish.FormFusion.Repository.UserRepository;
+import Manish.FormFusion.entity.User;
+import Manish.FormFusion.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

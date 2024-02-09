@@ -1,7 +1,7 @@
-package Manish.FormFusion.Config;
+package Manish.FormFusion.config;
 
-import Manish.FormFusion.Filter.JwtFilter;
-import Manish.FormFusion.Service.UserService;
+import Manish.FormFusion.filter.JwtFilter;
+import Manish.FormFusion.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

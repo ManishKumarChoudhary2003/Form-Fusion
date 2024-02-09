@@ -1,9 +1,9 @@
-package Manish.FormFusion.Controller;
+package Manish.FormFusion.controller;
 
-import Manish.FormFusion.Entity.AuthRequest;
-import Manish.FormFusion.Entity.User;
-import Manish.FormFusion.Filter.JwtService;
-import Manish.FormFusion.Service.UserService;
+import Manish.FormFusion.entity.AuthRequest;
+import Manish.FormFusion.entity.User;
+import Manish.FormFusion.filter.JwtService;
+import Manish.FormFusion.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

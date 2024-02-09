@@ -1,11 +1,10 @@
-package Manish.FormFusion.Service;
+package Manish.FormFusion.service;
 
-import Manish.FormFusion.Entity.User;
+import Manish.FormFusion.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

@@ -1,6 +1,6 @@
-package Manish.FormFusion.Repository;
+package Manish.FormFusion.repository;
 
-import Manish.FormFusion.Entity.Response;
+import Manish.FormFusion.entity.Response;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

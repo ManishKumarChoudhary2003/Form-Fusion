@@ -1,9 +1,9 @@
-package Manish.FormFusion.Controller;
+package Manish.FormFusion.controller;
 
 
-import Manish.FormFusion.Entity.User;
-import Manish.FormFusion.Repository.UserRepository;
-import Manish.FormFusion.Service.UserService;
+import Manish.FormFusion.entity.User;
+import Manish.FormFusion.repository.UserRepository;
+import Manish.FormFusion.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
