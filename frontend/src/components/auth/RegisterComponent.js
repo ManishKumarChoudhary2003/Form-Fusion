@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { userRegisterApiService } from '../api/AuthApiService';
+import { userRegisterApiService } from '../../api/AuthApiService';
 
 const RegisterComponent = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -28,19 +29,30 @@ const RegisterComponent = () => {
         const user = { username, password, email, role };
         try {
             const response = await userRegisterApiService(user);
-            console.log('User registered successfully:', response.data); 
+            console.log('User registered successfully:', response.data);
+            // Reset form fields and clear error message on successful registration
+            setUsername('');
+            setPassword('');
+            setEmail('');
+            setRole('');
+            setErrorMessage('');
         } catch (error) {
-            console.error('Error registering user:', error); 
+            if (error.response && error.response.status === 409) {
+                setErrorMessage('Email is already registered. Please choose a different email.');
+            } else {
+                console.error('Error registering user:', error);
+                setErrorMessage('An error occurred during registration.');
+            }
         }
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setRole("");
     };
-
     return (
-        <div className="container card mt-5">
+        <div className="container card mt-5 md-5">
             <h1 className="col-md-6 offset-md-3">Register</h1>
+            {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                    {errorMessage}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username:</label>

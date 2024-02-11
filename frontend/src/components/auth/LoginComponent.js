@@ -1,19 +1,18 @@
-// import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { userLoginApiService } from "../api/AuthApiService";
-// import { authActions } from "../../store/auth-slice";
+import { userLoginApiService } from "../../api/AuthApiService";
+import { authActions } from "../../store/auth-slice";
+import { retrieveUserByEmailApiService } from "../../api/UserApiService";
 
 const LoginComponent = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  //   const dispatch = useDispatch();
-//   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -23,34 +22,49 @@ const LoginComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = await userLoginApiService(username, password);
-      //   dispatch(authActions.setToken(token))
-    //   navigate("/auth/welcome");
-      console.log("Login successful:", token);
+      const token = await userLoginApiService(email, password);
+      dispatch(authActions.setToken(token));
+      dispatch(authActions.setAuthentication());
+
+      retrieveUserByEmailApiService(email, token)
+        .then((response) => {
+          const user = response;
+          if (user && user.userId) {
+            const userId = user.userId;
+            console.log("user id is--------->>>>>>>>", userId);
+            dispatch(authActions.setUserId(userId));
+          } else {
+            console.error("User or userId not found in response:", response);
+          }
+          setEmail("");
+          setPassword("");
+          setError("");
+          console.log("Login successful:", token);
+        })
+        .catch((error) => {
+          console.error("Error fetching user by email data:", error);
+        });
     } catch (error) {
       setError("Invalid username or password");
       console.error("Error logging in:", error);
     }
-    setUsername("");
-    setPassword("");
-    setError("");
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
+    <div className="container card mt-5">
+      <h2 className="col-md-6 offset-md-3">Login</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">
-            Username:
+          <label htmlFor="email" className="form-label">
+            Email:
           </label>
           <input
             type="text"
             className="form-control"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
           />
         </div>
         <div className="mb-3">
@@ -65,7 +79,7 @@ const LoginComponent = () => {
             onChange={handlePasswordChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mb-3">
           Login
         </button>
       </form>

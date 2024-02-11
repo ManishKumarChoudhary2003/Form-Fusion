@@ -22,10 +22,10 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByusername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
         return user.map(UserInfoDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found" + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found" + email));
     }
 
     public String addUser(User user){
@@ -47,4 +47,9 @@ public class UserService implements UserDetailsService {
     public User getUser(Long userId){
         return userRepository.findById(userId).get();
     }
+
+    public boolean isEmailAlreadyRegistered(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
 }

@@ -2,6 +2,8 @@ package Manish.FormFusion.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class User {
     //    @JsonIgnore
     private String password;
 
+    @Column(unique = true)
+    @Email
     private String email;
 
     private String role;
@@ -96,17 +100,29 @@ public class User {
         this.responses = responses;
     }
 
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "userId=" + userId +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", email='" + email + '\'' +
+//                ", role='" + role + '\'' +
+////                ", forms=" + forms +
+////                ", responses=" + responses +
+//                '}';
+//    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-//                ", forms=" + forms +
-//                ", responses=" + responses +
-                '}';
+        return "{" +
+                "\"userId\": \"" + userId + "\"," +
+                "\"username\": \"" + username + "\"," +
+                "\"password\": \"" + password + "\"," +
+                "\"email\": \"" + email + "\"," +
+                "\"role\": \"" + role + "\"" +
+                "}";
     }
+
 
 }

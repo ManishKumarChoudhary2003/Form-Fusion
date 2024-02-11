@@ -29,7 +29,7 @@ public class Form {
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Response> responses;
 
-    public Form (){
+    public Form() {
 
     }
 
@@ -98,16 +98,28 @@ public class Form {
         this.responses = responses;
     }
 
+    //    @Override
+//    public String toString() {
+//        return "Form{" +
+//                "formId=" + formId +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", link='" + link + '\'' +
+//                ", user=" + (user != null ? user.getUserId() : null) +
+//                ", questions=" + (questions != null ? questions : null) +
+//                '}';
+//    }
     @Override
     public String toString() {
-        return "Form{" +
-                "formId=" + formId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
-                ", user=" + (user != null ? user.getUserId() : null) +
-                ", questions=" + (questions != null ? questions : null) +
+        return "{" +
+                "\"formId\": " + formId +
+                ", \"title\": \"" + title + '\"' +
+                ", \"description\": \"" + description + '\"' +
+                ", \"link\": \"" + link + '\"' +
+                ", \"userId\": " + (user != null ? user.getUserId() : null) +
+//                ", \"questions\": " + (questions != null ? questions : null) +
                 '}';
     }
+
 
 }

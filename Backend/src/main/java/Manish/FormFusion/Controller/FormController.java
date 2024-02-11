@@ -33,13 +33,16 @@ public class FormController {
     @PostMapping("/{userId}/create-form")
     public ResponseEntity<String> createForm(@PathVariable Long userId, @RequestBody Form form) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userRepository.findByUsername(username);
 
-            if (userId != null && !userId.equals(user.getUserId())) {
-                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-            }
+//            if (userId != null && !userId.equals(user.getUserId())) {
+//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+//            }
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
             form.setUser(user);
             formRepository.save(form);
             return ResponseEntity.ok("Form successfully created");
@@ -73,13 +76,16 @@ public class FormController {
             @PathVariable Long formId,
             @RequestBody Form updatedForm) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userRepository.findByUsername(username);
+//
+//            if (userId != null && !userId.equals(user.getUserId())) {
+//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+//            }
 
-            if (userId != null && !userId.equals(user.getUserId())) {
-                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-            }
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             Optional<Form> existingFormOptional = formRepository.findById(formId);
 
@@ -109,13 +115,15 @@ public class FormController {
     @GetMapping("/{userId}/all-forms")
     public ResponseEntity<String> getAllFormsForUser(@PathVariable Long userId) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
-
-            if (userId != null && !userId.equals(user.getUserId())) {
-                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-            }
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userRepository.findByUsername(username);
+//
+//            if (userId != null && !userId.equals(user.getUserId())) {
+//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+//            }
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             List<Form> forms = formRepository.findByUser(user);
             return ResponseEntity.ok(forms.toString());
@@ -128,13 +136,16 @@ public class FormController {
             @PathVariable Long userId,
             @PathVariable Long formId) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userRepository.findByUsername(username);
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userRepository.findByUsername(username);
+//
+//            if (userId != null && !userId.equals(user.getUserId())) {
+//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+//            }
 
-            if (userId != null && !userId.equals(user.getUserId())) {
-                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-            }
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             Optional<Form> formOptional = formRepository.findById(formId);
 

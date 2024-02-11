@@ -19,11 +19,11 @@ public class JwtService {
     private static final String SECRET_KEY = "!@#$FDGSDFGSGSGSGSHSHSHSSHGFFDSGSFGSSGHSDFSDFSFSFKKKJHJJGJGJHGJHFGDFDGFDGFHCHCBVBHHJGJHFGSFSDFSFSFSF";
     private static final long EXPIRATION_TIME = 864_000_000; // 10 days
 
-    public static String generateToken(String username) {
+    public static String generateToken(String email) {
         Map<String, Objects> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignKey(),SignatureAlgorithm.HS256)
