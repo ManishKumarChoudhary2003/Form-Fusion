@@ -1,84 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { retrieveAllUsersApiService, welcomeApi } from "./api/UserApiService";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import LoginComponent from "./components/auth/LoginComponent";
-import RegisterComponent from "./components/auth/RegisterComponent";
-import CreateForm from "./components/form/CreateForm";
+import RegisterComponent from "./components/auth/RegisterComponent"; 
 import { useSelector } from "react-redux";
-import AllForms from "./components/form/AllForms";
+import AllForms from "./components/form/AllForms"; 
+import Welcome from "./components/home/Welcome";
 
 const App = () => {
-  const [welcomeMessage, setWelcomeMessage] = useState("");
-  const [click, setClick] = useState(false);
-  const [users, setUsers] = useState(null);
-  const [error, setError] = useState(null);
-
-  const [formButton, setFormButton] = useState(false);
-
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const token = useSelector((state) => state.auth.token);
 
-  const pressed = () => {
-    setClick(true);
-    retrieveAllUsersApiService(token)
-      .then((response) => {
-        setUsers(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-        setError("Error fetching user data");
-      });
-  };
+  function AuthenticatedRoute({ children }) {
+    if (isAuthenticated) return children;
 
-  useEffect(() => {
-    const fetchWelcomeMessage = async () => {
-      try {
-        const response = await welcomeApi();
-        setWelcomeMessage(response.data);
-      } catch (error) {
-        console.error("Error fetching welcome message:", error);
-        setError("Error fetching welcome message");
-      }
-    };
+    return <Navigate to="/" />;
+  }
 
-    fetchWelcomeMessage();
-  }, []);
+  const router = createBrowserRouter([
+    {
+      path: "/", 
+      children: [
+        {
+          index: true,
+          element: <Welcome />,
+        },
+        {
+          path: "all-forms",
+          element: (
+            <AuthenticatedRoute>
+              <AllForms />
+            </AuthenticatedRoute>
+          ),
+        },
+        {
+          path: "register",
+          element: <RegisterComponent />,
+        },
+        {
+          path: "login",
+          element: <LoginComponent />,
+        },
+      ],
+    },
+  ]);
 
-  return (
-    <div>
-      {error && <div>Error: {error}</div>}
-
-      <div>
-        {isAuthenticated &&
-          click &&
-          users &&
-          users.map((user, index) => (
-            <div key={index}>
-              <p>{user.username}</p>
-              <p>{user.email}</p>
-              <p>{user.password}</p>
-              <p>{user.role}</p>
-              <hr />
-            </div>
-          ))}
-      </div>
-      <button onClick={pressed}>Click me</button>
-      {click && <h1 className="col-md-6 offset-md-4">{welcomeMessage}</h1>}
-      {isAuthenticated && (
-        <h2 className="col-md-6 offset-md-5">User is authenticated</h2>
-      )}
-      <RegisterComponent />
-      <LoginComponent />
-      <CreateForm />
-
-      <button
-        className="btn btn-primary"
-        onClick={() => setFormButton(!formButton)}
-      >
-        Get Form Data
-      </button>
-      {formButton && <AllForms />}
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

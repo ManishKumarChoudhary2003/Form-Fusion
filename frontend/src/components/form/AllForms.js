@@ -44,7 +44,7 @@ const AllForms = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container card mt-5 md-5">
       {formData.length > 0 ? (
         <table className="table">
           <thead className="thead-dark">
