@@ -23,7 +23,7 @@ const LogoutComponent = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    navigate("/");
+    navigate(-1);
   };
 
   const handleShow = () => {

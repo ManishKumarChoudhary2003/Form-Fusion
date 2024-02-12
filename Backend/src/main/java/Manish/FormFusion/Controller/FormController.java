@@ -30,26 +30,42 @@ public class FormController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/{userId}/create-form")
-    public ResponseEntity<String> createForm(@PathVariable Long userId, @RequestBody Form form) {
-        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String username = authentication.getName();
-//            User user = userRepository.findByUsername(username);
 
-//            if (userId != null && !userId.equals(user.getUserId())) {
-//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-//            }
+    @PostMapping("/{userId}/create-form")
+    public ResponseEntity<Form> createForm(@PathVariable Long userId, @RequestBody Form form) {
+        try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             form.setUser(user);
-            formRepository.save(form);
-            return ResponseEntity.ok("Form successfully created");
+            Form savedForm = formRepository.save(form);
+            return ResponseEntity.ok(savedForm);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
+//    @PostMapping("/{userId}/create-form")
+//    public ResponseEntity<String> createForm(@PathVariable Long userId, @RequestBody Form form) {
+//        try {
+////            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+////            String username = authentication.getName();
+////            User user = userRepository.findByUsername(username);
+//
+////            if (userId != null && !userId.equals(user.getUserId())) {
+////                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+////            }
+//            User user = userRepository.findById(userId)
+//                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+//
+//            form.setUser(user);
+//            formRepository.save(form);
+//            return ResponseEntity.ok("Form successfully created");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+//        }
+//    }
 
     @PostMapping("/{userId}/{formId}/set-link")
     public ResponseEntity<String> setFormUrl(@PathVariable Long userId, @PathVariable Long formId) {

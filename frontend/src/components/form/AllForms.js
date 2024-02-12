@@ -21,7 +21,9 @@ const AllForms = () => {
           ...form,
           link: form.link === 'null' ? null : form.link,
         }));
-        setFormData(formattedData);
+        // Sort the forms in descending order based on formId
+        const sortedData = formattedData.sort((a, b) => b.formId - a.formId);
+        setFormData(sortedData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching form data:', error);
@@ -34,16 +36,35 @@ const AllForms = () => {
   }, [userId, token]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Navbar />
+        <div className="container card mt-5 md-5">
+          <div>Loading...</div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div>
+        <Navbar />
+        <div className="container card mt-5 md-5">
+          <div>Error: {error}</div>
+        </div>
+      </div>
+    );
   }
 
   if (!Array.isArray(formData)) {
     return (
-      <div>Data received from the server is not in the expected format</div>
+      <div>
+        <Navbar />
+        <div className="container card mt-5 md-5">
+          <div>Data received from the server is not in the expected format</div>
+        </div>
+      </div>
     );
   }
 
