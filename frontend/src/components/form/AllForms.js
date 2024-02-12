@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { retrieveAllFormsForUserApiService } from "../../api/FormApiService";
 import { useSelector } from "react-redux";
+import Navbar from "../home/Navbar/Navbar";
 
 const AllForms = () => {
   const [formData, setFormData] = useState(null);
@@ -9,6 +10,7 @@ const AllForms = () => {
 
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
+  // const userId = localStorage.getItem("CurrentLoggedInUserId");
 
   useEffect(() => {
     const fetchData = () => {
@@ -44,6 +46,8 @@ const AllForms = () => {
   }
 
   return (
+    <div>
+    <Navbar />
     <div className="container card mt-5 md-5">
       {formData.length > 0 ? (
         <table className="table">
@@ -73,7 +77,7 @@ const AllForms = () => {
       ) : (
         <div>No form data available</div>
       )}
-    </div>
+    </div></div>
   );
 };
 

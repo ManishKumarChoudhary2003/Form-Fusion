@@ -1,26 +1,27 @@
-import {
-  Navigate,
+import { 
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
 import LoginComponent from "./components/auth/LoginComponent";
-import RegisterComponent from "./components/auth/RegisterComponent"; 
-import { useSelector } from "react-redux";
-import AllForms from "./components/form/AllForms"; 
+import RegisterComponent from "./components/auth/RegisterComponent";
+// import { useSelector } from "react-redux";
+import AllForms from "./components/form/AllForms";
 import Welcome from "./components/home/Welcome";
+import ErrorPage from "./pages/Error";
 
 const App = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  function AuthenticatedRoute({ children }) {
-    if (isAuthenticated) return children;
+  // function AuthenticatedRoute({ children }) {
+  //   if (isAuthenticated) return children;
 
-    return <Navigate to="/" />;
-  }
+  //   return <Navigate to="/" />;
+  // }
 
   const router = createBrowserRouter([
     {
-      path: "/", 
+      path: "/",
+      // errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -28,11 +29,7 @@ const App = () => {
         },
         {
           path: "all-forms",
-          element: (
-            <AuthenticatedRoute>
-              <AllForms />
-            </AuthenticatedRoute>
-          ),
+          element: <AllForms />,
         },
         {
           path: "register",
@@ -41,7 +38,10 @@ const App = () => {
         {
           path: "login",
           element: <LoginComponent />,
-        },
+        },{
+          path : "error",
+          element : <ErrorPage />
+        }
       ],
     },
   ]);

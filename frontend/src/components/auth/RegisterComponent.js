@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { userRegisterApiService } from '../../api/AuthApiService';
+import Navbar from '../home/Navbar/Navbar';
 
 const RegisterComponent = () => {
     const [username, setUsername] = useState('');
@@ -46,6 +47,8 @@ const RegisterComponent = () => {
         }
     };
     return (
+        <div>
+        <Navbar/>
         <div className="container card mt-5 md-5">
             <h1 className="col-md-6 offset-md-3">Register</h1>
             {errorMessage && (
@@ -74,7 +77,7 @@ const RegisterComponent = () => {
                     <button type="submit" className="btn btn-primary">Register</button>
                 </div>
             </form>
-        </div>
+        </div></div>
     );
 }
 

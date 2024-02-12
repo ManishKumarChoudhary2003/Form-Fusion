@@ -15,11 +15,9 @@ const CreateForm = () => {
     try {
       const form = { title, description };
       await createFormForUserApiService(userId, token, form);
-      // Optionally, you can perform additional actions after form creation
       console.log("Form created successfully");
     } catch (error) {
       console.error("Error creating form:", error);
-      // Handle error
     }
     setTitle("")
     setDescription("")

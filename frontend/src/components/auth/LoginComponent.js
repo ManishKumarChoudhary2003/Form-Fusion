@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { userLoginApiService } from "../../api/AuthApiService";
 import { authActions } from "../../store/auth-slice";
 import { retrieveUserByEmailApiService } from "../../api/UserApiService";
+import Navbar from "../home/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ const LoginComponent = () => {
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -25,13 +28,15 @@ const LoginComponent = () => {
       const token = await userLoginApiService(email, password);
       dispatch(authActions.setToken(token));
       dispatch(authActions.setAuthentication());
+      localStorage.setItem("isLoggedIn", "100");
 
       retrieveUserByEmailApiService(email, token)
         .then((response) => {
           const user = response;
           if (user && user.userId) {
             const userId = user.userId;
-            console.log("user id is--------->>>>>>>>", userId);
+            console.log("user id is--------->>>", userId);
+            localStorage.setItem("CurrentLoggedInUserId", userId);
             dispatch(authActions.setUserId(userId));
           } else {
             console.error("User or userId not found in response:", response);
@@ -39,6 +44,7 @@ const LoginComponent = () => {
           setEmail("");
           setPassword("");
           setError("");
+          navigate("/")
           console.log("Login successful:", token);
         })
         .catch((error) => {
@@ -51,6 +57,8 @@ const LoginComponent = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="container card mt-5">
       <h2 className="col-md-6 offset-md-3">Login</h2>
       {error && <div className="alert alert-danger">{error}</div>}
@@ -82,8 +90,8 @@ const LoginComponent = () => {
         <button type="submit" className="btn btn-primary mb-3">
           Login
         </button>
-      </form>
-    </div>
+      </form> 
+    </div></div>
   );
 };
 
