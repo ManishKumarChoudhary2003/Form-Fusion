@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
-// import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
-  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  const isAuthenticated = localStorage.getItem("isLoggedIn") === "100";
 
   return (
     <nav>
@@ -21,18 +20,28 @@ const Navbar = () => {
         <NavLink to="/" className="navItem">
           Home
         </NavLink>
-        <NavLink to="/login" className="navItem">
-          Login
-        </NavLink>
-
-        <NavLink to="/register" className="navItem">
-          Register
-        </NavLink>
-
-        {localStorage.getItem("isLoggedIn") === "100"  && (
-          <NavLink to="/all-forms" className="navItem">
-            All Forms
-          </NavLink>
+        {!isAuthenticated && (
+          <>
+            <NavLink to="/login" className="navItem">
+              Login
+            </NavLink>
+            <NavLink to="/register" className="navItem">
+              Register
+            </NavLink>
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <NavLink to="/all-forms" className="navItem">
+              All Forms
+            </NavLink>
+            <NavLink to="/create-form" className="navItem">
+              Create Form
+            </NavLink>
+            <NavLink to="/logout" className="navItem">
+              Logout
+            </NavLink>
+          </>
         )}
       </ul>
       <div className="burger" onClick={toggleMenu}>

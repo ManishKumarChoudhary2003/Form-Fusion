@@ -8,6 +8,9 @@ import RegisterComponent from "./components/auth/RegisterComponent";
 import AllForms from "./components/form/AllForms";
 import Welcome from "./components/home/Welcome";
 import ErrorPage from "./pages/Error";
+import CreateForm from "./components/form/CreateForm";
+import LogoutComponent from "./components/auth/LogoutComponent";
+import CreateQuestion from "./components/question/CreateQuestion";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -32,12 +35,24 @@ const App = () => {
           element: <AllForms />,
         },
         {
+          path: "create-form",
+          element: <CreateForm />,
+        },
+        {
+          path : "create-question/:formId",
+          element : <CreateQuestion />
+        },
+        {
           path: "register",
           element: <RegisterComponent />,
         },
         {
           path: "login",
           element: <LoginComponent />,
+        },
+        {
+          path: "logout",
+          element: <LogoutComponent />,
         },{
           path : "error",
           element : <ErrorPage />

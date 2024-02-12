@@ -35,7 +35,7 @@ const Welcome = () => {
     <div>
     <Navbar />
       {error && <div>Error: {error}</div>} 
-      <h1 className="col-md-6 offset-md-4">{welcomeMessage}</h1> 
+      <h1 className="col-md-6 offset-md-3">{welcomeMessage}</h1> 
     </div>
   );
 };
