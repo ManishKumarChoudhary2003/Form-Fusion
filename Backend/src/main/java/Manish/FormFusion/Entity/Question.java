@@ -84,28 +84,30 @@ public class Question {
 //    }
 
     @Override
-    public String toString() { // with Options
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Question{")
-                .append("questionId=").append(questionId)
-                .append(", text='").append(text).append('\'')
-                .append(", form=").append(form != null ? form.getFormId() : null);
+        stringBuilder.append("{")
+                .append("\"questionId\":").append(questionId).append(",")
+                .append("\"text\":\"").append(text).append("\",")
+                .append("\"form\":").append(form != null ? form.getFormId() : null).append(",");
 
         if (options != null && !options.isEmpty()) {
-            stringBuilder.append(", options=[");
+            stringBuilder.append("\"options\":[");
             for (Options option : options) {
-                stringBuilder.append("{optionId=").append(option.getOptionId())
-                        .append(", optionData='").append(option.getOptionData()).append("'}, ");
+                stringBuilder.append("{")
+                        .append("\"optionId\":").append(option.getOptionId()).append(",")
+                        .append("\"optionData\":\"").append(option.getOptionData()).append("\"},");
             }
-            // Remove the last ", " added after the last option
-            stringBuilder.setLength(stringBuilder.length() - 2);
+            // Remove the last "," added after the last option
+            stringBuilder.setLength(stringBuilder.length() - 1);
             stringBuilder.append("]");
         } else {
-            stringBuilder.append(", options=[]");
+            stringBuilder.append("\"options\":[]");
         }
 
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
+
 
 }

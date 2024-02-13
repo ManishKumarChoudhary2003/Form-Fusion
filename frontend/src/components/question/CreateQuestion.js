@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { createQuestionForFormApiService } from "../../api/QuestionApiService";
 import { useParams } from "react-router-dom";
 import Navbar from "../home/Navbar/Navbar";
+import AllQuestions from "./AllQuestions";
 
 const CreateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
   const [options, setOptions] = useState([""]);
+  const [showQuestions, setShowQuestions] = useState(false);
   const token = localStorage.getItem("token");
 
   const { formId } = useParams();
@@ -25,6 +27,7 @@ const CreateQuestion = () => {
       await createQuestionForFormApiService(userId, formId, question, token);
       setQuestionText("");
       setOptions([""]);
+      setShowQuestions(true); // Set showQuestions to true after successfully creating a question
       console.log("Question created successfully");
     } catch (error) {
       console.error("Error creating question:", error);
@@ -87,6 +90,7 @@ const CreateQuestion = () => {
           </button>
         </form>
       </div>
+      {showQuestions && <AllQuestions />}
     </div>
   );
 };

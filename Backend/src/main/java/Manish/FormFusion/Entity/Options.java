@@ -49,9 +49,10 @@ public class Options {
 
     @Override
     public String toString() {
-        return "Options{" +
-                "optionId=" + optionId +
-                ", optionData='" + optionData + '\'' +
-                '}';
+        return "{" +
+                "\"optionId\":" + optionId +
+                ", \"optionData\":\"" + optionData + "\"" +
+                "}";
     }
+
 }

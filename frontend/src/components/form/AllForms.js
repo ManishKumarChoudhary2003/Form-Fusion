@@ -17,16 +17,16 @@ const AllForms = () => {
           throw new Error("User ID or token is missing");
         }
         const response = await retrieveAllFormsForUserApiService(userId, token);
+        console.log("Response: -> ", response); 
         const formattedData = response.map((form) => ({
           ...form,
           link: form.link === 'null' ? null : form.link,
         }));
-        // Sort the forms in descending order based on formId
         const sortedData = formattedData.sort((a, b) => b.formId - a.formId);
         setFormData(sortedData);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching form data:', error);
+        console.error('Error fetching form data: ->', error);
         setError(error.message || 'An error occurred while fetching form data');
         setLoading(false);
       }

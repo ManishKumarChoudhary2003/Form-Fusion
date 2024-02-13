@@ -109,6 +109,42 @@ public class QuestionController {
         }
     }
 
+//    @GetMapping("/{userId}/{formId}/all-questions")
+//    public ResponseEntity<String> getAllQuestionsForFormAndUser(@PathVariable  Long userId, @PathVariable Long formId) {
+//        try {
+//            Optional<User> optionalUser = userRepository.findById(userId);
+//            Optional<Form> optionalForm = formRepository.findById(formId);
+//
+//            if (optionalUser.isPresent() && optionalForm.isPresent()) {
+//                User user = optionalUser.get();
+//                Form form = optionalForm.get();
+//
+//                // Check if the form belongs to the specified user
+//                if (!form.getUser().equals(user)) {
+//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                            .body("Unauthorized: This form does not belong to the specified user.");
+//                }
+//
+//                List<Question> questions = questionRepository.findByForm(form);
+//
+//                if (questions.isEmpty()) {
+//                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                            .body("No questions found for the specified form.");
+//                }
+//
+//                return ResponseEntity.ok(questions.toString());
+//            } else {
+//                throw new EntityNotFoundException("User or form not found with provided IDs");
+//            }
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("Entity not found: " + e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Internal Server Error: " + e.getMessage());
+//        }
+//    }
+
     @GetMapping("/{userId}/{formId}/all-questions")
     public ResponseEntity<String> getAllQuestionsForForm(
             @PathVariable Long userId,
@@ -125,7 +161,7 @@ public class QuestionController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: This form does not belong to the specified user.");
             }
 
-            List<Question> questions = questionRepository.findByForm(form);
+            List<Question> questions = questionRepository.findByForm(form); 
 
             if (questions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for the specified form.");
