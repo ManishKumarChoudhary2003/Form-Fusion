@@ -186,6 +186,30 @@ public class FormController {
         }
     }
 
+    @DeleteMapping("/{userId}/delete-no-links")
+    public ResponseEntity<String> deleteFormsNoLinksForUser(@PathVariable Long userId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
+            List<Form> forms = formRepository.findByUser(user);
+            int deletedCount = 0;
+
+            for (Form form : forms) {
+                if (form.getLink() == null) {
+                    formRepository.delete(form);
+                    deletedCount++;
+                }
+            }
+
+            return ResponseEntity.ok("Deleted " + deletedCount + " forms with no links.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/{userId}/all-forms")
     public ResponseEntity<String> getAllFormsForUser(@PathVariable Long userId) {
         try {

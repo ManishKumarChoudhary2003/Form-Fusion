@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
+import { deleteQuestionForFormApiService, retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
 import Navbar from "../home/Navbar/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -25,6 +25,7 @@ const AllQuestions = () => {
           token
         );
         setQuestionsData(response);
+        console.log("Response : ", response)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching questions data:", error);
@@ -76,6 +77,11 @@ const AllQuestions = () => {
     navigate(`/update-question/${formId}/${questionId}`);
   };
 
+  const deleteQuestion =  async (questionId) =>{
+    await deleteQuestionForFormApiService(userId, formId, questionId, token)
+    window.location.reload();
+  }
+
   return (
     <div>
       <Navbar />
@@ -85,14 +91,17 @@ const AllQuestions = () => {
             <table className="table table-striped table-bordered">
               <thead className="thead-dark">
                 <tr>
+                <th>Question Id</th>
                   <th>Question</th>
                   <th>Options</th>
                   <th>Update</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
                 {questionsData.map((question, index) => (
                   <tr key={question.questionId}>
+                  <td>{question.questionId}</td>
                     <td>{`Question ${index + 1}: ${question.text}`}</td>
                     <td>
                       {question.options.length > 0 ? (
@@ -108,6 +117,11 @@ const AllQuestions = () => {
                     <td>
                       <button onClick={() => updateQuestion(question.questionId)}>
                         Update
+                      </button>
+                    </td>
+                    <td>
+                      <button onClick={() => deleteQuestion(question.questionId)}>
+                        Delete
                       </button>
                     </td>
                   </tr>

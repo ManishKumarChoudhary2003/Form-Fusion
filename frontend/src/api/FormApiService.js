@@ -81,3 +81,34 @@ export const retrieveAllFormsForUserApiService = (userId,token) => {
       throw error;
     });
   };
+
+  export const deleteFormForUserApiService = (userId,formId, token) => {
+    return ApiClient.delete(`/form/${userId}/${formId}/delete-form`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      console.log("Form Deleted--->>>", response.data);
+      return response.data; 
+    })
+    .catch((error) => {
+      console.log("Form  deleting Error--->>>", error);
+      throw error;
+    });
+  };
+
+
+  export const deleteFormsForUserHasNoLinkApiService = (userId, token) => {
+    return ApiClient.delete(`/form/${userId}/delete-no-links`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      console.log("Form Deleted has no links--->>>", response.data);
+      return response.data; 
+    })
+    .catch((error) => {
+      console.log("Form  deleting Error--->>>", error);
+      throw error;
+    });
+  };

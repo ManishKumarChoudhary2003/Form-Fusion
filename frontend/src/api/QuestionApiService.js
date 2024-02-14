@@ -25,21 +25,28 @@ export const createQuestionForFormApiService = (
     });
 };
 
-export const retrieveAllQuestionsForFormApiService = (userId,formId, token) => {
-    return ApiClient.get(`/question/${userId}/${formId}/all-questions`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+export const retrieveAllQuestionsForFormApiService = (userId, formId, token) => {
+  return ApiClient.get(`/question/${userId}/${formId}/all-questions`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      console.log("Get Question Data--->>>", response.data);
+      // Check if the response data contains any questions
+      if (response.data.length > 0) {
+        return response.data;
+      } else {
+        // If no questions are found, return an empty array
+        return [];
+      }
     })
-      .then((response) => {
-        console.log("Get Question Data--->>>", response.data);
-        return response.data; 
-      })
-      .catch((error) => {
-        console.log("Get an Error Fetching Question Data--->>>", error);
-        throw error;
-      });
-  };
+    .catch((error) => {
+      console.log("Get an Error Fetching Question Data--->>>", error);
+      throw error;
+    });
+};
+
 
 
   export const retrieveQuestionForFormApiService = (userId,formId, questionId, token) => {
@@ -69,6 +76,23 @@ export const retrieveAllQuestionsForFormApiService = (userId,formId, token) => {
     })
     .catch((error) => {
       console.log("Question updating Error--->>>", error);
+      throw error;
+    });
+  };
+
+
+  
+  export const deleteQuestionForFormApiService = (userId,formId, questionId, token) => {
+    return ApiClient.delete(`/question/${userId}/${formId}/${questionId}/delete-question`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      console.log("Question Deleted--->>>", response.data);
+      return response.data; 
+    })
+    .catch((error) => {
+      console.log("Question deleting Error--->>>", error);
       throw error;
     });
   };

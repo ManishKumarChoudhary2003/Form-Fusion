@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { retrieveAllFormsForUserApiService } from "../../api/FormApiService";
+import {
+  deleteFormForUserApiService,
+  deleteFormsForUserHasNoLinkApiService,
+  retrieveAllFormsForUserApiService,
+} from "../../api/FormApiService";
 import Navbar from "../home/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -27,6 +31,7 @@ const AllForms = () => {
         const sortedData = formattedData.sort((a, b) => b.formId - a.formId);
         setFormData(sortedData);
         setLoading(false);
+        await deleteFormsForUserHasNoLinkApiService(userId, token);
       } catch (error) {
         console.error("Error fetching form data: ->", error);
         setError(error.message || "An error occurred while fetching form data");
@@ -34,7 +39,7 @@ const AllForms = () => {
       }
     };
 
-    fetchData();
+    fetchData(); 
   }, [userId, token]);
 
   if (loading) {
@@ -77,6 +82,11 @@ const AllForms = () => {
     navigate(`/all-questions/${formId}`);
   };
 
+  const deleteForm = async (formId) => {
+    await deleteFormForUserApiService(userId, formId, token);
+    window.location.reload();
+  };
+
   return (
     <div>
       <Navbar />
@@ -90,7 +100,7 @@ const AllForms = () => {
                 <th scope="col">Description</th>
                 <th scope="col">Link</th>
                 <th scope="col">Update</th>
-                {/* <th scope="col">See</th> */}
+                <th scope="col">Delete</th>
                 <th scope="col">Questions</th>
               </tr>
             </thead>
@@ -110,9 +120,11 @@ const AllForms = () => {
                       Update
                     </button>
                   </td>
-                  {/* <td>
-                    <button onClick={() => seeForm(form.formId)}>See</button>
-                  </td> */}
+                  <td>
+                    <button onClick={() => deleteForm(form.formId)}>
+                      Delete
+                    </button>
+                  </td>
                   <td>{form.questions.length}</td>
                 </tr>
               ))}

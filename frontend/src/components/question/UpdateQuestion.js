@@ -4,6 +4,7 @@ import {
   updateQuestionForFormApiService,
 } from "../../api/QuestionApiService";
 import { useParams, useNavigate } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 
 const UpdateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
@@ -97,55 +98,58 @@ const UpdateQuestion = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="questionText" className="form-label">
-          Question Text:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="questionText"
-          value={questionText}
-          onChange={(e) => setQuestionText(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Options:</label>
-        {options.map((option, index) => (
-          <div key={index} className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              value={option}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-            />
-            {index === options.length - 1 && (
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={addOption}
-              >
-                Add
-              </button>
-            )}
-            {index !== options.length - 1 && (
-              <button
-                type="button"
-                className="btn btn-outline-danger"
-                onClick={() => removeOption(index)}
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Update Question
-      </button>
-    </form>
+    <div>
+      <Navbar />
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="questionText" className="form-label">
+            Question Text:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="questionText"
+            value={questionText}
+            onChange={(e) => setQuestionText(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Options:</label>
+          {options.map((option, index) => (
+            <div key={index} className="input-group mb-3">
+              <input
+                type="text"
+                className="form-control"
+                value={option}
+                onChange={(e) => handleOptionChange(index, e.target.value)}
+              />
+              {index === options.length - 1 && (
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={addOption}
+                >
+                  Add
+                </button>
+              )}
+              {index !== options.length - 1 && (
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={() => removeOption(index)}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Update Question
+        </button>
+      </form>
+    </div>
   );
 };
 

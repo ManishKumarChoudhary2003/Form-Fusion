@@ -109,6 +109,39 @@ public class QuestionController {
         }
     }
 
+
+    @DeleteMapping("/{userId}/{formId}/{questionId}/delete-question")
+    public ResponseEntity<String> deleteQuestionAndOptions(@PathVariable Long userId,
+                                                           @PathVariable Long formId,
+                                                           @PathVariable Long questionId) {
+        try {
+            // Check if user and form exist
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            // Check if the question exists and is associated with the form
+            Question question = (Question) questionRepository.findByIdAndFormId(questionId, formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId + " for form: " + formId));
+
+            // Delete the question and its associated options
+            questionRepository.delete(question);
+            List<Question> remainingQuestions = questionRepository.findByFormId(formId);
+            if (remainingQuestions.isEmpty()) {
+                // Delete the form if no questions remain
+                formRepository.delete(form);
+                return ResponseEntity.ok("Question and its options successfully deleted, and form deleted as it has no remaining questions");
+            }
+
+            return ResponseEntity.ok("Question and its options successfully deleted");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting the question and its options");
+        }
+    }
 //    @GetMapping("/{userId}/{formId}/all-questions")
 //    public ResponseEntity<String> getAllQuestionsForFormAndUser(@PathVariable  Long userId, @PathVariable Long formId) {
 //        try {
