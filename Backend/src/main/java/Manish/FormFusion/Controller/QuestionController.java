@@ -161,7 +161,7 @@ public class QuestionController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: This form does not belong to the specified user.");
             }
 
-            List<Question> questions = questionRepository.findByForm(form); 
+            List<Question> questions = questionRepository.findByForm(form);
 
             if (questions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for the specified form.");

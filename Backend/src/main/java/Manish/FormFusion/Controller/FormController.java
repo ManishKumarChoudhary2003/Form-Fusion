@@ -1,18 +1,20 @@
 package Manish.FormFusion.controller;
 
 import Manish.FormFusion.entity.Form;
+import Manish.FormFusion.entity.Options;
+import Manish.FormFusion.entity.Question;
 import Manish.FormFusion.entity.User;
 import Manish.FormFusion.repository.FormRepository;
+import Manish.FormFusion.repository.OptionsRepository;
+import Manish.FormFusion.repository.QuestionRepository;
 import Manish.FormFusion.repository.UserRepository;
 import Manish.FormFusion.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,11 @@ public class FormController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private OptionsRepository optionsRepository;
 
     @PostMapping("/{userId}/create-form")
     public ResponseEntity<Form> createForm(@PathVariable Long userId, @RequestBody Form form) {
@@ -67,8 +74,30 @@ public class FormController {
 //        }
 //    }
 
+
+//      Original
+//    @PostMapping("/{userId}/{formId}/set-link")
+//    public ResponseEntity<String> setFormUrl(@PathVariable Long userId, @PathVariable Long formId) {
+//        try {
+//            User user = userRepository.findById(userId)
+//                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+//            Form form = formRepository.findById(formId)
+//                    .orElseThrow(() -> new EntityNotFoundException("Form not found with ID: " + formId));
+//
+//            String url = "http://localhost:8080/form/" + userId + "/" + formId;
+//            form.setLink(url);
+//            formRepository.save(form);
+//            return ResponseEntity.ok("Successfully Set the form Link -> " + url);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating form URL");
+//        }
+//    }
+
+
     @PostMapping("/{userId}/{formId}/set-link")
-    public ResponseEntity<String> setFormUrl(@PathVariable Long userId, @PathVariable Long formId) {
+    public String setFormUrl(@PathVariable Long userId, @PathVariable Long formId) {
         try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
@@ -78,13 +107,14 @@ public class FormController {
             String url = "http://localhost:8080/form/" + userId + "/" + formId;
             form.setLink(url);
             formRepository.save(form);
-            return ResponseEntity.ok("Successfully Set the form Link -> " + url);
+            return "Successfully Set the form Link -> " + url;
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating form URL");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error generating form URL");
         }
     }
+
 
     @PutMapping("/{userId}/{formId}/update-form")
     public ResponseEntity<String> updateForm(
@@ -127,6 +157,34 @@ public class FormController {
         }
     }
 
+    @DeleteMapping("/{userId}/{formId}/delete-form")
+    public ResponseEntity<String> deleteFormById( @PathVariable Long userId, @PathVariable Long formId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with ID: " + formId));
+
+            // Delete all questions related to the form
+            List<Question> questions = questionRepository.findByForm(form);
+            for (Question question : questions) {
+                // Delete options related to each question
+                List<Options> options = optionsRepository.findByQuestion(question);
+                optionsRepository.deleteAll(options);
+            }
+            questionRepository.deleteAll(questions);
+
+            // Delete the form itself
+            formRepository.delete(form);
+
+            return ResponseEntity.ok("Form with ID " + formId + " and its related questions and options have been deleted.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting the form and its related questions and options.");
+        }
+    }
 
     @GetMapping("/{userId}/all-forms")
     public ResponseEntity<String> getAllFormsForUser(@PathVariable Long userId) {

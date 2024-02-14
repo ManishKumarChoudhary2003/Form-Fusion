@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
 import Navbar from "../home/Navbar/Navbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState(null);
@@ -11,6 +11,7 @@ const AllQuestions = () => {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const { formId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,16 +19,22 @@ const AllQuestions = () => {
         if (!userId || !token || !formId) {
           throw new Error("User ID, form ID, or token is missing");
         }
-        const response = await retrieveAllQuestionsForFormApiService(userId, formId, token);
+        const response = await retrieveAllQuestionsForFormApiService(
+          userId,
+          formId,
+          token
+        );
         setQuestionsData(response);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching questions data:', error);
-        setError(error.message || 'An error occurred while fetching questions data');
+        console.error("Error fetching questions data:", error);
+        setError(
+          error.message || "An error occurred while fetching questions data"
+        );
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, [userId, formId, token]);
 
@@ -65,6 +72,10 @@ const AllQuestions = () => {
     );
   }
 
+  const updateQuestion = (questionId) => {
+    navigate(`/update-question/${formId}/${questionId}`);
+  };
+
   return (
     <div>
       <Navbar />
@@ -76,6 +87,7 @@ const AllQuestions = () => {
                 <tr>
                   <th>Question</th>
                   <th>Options</th>
+                  <th>Update</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,6 +104,11 @@ const AllQuestions = () => {
                       ) : (
                         <p className="mb-0">No options available</p>
                       )}
+                    </td>
+                    <td>
+                      <button onClick={() => updateQuestion(question.questionId)}>
+                        Update
+                      </button>
                     </td>
                   </tr>
                 ))}

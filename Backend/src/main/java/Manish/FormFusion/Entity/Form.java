@@ -117,7 +117,7 @@ public class Form {
                 ", \"description\": \"" + description + '\"' +
                 ", \"link\": \"" + link + '\"' +
                 ", \"userId\": " + (user != null ? user.getUserId() : null) +
-//                ", \"questions\": " + (questions != null ? questions : null) +
+                ", \"questions\": " + (questions != null ? questions : null) +
                 '}';
     }
 

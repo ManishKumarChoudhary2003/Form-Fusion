@@ -1,7 +1,4 @@
-import { 
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import LoginComponent from "./components/auth/LoginComponent";
 import RegisterComponent from "./components/auth/RegisterComponent";
 // import { useSelector } from "react-redux";
@@ -11,6 +8,8 @@ import ErrorPage from "./pages/Error";
 import CreateForm from "./components/form/CreateForm";
 import LogoutComponent from "./components/auth/LogoutComponent";
 import CreateQuestion from "./components/question/CreateQuestion";
+import AllQuestions from "./components/question/AllQuestions";
+import UpdateQuestion from "./components/question/UpdateQuestion";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -34,13 +33,22 @@ const App = () => {
           path: "all-forms",
           element: <AllForms />,
         },
+        { path: "create-form", element: <CreateForm /> },
         {
-          path: "create-form",
+          path: "create-form/:formId",
           element: <CreateForm />,
         },
         {
-          path : "create-question/:formId",
-          element : <CreateQuestion />
+          path: "all-questions/:formId",
+          element: <AllQuestions />,
+        },
+        {
+          path: "create-question/:formId",
+          element: <CreateQuestion />,
+        },
+        {
+          path: "update-question/:formId/:questionId",
+          element: <UpdateQuestion />,
         },
         {
           path: "register",
@@ -53,10 +61,11 @@ const App = () => {
         {
           path: "logout",
           element: <LogoutComponent />,
-        },{
-          path : "error",
-          element : <ErrorPage />
-        }
+        },
+        {
+          path: "error",
+          element: <ErrorPage />,
+        },
       ],
     },
   ]);
