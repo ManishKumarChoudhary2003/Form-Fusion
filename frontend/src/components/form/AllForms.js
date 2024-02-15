@@ -5,7 +5,7 @@ import {
   retrieveAllFormsForUserApiService,
 } from "../../api/FormApiService";
 import Navbar from "../home/Navbar/Navbar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AllForms = () => {
   const [formData, setFormData] = useState(null);
@@ -39,7 +39,7 @@ const AllForms = () => {
       }
     };
 
-    fetchData(); 
+    fetchData();
   }, [userId, token]);
 
   if (loading) {
@@ -82,6 +82,14 @@ const AllForms = () => {
     navigate(`/all-questions/${formId}`);
   };
 
+  const goToForm = (formId) => {
+    navigate(`/form/${userId}/${formId}`);
+  };
+
+  const seeResponses = (formId) => {
+    navigate(`/responses/${userId}/${formId}`);
+  };
+
   const deleteForm = async (formId) => {
     await deleteFormForUserApiService(userId, formId, token);
     window.location.reload();
@@ -90,7 +98,10 @@ const AllForms = () => {
   return (
     <div>
       <Navbar />
-      <div className="container card mt-5 md-5">
+      <div
+        className="container card mt-5 md-5"
+        style={{ backgroundColor: "#e4ebfd" }}
+      >
         {formData.length > 0 ? (
           <table className="table">
             <thead className="thead-dark">
@@ -101,7 +112,7 @@ const AllForms = () => {
                 <th scope="col">Link</th>
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
-                <th scope="col">Questions</th>
+                <th scope="col">Responses</th>
               </tr>
             </thead>
             <tbody>
@@ -113,7 +124,9 @@ const AllForms = () => {
                     {form.description}
                   </td>
                   <td>
-                    <a href={form.link}>{form.link}</a>
+                    <Link onClick={() => goToForm(form.formId)}>
+                      {form.link}
+                    </Link>
                   </td>
                   <td>
                     <button onClick={() => updateForm(form.formId)}>
@@ -125,7 +138,11 @@ const AllForms = () => {
                       Delete
                     </button>
                   </td>
-                  <td>{form.questions.length}</td>
+                  <td>
+                    <button onClick={() => seeResponses(form.formId)}>
+                      Response
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

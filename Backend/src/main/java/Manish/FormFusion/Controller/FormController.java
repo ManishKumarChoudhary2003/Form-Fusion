@@ -104,9 +104,15 @@ public class FormController {
             Form form = formRepository.findById(formId)
                     .orElseThrow(() -> new EntityNotFoundException("Form not found with ID: " + formId));
 
-            String url = "http://localhost:8080/form/" + userId + "/" + formId;
+//            String url = "http://localhost:8080/form/" + userId + "/" + formId;
+            String url = "http://localhost:3000/form/" + userId + "/" + formId;
             form.setLink(url);
             formRepository.save(form);
+            if (form.getQuestions().isEmpty()) {
+                formRepository.delete(form);
+                return "Successfully Set the form Link -> " + url + " and deleted form because it had no questions";
+            }
+
             return "Successfully Set the form Link -> " + url;
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -158,7 +164,7 @@ public class FormController {
     }
 
     @DeleteMapping("/{userId}/{formId}/delete-form")
-    public ResponseEntity<String> deleteFormById( @PathVariable Long userId, @PathVariable Long formId) {
+    public ResponseEntity<String> deleteFormById(@PathVariable Long userId, @PathVariable Long formId) {
         try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
@@ -229,6 +235,7 @@ public class FormController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
     @GetMapping("/{userId}/{formId}/getForm")
     public ResponseEntity<String> getFormById(
             @PathVariable Long userId,
@@ -318,8 +325,6 @@ public class FormController {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 //        }
 //    }
-
-
 
 
 //    @GetMapping("/{userId}/getForms")

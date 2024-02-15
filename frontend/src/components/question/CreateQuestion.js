@@ -71,7 +71,7 @@ const CreateQuestion = () => {
   return (
     <div>
       <Navbar />
-      <div className="container card mt-5 md-5">
+      <div className="container card mt-5 md-5" style={{backgroundColor : "#e7e7fb", maxWidth : "600px"}}>
         <h2>Create Question</h2>
         <button
           type="button"

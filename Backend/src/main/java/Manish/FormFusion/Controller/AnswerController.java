@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -111,5 +112,26 @@ public class AnswerController {
         }
     }
 
+
+    @GetMapping("/{userId}/{formId}/{questionId}/get-answers")
+    public ResponseEntity<String> fetchAnswers(@PathVariable Long userId, @PathVariable Long formId, @PathVariable Long questionId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            Question question = questionRepository.findById(questionId)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
+
+            List<Answer> answers = answerRepository.findByQuestionAndFormAndUser(question, form, user);
+            return ResponseEntity.ok(answers.toString());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 }

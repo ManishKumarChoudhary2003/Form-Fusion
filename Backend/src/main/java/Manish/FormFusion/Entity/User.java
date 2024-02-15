@@ -29,19 +29,23 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Response> responses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
 
 
     public User() {
 
     }
 
-    public User(String username, String password, String email, String role, List<Form> forms, List<Response> responses) {
+    public User(String username, String password, String email, String role, List<Form> forms, List<Response> responses,List<Answer> answers) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.forms = forms;
         this.responses = responses;
+        this.answers = answers;
     }
 
     public Long getUserId() {
@@ -98,6 +102,14 @@ public class User {
 
     public void setResponses(List<Response> responses) {
         this.responses = responses;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
 //    @Override

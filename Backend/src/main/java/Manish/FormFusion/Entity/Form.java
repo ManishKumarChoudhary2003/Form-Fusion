@@ -29,17 +29,22 @@ public class Form {
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Response> responses;
 
+    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
+
     public Form() {
 
     }
 
-    public Form(String title, String description, String link, User user, List<Question> questions, List<Response> responses) {
+    public Form(String title, String description, String link, User user, List<Question> questions, List<Response> responses, List<Answer> answers) {
         this.title = title;
         this.description = description;
         this.link = link;
         this.user = user;
         this.questions = questions;
         this.responses = responses;
+        this.answers = answers;
     }
 
     public Long getFormId() {
@@ -96,6 +101,14 @@ public class Form {
 
     public void setResponses(List<Response> responses) {
         this.responses = responses;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     //    @Override

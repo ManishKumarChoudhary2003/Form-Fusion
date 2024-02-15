@@ -13,10 +13,11 @@ const CreateForm = () => {
   const [error, setError] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [showAddQuestionButton, setShowAddQuestionButton] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
-  const { formId } = useParams(); 
+  const { formId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,21 +28,20 @@ const CreateForm = () => {
           token
         );
         // setForm(response);
-        setTitle(response.title); 
-        setDescription(response.description);  
+        setTitle(response.title);
+        setDescription(response.description);
         setLoading(false);
       } catch (error) {
-        setError(
-          error.message || "An error occurred while fetching form data"
-        );
+        setError(error.message || "An error occurred while fetching form data");
         setLoading(false);
       }
     };
 
     if (formId !== undefined) {
+      setShowAddQuestionButton(true);
       fetchData();
     } else {
-      setLoading(false);  
+      setLoading(false);
     }
   }, [userId, formId, token]);
 
@@ -70,7 +70,7 @@ const CreateForm = () => {
           " form id -> ",
           formId
         );
-        await updateFormForUserApiService(userId, formId, token, formData); 
+        await updateFormForUserApiService(userId, formId, token, formData);
         navigate("/all-forms");
       }
     } catch (error) {
@@ -85,11 +85,17 @@ const CreateForm = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+  const addQuestions = (formId) => {
+    navigate(`/create-question/${formId}`);
+  };
 
   return (
     <div>
       <Navbar />
-      <div className="container card mt-5 md-5">
+      <div
+        className="container card mt-5 md-5"
+        style={{ backgroundColor: "#e4ebfd", maxWidth: "600px" }}
+      >
         <h2>Create Form</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -122,6 +128,14 @@ const CreateForm = () => {
             Create Form
           </button>
         </form>
+        {showAddQuestionButton && (
+          <button
+            onClick={() => addQuestions(formId)}
+            className="btn btn-info mt-2" style={{maxWidth : "150px"}}
+          >
+            Add Questions
+          </button>
+        )}
       </div>
     </div>
   );

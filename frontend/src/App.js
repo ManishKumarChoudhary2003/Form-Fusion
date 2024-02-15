@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import LoginComponent from "./components/auth/LoginComponent";
 import RegisterComponent from "./components/auth/RegisterComponent";
-// import { useSelector } from "react-redux";
 import AllForms from "./components/form/AllForms";
 import Welcome from "./components/home/Welcome";
 import ErrorPage from "./pages/Error";
@@ -10,6 +9,8 @@ import LogoutComponent from "./components/auth/LogoutComponent";
 import CreateQuestion from "./components/question/CreateQuestion";
 import AllQuestions from "./components/question/AllQuestions";
 import UpdateQuestion from "./components/question/UpdateQuestion";
+import Form from "./components/form/Form";
+import Responses from "./components/responses/responses";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -49,6 +50,12 @@ const App = () => {
         {
           path: "update-question/:formId/:questionId",
           element: <UpdateQuestion />,
+        },{
+          path: "form/:userId/:formId",
+          element: <Form />,
+        },{
+          path: "responses/:userId/:formId",
+          element: <Responses />,
         },
         {
           path: "register",
