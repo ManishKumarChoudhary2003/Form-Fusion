@@ -5,6 +5,7 @@ import { responseForFormApiService } from "../../api/ResponseApiService";
 import { submitAnswerForQuestionForFormApiService } from "../../api/AnswerApiService";
 import { Button, Modal } from "react-bootstrap";
 import { retrieveFormForUserApiService } from "../../api/FormApiService";
+import { Spinner, Alert } from "react-bootstrap";
 
 const Form = () => {
   const [questions, setQuestions] = useState([]);
@@ -49,7 +50,6 @@ const Form = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check if any answer is empty or whitespace-only
     const isAnyAnswerEmpty = Object.values(answers).some(
       (answer) => !answer.trim()
     );
@@ -90,15 +90,27 @@ const Form = () => {
   const handleClose = () => {
     setShowModal(false);
   };
-
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div>
+        <div className="container mt-5">
+          <Alert variant="danger">{error}</Alert>
+        </div>
+      </div>
+    );
   }
-
   return (
     <div>
       <Modal show={showModal} onHide={handleClose}>

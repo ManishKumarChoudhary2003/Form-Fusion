@@ -11,6 +11,7 @@ import AllQuestions from "./components/question/AllQuestions";
 import UpdateQuestion from "./components/question/UpdateQuestion";
 import Form from "./components/form/Form";
 import Responses from "./components/responses/responses";
+import ResponseData from "./components/responses/ResponseData";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -56,6 +57,9 @@ const App = () => {
         },{
           path: "user/:userId/responses/:userId/:formId",
           element: <Responses />,
+        },{
+          path: "user/:userId/responses-details/:userId/:formId",
+          element:  <ResponseData />,
         },
         {
           path: "register",

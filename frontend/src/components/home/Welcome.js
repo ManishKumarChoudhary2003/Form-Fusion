@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from "react";
 import { welcomeApi } from "../../api/UserApiService";
 // import { Link } from "react-router-dom";
 // import { useSelector } from "react-redux";
 // import LoginComponent from "../auth/LoginComponent";
 import Navbar from "./Navbar/Navbar";
+import { Alert } from "react-bootstrap";
 
 const Welcome = () => {
-  const [welcomeMessage, setWelcomeMessage] = useState(""); 
-  const [error, setError] = useState(null); 
+  const [welcomeMessage, setWelcomeMessage] = useState("");
+  const [error, setError] = useState(null);
 
   // const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   // const navgate = useNavigate();
@@ -33,9 +33,13 @@ const Welcome = () => {
 
   return (
     <div>
-    <Navbar />
-      {error && <div>Error: {error}</div>} 
-      <h1 className="col-md-6 offset-md-3">{welcomeMessage}</h1> 
+      <Navbar />
+      {error && (
+        <div className="container mt-5">
+          <Alert variant="danger">{error}</Alert>
+        </div>
+      )}
+      <h1 className="col-md-6 offset-md-3">{welcomeMessage}</h1>
     </div>
   );
 };

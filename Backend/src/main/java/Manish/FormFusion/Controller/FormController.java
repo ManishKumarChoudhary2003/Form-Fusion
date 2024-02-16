@@ -1,13 +1,7 @@
 package Manish.FormFusion.controller;
 
-import Manish.FormFusion.entity.Form;
-import Manish.FormFusion.entity.Options;
-import Manish.FormFusion.entity.Question;
-import Manish.FormFusion.entity.User;
-import Manish.FormFusion.repository.FormRepository;
-import Manish.FormFusion.repository.OptionsRepository;
-import Manish.FormFusion.repository.QuestionRepository;
-import Manish.FormFusion.repository.UserRepository;
+import Manish.FormFusion.entity.*;
+import Manish.FormFusion.repository.*;
 import Manish.FormFusion.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +31,9 @@ public class FormController {
 
     @Autowired
     private OptionsRepository optionsRepository;
+
+    @Autowired
+    private ResponseRepository responseRepository;
 
     @PostMapping("/{userId}/create-form")
     public ResponseEntity<Form> createForm(@PathVariable Long userId, @RequestBody Form form) {
@@ -235,6 +232,26 @@ public class FormController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
+    @GetMapping("/{userId}/{formId}/get-responses")
+    public ResponseEntity<String> fetchResponsesByFormAndUser(@PathVariable Long userId, @PathVariable Long formId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            List<Response> responses = responseRepository.findByFormAndUser(form, user);
+            return ResponseEntity.ok(responses.toString());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 
 
 

@@ -6,6 +6,8 @@ import {
 } from "../../api/FormApiService";
 import Navbar from "../home/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 const AllForms = () => {
   const [formData, setFormData] = useState(null);
@@ -76,9 +78,11 @@ const AllForms = () => {
     return (
       <div>
         <Navbar />
-        <div className="container card mt-5 md-5">
-          <div>Loading...</div>
-        </div>
+        <div className="text-center"> 
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
       </div>
     );
   }
@@ -87,8 +91,8 @@ const AllForms = () => {
     return (
       <div>
         <Navbar />
-        <div className="container card mt-5 md-5">
-          <div>Error: {error}</div>
+        <div className="container mt-5">
+          <Alert variant="danger">{error}</Alert>
         </div>
       </div>
     );
@@ -117,6 +121,10 @@ const AllForms = () => {
     navigate(`/user/${userId}/responses/${userId}/${formId}`);
   };
 
+  const seeSubmission = (formId) =>{
+    navigate(`/user/${userId}/responses-details/${userId}/${formId}`);
+  }
+
   const deleteForm = async (formId) => {
     await deleteFormForUserApiService(userId, formId, token);
     window.location.reload();
@@ -140,6 +148,7 @@ const AllForms = () => {
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
                 <th scope="col">Responses</th>
+                <th scope="col">Submission</th>
                 <th scope="col">Share via WhatsApp</th>
                 <th scope="col">Share via Email</th>
               </tr>
@@ -173,6 +182,11 @@ const AllForms = () => {
                   <td>
                     <button onClick={() => seeResponses(form.formId)}>
                       Response
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => seeSubmission(form.formId)}>
+                      Submission
                     </button>
                   </td>
                   <td>

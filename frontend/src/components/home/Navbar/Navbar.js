@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className={`logo nameDisplay ${isMenuOpen ? "hide" : ""}`}>
-        {/* <h1>Manish</h1> */}
+        <h2>Manish</h2>
       </div>
       <ul className={`nav-links ${isMenuOpen ? "show" : ""}`}>
         <NavLink to="/" className="navItem">

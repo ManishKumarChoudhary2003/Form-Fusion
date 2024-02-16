@@ -5,6 +5,7 @@ import {
 } from "../../api/QuestionApiService";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../home/Navbar/Navbar";
+import { Spinner, Alert } from "react-bootstrap";
 
 const UpdateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
@@ -84,11 +85,28 @@ const UpdateQuestion = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Navbar />
+        <div className="text-center"> 
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+      </div>
+    );
   }
 
+
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div>
+        <Navbar />
+        <div className="container mt-5">
+          <Alert variant="danger">{error}</Alert>
+        </div>
+      </div>
+    );
   }
 
   const removeOption = (index) => {

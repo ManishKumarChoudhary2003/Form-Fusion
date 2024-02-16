@@ -2,23 +2,45 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useParams } from "react-router-dom";
 import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
+import { retrieveFormForUserApiService } from "../../api/FormApiService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../home/Navbar/Navbar";
+import { Spinner, Alert } from "react-bootstrap";
 
 const Responses = () => {
   const { formId } = useParams();
   const [questions, setQuestions] = useState([]);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
   const [chartData, setChartData] = useState([]);
+  const [error, setError] = useState(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const userId = localStorage.getItem("userId");
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedQuestions = await retrieveAllQuestionsForFormApiService(
+        const formData = await retrieveFormForUserApiService(
           userId,
+          formId,
+          token
+        );
+        setTitle(formData.title);
+        setDescription(formData.description);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message || "An error occurred while fetching form data");
+        setLoading(false);
+      }
+    };
+
+    const fetchQuestionsData = async () => {
+      try {
+        const fetchedQuestions = await retrieveAllQuestionsForFormApiService(
+          userId, 
           formId
         );
         setQuestions(fetchedQuestions);
@@ -49,19 +71,43 @@ const Responses = () => {
         );
       } catch (error) {
         console.error("Error fetching questions:", error);
+        setError("An error occurred while fetching responses");
       }
     };
 
     fetchData();
-  }, [userId, formId]);
+    fetchQuestionsData();
+  }, [userId, formId, token]);
+
+  if (loading) {
+    return (
+      <div>
+        <Navbar />
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Navbar />
+        <div className="container mt-5">
+          <Alert variant="danger">{error}</Alert>
+        </div>
+      </div>
+    );
+  }
 
   const handleShowChart = (index) => {
     if (selectedQuestionIndex === index) {
-      // If the selected question is already shown, hide it
       setSelectedQuestionIndex(null);
     } else {
       setSelectedQuestionIndex(index);
-
       const selectedQuestion = questions[index];
       const updatedChartData = [...chartData];
 
@@ -78,11 +124,9 @@ const Responses = () => {
           return acc;
         }, []);
         const labels = series.map((item) => {
-          // Include the number of occurrences on the right side of the label
           return `${item.label} (${item.value})`;
         });
 
-        // Update the chart data for the selected question
         updatedChartData[index].seriesData = series.map((item) => item.value);
         updatedChartData[index].options.labels = labels;
 
@@ -99,18 +143,32 @@ const Responses = () => {
           className="mb-3 mx-auto"
           style={{
             backgroundColor: "#f8f9fa",
-            padding: "40px 0",
+            padding: "20px 0",
             maxWidth: "600px",
           }}
         >
-          <h1 className="text-center" style={{ color: "#3b6da2" }}>
+          <h1
+            className="text-center mb-5"
+            style={{ color: "#3b6da2", fontSize: "2rem" }}
+          >
             Form Responses
           </h1>
-          <p
-            className="lead text-center"
-            style={{ color: "#5a6168", fontSize: "1.25rem" }}
+          <h1  
+            className="ml-5"
+            style={{
+              color: "#292fa0",
+              fontWeight : "bold",  
+              fontSize: "1.5rem",
+              marginBottom: "10px",
+            }}
           >
-            View responses for each question
+            {title}
+          </h1>
+          <p
+            className="lead ml-5"
+            style={{ color: "#5a6168",fontWeight : "bolder", fontSize: "1rem" }}
+          >
+            {description}
           </p>
         </header>
         {questions.map((question, index) => (
@@ -120,7 +178,7 @@ const Responses = () => {
             style={{ maxWidth: "600px" }}
           >
             <div className="card-body d-flex justify-content-between align-items-center">
-              <h5 className="card-title">{question.text}</h5>
+              <h5 className="card-title">{`${index + 1}. ${question.text}`}</h5> 
               <button
                 className="btn btn-primary"
                 onClick={() => handleShowChart(index)}
@@ -149,6 +207,7 @@ const Responses = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Responses;

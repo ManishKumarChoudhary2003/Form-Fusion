@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { deleteQuestionForFormApiService, retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
+import {
+  deleteQuestionForFormApiService,
+  retrieveAllQuestionsForFormApiService,
+} from "../../api/QuestionApiService";
 import Navbar from "../home/Navbar/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState(null);
@@ -24,7 +28,7 @@ const AllQuestions = () => {
           formId
         );
         setQuestionsData(response);
-        console.log("Response : ", response)
+        console.log("Response : ", response);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching questions data:", error);
@@ -42,8 +46,10 @@ const AllQuestions = () => {
     return (
       <div>
         <Navbar />
-        <div className="container card mt-5 md-5">
-          <div>Loading...</div>
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       </div>
     );
@@ -53,9 +59,10 @@ const AllQuestions = () => {
     return (
       <div>
         <Navbar />
-        <div className="container card mt-5 md-5">
-          {/* <div>Error: {error}</div> */}
-          <div>No questions available for this form</div>
+        <div className="container mt-5 text-center">
+          <div className="text-danger">
+            No questions available for this form
+          </div>
         </div>
       </div>
     );
@@ -76,10 +83,10 @@ const AllQuestions = () => {
     navigate(`/user/${userId}/update-question/${formId}/${questionId}`);
   };
 
-  const deleteQuestion =  async (questionId) =>{
-    await deleteQuestionForFormApiService(userId, formId, questionId, token)
+  const deleteQuestion = async (questionId) => {
+    await deleteQuestionForFormApiService(userId, formId, questionId, token);
     window.location.reload();
-  }
+  };
 
   return (
     <div>
@@ -90,7 +97,8 @@ const AllQuestions = () => {
             <table className="table table-striped table-bordered">
               <thead className="thead-dark">
                 <tr>
-                <th>Question Id</th>
+                  <th>Sr. No</th>
+                  <th>Question Id</th>
                   <th>Question</th>
                   <th>Options</th>
                   <th>Update</th>
@@ -100,7 +108,8 @@ const AllQuestions = () => {
               <tbody>
                 {questionsData.map((question, index) => (
                   <tr key={question.questionId}>
-                  <td>{question.questionId}</td>
+                    <td>{index + 1}</td>
+                    <td>{question.questionId}</td>
                     <td>{`Question ${index + 1}: ${question.text}`}</td>
                     <td>
                       {question.options.length > 0 ? (
@@ -114,12 +123,16 @@ const AllQuestions = () => {
                       )}
                     </td>
                     <td>
-                      <button onClick={() => updateQuestion(question.questionId)}>
+                      <button
+                        onClick={() => updateQuestion(question.questionId)}
+                      >
                         Update
                       </button>
                     </td>
                     <td>
-                      <button onClick={() => deleteQuestion(question.questionId)}>
+                      <button
+                        onClick={() => deleteQuestion(question.questionId)}
+                      >
                         Delete
                       </button>
                     </td>

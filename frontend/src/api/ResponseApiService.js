@@ -8,3 +8,19 @@ export const responseForFormApiService = async (userId, formId) => {
       throw error;
     }
   };
+
+  export const retrieveAllResponsesApiService = (userId, formId, token) => {
+    return ApiClient.get(`form/${userId}/${formId}/get-responses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        console.log("Get Responses Data--->>>", response.data);
+        return response.data; 
+      })
+      .catch((error) => {
+        console.log("Get an Error Responses--->>>", error);
+        throw error;
+      });
+  };
