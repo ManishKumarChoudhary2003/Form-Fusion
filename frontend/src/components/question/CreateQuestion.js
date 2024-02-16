@@ -42,7 +42,7 @@ const CreateQuestion = () => {
       console.log("Token -> ", token, " user Id -> ", userId);
       await setFormLinkForFormApiService(userId, formId, token);
       console.log("Token -> ", token, " user Id -> ", userId);
-      navigate("/all-forms");
+      navigate(`/user/${userId}/all-forms`); // Correct the navigation path here
     } catch (error) {
       console.error("Error generating form link:", error);
     }

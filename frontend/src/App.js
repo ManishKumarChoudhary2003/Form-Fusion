@@ -31,12 +31,12 @@ const App = () => {
           element: <Welcome />,
         },
         {
-          path: "all-forms",
+          path: "user/:userId/all-forms",
           element: <AllForms />,
         },
-        { path: "create-form", element: <CreateForm /> },
+        { path: "user/:userId/create-form", element: <CreateForm /> },
         {
-          path: "create-form/:formId",
+          path: "user/:userId/create-form/:formId",
           element: <CreateForm />,
         },
         {
@@ -44,17 +44,17 @@ const App = () => {
           element: <AllQuestions />,
         },
         {
-          path: "create-question/:formId",
+          path: "user/:userId/create-question/:formId",
           element: <CreateQuestion />,
         },
         {
-          path: "update-question/:formId/:questionId",
+          path: "user/:userId/update-question/:formId/:questionId",
           element: <UpdateQuestion />,
         },{
           path: "form/:userId/:formId",
           element: <Form />,
         },{
-          path: "responses/:userId/:formId",
+          path: "user/:userId/responses/:userId/:formId",
           element: <Responses />,
         },
         {

@@ -16,13 +16,12 @@ const AllQuestions = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!userId || !token || !formId) {
-          throw new Error("User ID, form ID, or token is missing");
+        if (!userId || !formId) {
+          throw new Error("User ID, form ID is missing");
         }
         const response = await retrieveAllQuestionsForFormApiService(
           userId,
-          formId,
-          token
+          formId
         );
         setQuestionsData(response);
         console.log("Response : ", response)
@@ -37,7 +36,7 @@ const AllQuestions = () => {
     };
 
     fetchData();
-  }, [userId, formId, token]);
+  }, [userId, formId]);
 
   if (loading) {
     return (
@@ -74,7 +73,7 @@ const AllQuestions = () => {
   }
 
   const updateQuestion = (questionId) => {
-    navigate(`/update-question/${formId}/${questionId}`);
+    navigate(`/user/${userId}/update-question/${formId}/${questionId}`);
   };
 
   const deleteQuestion =  async (questionId) =>{

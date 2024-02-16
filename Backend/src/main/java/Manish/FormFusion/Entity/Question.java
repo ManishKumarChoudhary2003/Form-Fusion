@@ -83,6 +83,32 @@ public class Question {
 //                '}';
 //    }
 
+//    @Override
+//    public String toString() {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("{")
+//                .append("\"questionId\":").append(questionId).append(",")
+//                .append("\"text\":\"").append(text).append("\",")
+//                .append("\"form\":").append(form != null ? form.getFormId() : null).append(",");
+//
+//        if (options != null && !options.isEmpty()) {
+//            stringBuilder.append("\"options\":[");
+//            for (Options option : options) {
+//                stringBuilder.append("{")
+//                        .append("\"optionId\":").append(option.getOptionId()).append(",")
+//                        .append("\"optionData\":\"").append(option.getOptionData()).append("\"},");
+//            }
+//            // Remove the last "," added after the last option
+//            stringBuilder.setLength(stringBuilder.length() - 1);
+//            stringBuilder.append("]");
+//        } else {
+//            stringBuilder.append("\"options\":[]");
+//        }
+//
+//        stringBuilder.append("}");
+//        return stringBuilder.toString();
+//    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -105,9 +131,22 @@ public class Question {
             stringBuilder.append("\"options\":[]");
         }
 
-        stringBuilder.append("}");
+        // Append answers
+        stringBuilder.append(",\"answers\":[");
+        for (Answer answer : answers) {
+            stringBuilder.append("{")
+                    .append("\"answerId\":").append(answer.getAnswerId()).append(",")
+                    .append("\"answerData\":\"").append(answer.getAnswer()).append("\"},");
+        }
+        if (!answers.isEmpty()) {
+            // Remove the last "," added after the last answer
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+
         return stringBuilder.toString();
     }
+
 
 
 }

@@ -14,9 +14,9 @@ const Form = () => {
   const [answers, setAnswers] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  const { formId } = useParams();
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  const { userId, formId } = useParams();
+  // const userId = localStorage.getItem("userId");
+  // const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
 
@@ -25,13 +25,11 @@ const Form = () => {
       try {
         const formResponse = await retrieveFormForUserApiService(
           userId,
-          formId,
-          token
+          formId
         );
         const questionsResponse = await retrieveAllQuestionsForFormApiService(
           userId,
-          formId,
-          token
+          formId
         );
         setForm(formResponse);
         setQuestions(questionsResponse);
@@ -46,11 +44,21 @@ const Form = () => {
     };
 
     fetchData();
-  }, [userId, formId, token]);
+  }, [userId, formId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setShowModal(true);
+
+    // Check if any answer is empty or whitespace-only
+    const isAnyAnswerEmpty = Object.values(answers).some(
+      (answer) => !answer.trim()
+    );
+
+    if (isAnyAnswerEmpty) {
+      alert("Please fill out all the answers before submitting the form.");
+    } else {
+      setShowModal(true);
+    }
   };
 
   const handleConfirmSubmit = async () => {
@@ -66,7 +74,7 @@ const Form = () => {
         )
       );
 
-      await responseForFormApiService(userId, formId, token);
+      await responseForFormApiService(userId, formId);
       setShowModal(false);
       navigate(-1);
     } catch (error) {
@@ -117,14 +125,14 @@ const Form = () => {
         }}
       >
         <div
-          style={{ 
+          style={{
             marginBottom: "20px",
-            border: "1px solid #6c757d", 
+            border: "1px solid #6c757d",
             padding: "10px",
           }}
         >
           <h1 style={{ color: "#3f30b4" }}>{form.title}</h1>
-          <p style={{ color: "#909ac0" }}>{form.description}</p> 
+          <p style={{ color: "#909ac0" }}>{form.description}</p>
         </div>
 
         {questions.map((question, index) => (

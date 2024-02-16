@@ -27,14 +27,9 @@ export const createQuestionForFormApiService = (
 
 export const retrieveAllQuestionsForFormApiService = (
   userId,
-  formId,
-  token
+  formId
 ) => {
-  return ApiClient.get(`/question/${userId}/${formId}/all-questions`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  return ApiClient.get(`/response/${userId}/${formId}/all-questions`,)
     .then((response) => {
       console.log("Get Question Data--->>>", response.data);
       if (response.data.length > 0) {

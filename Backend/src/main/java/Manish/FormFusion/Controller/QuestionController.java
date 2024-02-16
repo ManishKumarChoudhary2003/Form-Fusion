@@ -178,35 +178,7 @@ public class QuestionController {
 //        }
 //    }
 
-    @GetMapping("/{userId}/{formId}/all-questions")
-    public ResponseEntity<String> getAllQuestionsForForm(
-            @PathVariable Long userId,
-            @PathVariable Long formId) {
-        try {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-            Form form = formRepository.findById(formId)
-                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
-
-            // Check if the form belongs to the specified user
-            if (!form.getUser().equals(user)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: This form does not belong to the specified user.");
-            }
-
-            List<Question> questions = questionRepository.findByForm(form);
-
-            if (questions.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for the specified form.");
-            }
-
-            return ResponseEntity.ok((questions.toString()));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found: " + e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
-        }
-    }
 
 
     @GetMapping("/{userId}/{formId}/{questionId}/get-question")

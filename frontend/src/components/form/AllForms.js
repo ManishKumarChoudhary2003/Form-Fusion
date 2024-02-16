@@ -5,12 +5,13 @@ import {
   retrieveAllFormsForUserApiService,
 } from "../../api/FormApiService";
 import Navbar from "../home/Navbar/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AllForms = () => {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(null);
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
@@ -41,6 +42,35 @@ const AllForms = () => {
 
     fetchData();
   }, [userId, token]);
+
+  const copyLinkToClipboard = (link) => {
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        console.log("Link copied to clipboard:", link);
+        setCopiedLink(link); 
+        setTimeout(() => setCopiedLink(null), 500);
+      })
+      .catch((error) => {
+        console.error("Error copying link to clipboard:", error);
+      });
+  };
+
+  const shareViaWhatsApp = (link) => {
+  const message = "Check out this form!";
+  const whatsappLink = `whatsapp://send?text=${encodeURIComponent(`${message}\n${link}`)}`;
+  window.open(whatsappLink, "_blank");
+};
+
+
+  const shareViaEmail = (link) => {
+    const subject = "Check out this form";
+    const body = `Hi,\n\nI thought you might be interested in filling out this form:\n${link}`;
+    const emailLink = `mailto:?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+    window.location.href = emailLink;
+  };
 
   if (loading) {
     return (
@@ -76,18 +106,15 @@ const AllForms = () => {
   }
 
   const updateForm = (formId) => {
-    navigate(`/create-form/${formId}`);
+    navigate(`/user/${userId}/create-form/${formId}`);
   };
+
   const seeForm = (formId) => {
     navigate(`/all-questions/${formId}`);
   };
 
-  const goToForm = (formId) => {
-    navigate(`/form/${userId}/${formId}`);
-  };
-
   const seeResponses = (formId) => {
-    navigate(`/responses/${userId}/${formId}`);
+    navigate(`/user/${userId}/responses/${userId}/${formId}`);
   };
 
   const deleteForm = async (formId) => {
@@ -108,11 +135,13 @@ const AllForms = () => {
               <tr>
                 <th scope="col">Form ID</th>
                 <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Link</th>
+                <th scope="col">Description</th> 
+                <th scope="col">Copy Link</th>
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
                 <th scope="col">Responses</th>
+                <th scope="col">Share via WhatsApp</th>
+                <th scope="col">Share via Email</th>
               </tr>
             </thead>
             <tbody>
@@ -122,11 +151,14 @@ const AllForms = () => {
                   <td onClick={() => seeForm(form.formId)}>{form.title}</td>
                   <td onClick={() => seeForm(form.formId)}>
                     {form.description}
-                  </td>
+                  </td> 
                   <td>
-                    <Link onClick={() => goToForm(form.formId)}>
-                      {form.link}
-                    </Link>
+                    <button
+                      onClick={() => copyLinkToClipboard(form.link)}
+                      disabled={copiedLink === form.link}
+                    >
+                      {copiedLink === form.link ? "Copied" : "Copy"}
+                    </button>
                   </td>
                   <td>
                     <button onClick={() => updateForm(form.formId)}>
@@ -141,6 +173,16 @@ const AllForms = () => {
                   <td>
                     <button onClick={() => seeResponses(form.formId)}>
                       Response
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => shareViaWhatsApp(form.link)}>
+                      Share
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => shareViaEmail(form.link)}>
+                      Share
                     </button>
                   </td>
                 </tr>

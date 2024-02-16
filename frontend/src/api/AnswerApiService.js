@@ -35,3 +35,7 @@ export const retrieveAnswersForQuestionForFormApiService = (
       throw error;
     });
 };
+
+
+// npm i react-scripts@latest
+// export NODE_OPTIONS=--openssl-legacy-provider

@@ -10,6 +10,7 @@ const Navbar = () => {
   };
 
   const isAuthenticated = localStorage.getItem("isLoggedIn") === "100";
+  const userId = localStorage.getItem("userId");
 
   return (
     <nav>
@@ -32,10 +33,10 @@ const Navbar = () => {
         )}
         {isAuthenticated && (
           <>
-            <NavLink to="/all-forms" className="navItem">
+            <NavLink to={`/user/${userId}/all-forms`} className="navItem">
               All Forms
             </NavLink>
-            <NavLink to="/create-form" className="navItem">
+            <NavLink to={`/user/${userId}/create-form`} className="navItem">
               Create Form
             </NavLink>
             <NavLink to="/logout" className="navItem">

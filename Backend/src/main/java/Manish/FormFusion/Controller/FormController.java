@@ -236,40 +236,6 @@ public class FormController {
         }
     }
 
-    @GetMapping("/{userId}/{formId}/getForm")
-    public ResponseEntity<String> getFormById(
-            @PathVariable Long userId,
-            @PathVariable Long formId) {
-        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String username = authentication.getName();
-//            User user = userRepository.findByUsername(username);
-//
-//            if (userId != null && !userId.equals(user.getUserId())) {
-//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-//            }
-
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-
-            Optional<Form> formOptional = formRepository.findById(formId);
-
-            if (formOptional.isPresent()) {
-                Form form = formOptional.get();
-
-                // Check if the authenticated user owns the requested form
-                if (!form.getUser().equals(user)) {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to access this form.");
-                }
-
-                return ResponseEntity.ok(form.toString());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Form not found with id: " + formId);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 
 
 //    @PostMapping("/{userId}/create-form")

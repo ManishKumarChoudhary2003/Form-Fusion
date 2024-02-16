@@ -2,22 +2,19 @@ package Manish.FormFusion.controller;
 
 
 import Manish.FormFusion.entity.Form;
+import Manish.FormFusion.entity.Question;
 import Manish.FormFusion.entity.Response;
 import Manish.FormFusion.entity.User;
-import Manish.FormFusion.repository.AnswerRepository;
-import Manish.FormFusion.repository.FormRepository;
-import Manish.FormFusion.repository.ResponseRepository;
-import Manish.FormFusion.repository.UserRepository;
+import Manish.FormFusion.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("response")
@@ -35,6 +32,9 @@ public class ResponseController {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
     @PostMapping("/{userId}/{formId}/send-response")
     public ResponseEntity<String> sendResponse(@PathVariable Long userId, @PathVariable Long formId) {
 
@@ -50,5 +50,71 @@ public class ResponseController {
                 " and User id ->" + userId);
 
     }
+
+    @GetMapping("/{userId}/{formId}/all-questions")
+    public ResponseEntity<String> getAllQuestionsForForm(
+            @PathVariable Long userId,
+            @PathVariable Long formId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+            Form form = formRepository.findById(formId)
+                    .orElseThrow(() -> new EntityNotFoundException("Form not found with id: " + formId));
+
+            // Check if the form belongs to the specified user
+            if (!form.getUser().equals(user)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: This form does not belong to the specified user.");
+            }
+
+            List<Question> questions = questionRepository.findByForm(form);
+
+            if (questions.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No questions found for the specified form.");
+            }
+
+            return ResponseEntity.ok((questions.toString()));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{userId}/{formId}/getForm")
+    public ResponseEntity<String> getFormById(
+            @PathVariable Long userId,
+            @PathVariable Long formId) {
+        try {
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userRepository.findByUsername(username);
+//
+//            if (userId != null && !userId.equals(user.getUserId())) {
+//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
+//            }
+
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
+            Optional<Form> formOptional = formRepository.findById(formId);
+
+            if (formOptional.isPresent()) {
+                Form form = formOptional.get();
+
+                // Check if the authenticated user owns the requested form
+                if (!form.getUser().equals(user)) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to access this form.");
+                }
+
+                return ResponseEntity.ok(form.toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Form not found with id: " + formId);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 }

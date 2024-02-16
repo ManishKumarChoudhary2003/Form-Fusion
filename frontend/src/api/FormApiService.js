@@ -50,13 +50,9 @@ export const retrieveAllFormsForUserApiService = (userId,token) => {
       });
   };
 
-  export const retrieveFormForUserApiService = (userId, formId, token) => {
-    return ApiClient.get(`/form/${userId}/${formId}/getForm`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
+  export const retrieveFormForUserApiService = (userId, formId) => {
+    return ApiClient.get(`/response/${userId}/${formId}/getForm`,)
+      .then((response) => { 
         console.log("Get single Form Data--->>>", response.data);
         return response.data; 
       })
