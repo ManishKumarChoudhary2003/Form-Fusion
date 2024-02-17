@@ -4,7 +4,6 @@ import {
   updateQuestionForFormApiService,
 } from "../../api/QuestionApiService";
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "../home/Navbar/Navbar";
 import { Spinner, Alert } from "react-bootstrap";
 
 const UpdateQuestion = () => {
@@ -87,7 +86,6 @@ const UpdateQuestion = () => {
   if (loading) {
     return (
       <div>
-        <Navbar />
         <div className="text-center"> 
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
@@ -101,7 +99,6 @@ const UpdateQuestion = () => {
   if (error) {
     return (
       <div>
-        <Navbar />
         <div className="container mt-5">
           <Alert variant="danger">{error}</Alert>
         </div>
@@ -117,7 +114,6 @@ const UpdateQuestion = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="container card mt-5 md-5" style={{backgroundColor : "#e7e7fb", maxWidth : "600px"}}>
       <h2>Update Question</h2>
         <form onSubmit={handleSubmit}>

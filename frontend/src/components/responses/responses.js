@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
 import { retrieveFormForUserApiService } from "../../api/FormApiService";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "../home/Navbar/Navbar";
 import { Spinner, Alert } from "react-bootstrap";
 
 const Responses = () => {
@@ -40,7 +39,7 @@ const Responses = () => {
     const fetchQuestionsData = async () => {
       try {
         const fetchedQuestions = await retrieveAllQuestionsForFormApiService(
-          userId, 
+          userId,
           formId
         );
         setQuestions(fetchedQuestions);
@@ -82,7 +81,6 @@ const Responses = () => {
   if (loading) {
     return (
       <div>
-        <Navbar />
         <div className="text-center">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -95,7 +93,6 @@ const Responses = () => {
   if (error) {
     return (
       <div>
-        <Navbar />
         <div className="container mt-5">
           <Alert variant="danger">{error}</Alert>
         </div>
@@ -137,7 +134,6 @@ const Responses = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="container">
         <header
           className="mb-3 mx-auto"
@@ -153,11 +149,11 @@ const Responses = () => {
           >
             Form Responses
           </h1>
-          <h1  
+          <h1
             className="ml-5"
             style={{
               color: "#292fa0",
-              fontWeight : "bold",  
+              fontWeight: "bold",
               fontSize: "1.5rem",
               marginBottom: "10px",
             }}
@@ -166,7 +162,7 @@ const Responses = () => {
           </h1>
           <p
             className="lead ml-5"
-            style={{ color: "#5a6168",fontWeight : "bolder", fontSize: "1rem" }}
+            style={{ color: "#5a6168", fontWeight: "bolder", fontSize: "1rem" }}
           >
             {description}
           </p>
@@ -178,7 +174,7 @@ const Responses = () => {
             style={{ maxWidth: "600px" }}
           >
             <div className="card-body d-flex justify-content-between align-items-center">
-              <h5 className="card-title">{`${index + 1}. ${question.text}`}</h5> 
+              <h5 className="card-title">{`${index + 1}. ${question.text}`}</h5>
               <button
                 className="btn btn-primary"
                 onClick={() => handleShowChart(index)}
@@ -207,7 +203,6 @@ const Responses = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Responses;

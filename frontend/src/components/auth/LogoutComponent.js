@@ -19,6 +19,7 @@ const LogoutComponent = () => {
     localStorage.removeItem("token");
 
     navigate("/");
+    window.location.reload();
   };
 
   const handleClose = () => {

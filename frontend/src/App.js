@@ -12,6 +12,16 @@ import UpdateQuestion from "./components/question/UpdateQuestion";
 import Form from "./components/form/Form";
 import Responses from "./components/responses/responses";
 import ResponseData from "./components/responses/ResponseData";
+import Layout from "./pages/Layout";
+import CreateFormLayout from "./pages/CreateFormLayout";
+import CreateQuestionsLayout from "./pages/CreateQuestionsLayout";
+import AllQuestionsLayout from "./pages/AllQuestionsLayout";
+import AllFormLayout from "./pages/AllFormLayout";
+import ResponsesLayout from "./pages/ResponsesLayout";
+import ResponseDataLayout from "./pages/ResponseDataLayout";
+import LoginLayout from "./pages/LoginLayout";
+import LogoutLayout from "./pages/LogoutLayout";
+import RegisterLayout from "./pages/RegisterLayout";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -25,6 +35,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <Layout />,
       // errorElement: <ErrorPage />,
       children: [
         {
@@ -33,51 +44,101 @@ const App = () => {
         },
         {
           path: "user/:userId/all-forms",
-          element: <AllForms />,
+          element: (
+            <AllFormLayout>
+              <AllForms />
+            </AllFormLayout>
+          ),
         },
-        { path: "user/:userId/create-form", element: <CreateForm /> },
+        {
+          path: "user/:userId/create-form",
+          element: (
+            <CreateFormLayout>
+              <CreateForm />
+            </CreateFormLayout>
+          ),
+        },
         {
           path: "user/:userId/create-form/:formId",
-          element: <CreateForm />,
+          element: (
+            <CreateFormLayout>
+              <CreateForm />
+            </CreateFormLayout>
+          ),
         },
         {
           path: "all-questions/:formId",
-          element: <AllQuestions />,
+          element: (
+            <AllQuestionsLayout>
+              {" "}
+              <AllQuestions />
+            </AllQuestionsLayout>
+          ),
         },
         {
           path: "user/:userId/create-question/:formId",
-          element: <CreateQuestion />,
+          element: (
+            <CreateQuestionsLayout>
+              <CreateQuestion />,
+            </CreateQuestionsLayout>
+          ),
         },
         {
           path: "user/:userId/update-question/:formId/:questionId",
           element: <UpdateQuestion />,
-        },{
-          path: "form/:userId/:formId",
-          element: <Form />,
-        },{
+        },
+       
+        {
           path: "user/:userId/responses/:userId/:formId",
-          element: <Responses />,
-        },{
+          element: (
+            <ResponsesLayout>
+              {" "}
+              <Responses />
+            </ResponsesLayout>
+          ),
+        },
+        {
           path: "user/:userId/responses-details/:userId/:formId",
-          element:  <ResponseData />,
+          element: (
+            <ResponseDataLayout>
+              {" "}
+              <ResponseData />
+            </ResponseDataLayout>
+          ),
         },
         {
           path: "register",
-          element: <RegisterComponent />,
+          element: (
+            <RegisterLayout>
+              <RegisterComponent />
+            </RegisterLayout>
+          ),
         },
         {
           path: "login",
-          element: <LoginComponent />,
+          element: (
+            <LoginLayout>
+              <LoginComponent />
+            </LoginLayout>
+          ),
         },
         {
           path: "logout",
-          element: <LogoutComponent />,
+          element: (
+            <LogoutLayout>
+              {" "}
+              <LogoutComponent />
+            </LogoutLayout>
+          ),
         },
         {
-          path: "error",
+          path: "*",
           element: <ErrorPage />,
         },
       ],
+    }, {
+      path: "/form/:userId/:formId",
+      element: <Form />,
     },
   ]);
 

@@ -1,3 +1,6 @@
+
+
+
 import React, { useState, useEffect } from "react";
 import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
 import { useNavigate, useParams } from "react-router-dom";
@@ -112,7 +115,7 @@ const Form = () => {
     );
   }
   return (
-    <div>
+    <div style={{backgroundColor : "#f6f1fa"}}>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>
@@ -132,27 +135,27 @@ const Form = () => {
         className="container mt-5"
         style={{
           maxWidth: "500px",
-          backgroundColor: "#f1f5fd",
+          backgroundColor: "#ffffff",
           padding: "20px",
         }}
       >
         <div
           style={{
-            marginBottom: "20px",
+            marginBottom: "50px",
             border: "1px solid #6c757d",
             padding: "10px",
           }}
         >
-          <h1 style={{ color: "#3f30b4" }}>{form.title}</h1>
-          <p style={{ color: "#909ac0" }}>{form.description}</p>
-        </div>
+          <h1 style={{ color: "#7264db" }}>{form.title}</h1>
+          <p style={{ color: "#b292db" }}>{form.description}</p>
+        </div> 
 
         {questions.map((question, index) => (
-          <div key={question.questionId} className="mb-4">
+          <div key={question.questionId} className="mb-5">
             <p
               className="mb-3"
               style={{
-                color: "#7D91D8",
+                color: "#5a627c",
                 fontSize: "18px",
                 fontWeight: "bold",
               }}
@@ -223,10 +226,28 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <div className="d-grid gap-2  mx-auto">
-          <button type="submit" className="btn btn-primary">
+        <div className=" gap-2  mx-auto">
+          {/* <button type="submit" className="btn btn-primary">
             Submit
-          </button>
+          </button> */}
+          <button
+              type="submit"
+              style={{
+                borderColor: "white",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                fontSize: "1rem",
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                transition: "background-color 0.1s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            >
+              Submit
+            </button>
         </div>
       </form>
     </div>
