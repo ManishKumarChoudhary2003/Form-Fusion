@@ -7,7 +7,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col lg={6} style={{ padding: "50px" }}>
-            <div className="mb-4">
+            <div className="mb-5">
               <h2>Thanks for visiting</h2>
               <p>
                 Thank you for visiting Form Fusion. Connect with us over
@@ -34,9 +34,8 @@ const Footer = () => {
                 <a
                   href="https://manish-kumar-choudhary.netlify.app/"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-success"
-                  style={{ textDecoration: "none" }}
+                  rel="noopener noreferrer" 
+                  style={{ textDecoration: "none", color  : "#560ad1" }}
                 >
                   portfolio
                 </a>{" "}

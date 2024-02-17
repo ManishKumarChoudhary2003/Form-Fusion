@@ -49,13 +49,14 @@ nav {
 .burger {
     display: none;
     flex-direction: column;
+    background-color: transparent;
     cursor: pointer;
 }
 
 .line {
     width: 25px;
     height: 3px;
-    background-color: #4B4EC5;
+    background-color: #0660ba;
     margin: 5% 0;
 }
 
@@ -106,7 +107,7 @@ button:hover {
         height: 100vh;
         padding: 10px 20px;
         margin-top: 0px;
-        background-color: #dedeed;
+        background-color: #fdfaff;
     }
 
     .nav-links.show {
@@ -128,8 +129,5 @@ button:hover {
         pointer-events: none;
     }
 
-    .navItem {
-        color: #00008B;
-        padding: 2px;
-    }
+    
 }

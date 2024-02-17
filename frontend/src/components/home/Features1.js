@@ -6,14 +6,13 @@ const Features1 = () => {
   return (
     <Container
       className="mt-15"
-      style={{ marginTop: "200px", marginBottom: "50px" }}
+      style={{ marginTop: "250px", marginBottom: "100px" }}
     >
       <Row>
         <Col
           md={6}
           style={{
             backgroundImage: `url(${feature1})`,
-              // 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYwLBo0n8LIYbnILJvvmN4u-qPnO3jkBFNRw&usqp=CAU")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             minHeight: "500px",
@@ -30,11 +29,13 @@ const Features1 = () => {
         >
           <div>
             <h1 style={{ fontSize: "2.5rem" }}>
-              Create an online form as easily as creating a document
+              Create online forms effortlessly with Form Fusion
             </h1>
             <p>
-              Select from multiple question types, drag-and-drop to reorder
-              questions, and customize values as easily as pasting a list.
+              Our platform allows you to build forms as easily as drafting a
+              document. Whether you're collecting feedback, conducting surveys,
+              or gathering data, Form Fusion empowers you to design forms
+              tailored to your requirements.
             </p>
           </div>
         </Col>

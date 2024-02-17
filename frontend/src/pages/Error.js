@@ -1,14 +1,18 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 
 const ErrorPage = () => {
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '50vh' }}>
-      <div>
-        <h1 className="text-center mb-4">Error</h1>
-        <p className="text-center">Oops! Something went wrong.</p>
-      </div>
-    </Container>
+    <div
+      style={{
+        backgroundImage: `url("https://www.cloudns.net/blog/wp-content/uploads/2023/10/Error-404-Page-Not-Found.png")`,
+        backgroundSize: 'contain', 
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', 
+        width: '100%',
+        height: '100vh',
+      }}
+    />
   );
 };
 

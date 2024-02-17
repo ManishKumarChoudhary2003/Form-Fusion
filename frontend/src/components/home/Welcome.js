@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Home from "./Home";
 import HomeLayout from "../../pages/HomeLayout";
 import Features1 from "./Features1";

@@ -49,6 +49,8 @@ const Form = () => {
 
     fetchData();
   }, [userId, formId]);
+  
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -132,11 +134,11 @@ const Form = () => {
       </Modal>
       <form
         onSubmit={handleSubmit}
-        className="container mt-5"
+        className="container mt-1 card shadow"
         style={{
-          maxWidth: "500px",
-          backgroundColor: "#ffffff",
-          padding: "20px",
+          maxWidth: "450px",
+          backgroundColor: "#fdfaff",
+          padding: "30px",
         }}
       >
         <div
@@ -226,13 +228,11 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <div className=" gap-2  mx-auto">
-          {/* <button type="submit" className="btn btn-primary">
-            Submit
-          </button> */}
+        <div className=" gap-2  mx-auto"> 
           <button
               type="submit"
               style={{
+                marginTop : "60px",
                 borderColor: "white",
                 borderRadius: "0.25rem",
                 padding: "0.5rem 1rem",

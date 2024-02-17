@@ -10,15 +10,13 @@ const Home = () => {
     navigate(`/user/${userId}/all-forms`);
   };
   return (
-    <Container
-      className="mt-5" 
-    >
+    <Container className="mt-5" style={{ marginBottom: "100px" }}>
       <Row>
         <Col
           md={6}
           className="d-flex align-items-center"
           style={{
-            padding: "10px 50px"
+            padding: "10px 50px",
           }}
         >
           <div>
@@ -32,6 +30,7 @@ const Home = () => {
             <button
               onClick={goToForm}
               style={{
+                marginBottom: "20px",
                 borderColor: "white",
                 borderRadius: "0.25rem",
                 padding: "0.5rem 1rem",
@@ -51,9 +50,9 @@ const Home = () => {
               Don't have an account?{" "}
               <a
                 href="/register"
-                style={{ textDecoration: "underline" }}
+                style={{ textDecoration: "none", color: "#1372c0" }}
                 onMouseEnter={(e) => (e.target.style.color = "#000000")}
-                onMouseLeave={(e) => (e.target.style.color = "white")}
+                onMouseLeave={(e) => (e.target.style.color = "#1372c0")}
               >
                 Sign up for free
               </a>
@@ -69,7 +68,7 @@ const Home = () => {
             //   'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpOPEiNaC7IguGps40-ZWBblImkL4INs9kSw&usqp=CAU")',
             backgroundSize: "cover",
             backgroundPosition: "center",
-            minHeight: "500px", 
+            minHeight: "500px",
           }}
         >
           {/* Empty column to apply background image */}

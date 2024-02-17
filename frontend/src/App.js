@@ -22,6 +22,7 @@ import ResponseDataLayout from "./pages/ResponseDataLayout";
 import LoginLayout from "./pages/LoginLayout";
 import LogoutLayout from "./pages/LogoutLayout";
 import RegisterLayout from "./pages/RegisterLayout";
+import FormLayout from "./pages/FormLayout";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -87,7 +88,7 @@ const App = () => {
           path: "user/:userId/update-question/:formId/:questionId",
           element: <UpdateQuestion />,
         },
-       
+
         {
           path: "user/:userId/responses/:userId/:formId",
           element: (
@@ -131,14 +132,19 @@ const App = () => {
             </LogoutLayout>
           ),
         },
-        {
-          path: "*",
-          element: <ErrorPage />,
-        },
       ],
-    }, {
+    },
+    {
       path: "/form/:userId/:formId",
-      element: <Form />,
+      element: (
+        <FormLayout>
+          <Form />
+        </FormLayout>
+      ),
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
     },
   ]);
 

@@ -4,7 +4,10 @@ import feature2 from "../../assets/feature2.png";
 
 const Features2 = () => {
   return (
-    <Container className="mt-15" style={{ marginTop: "200px", marginBottom: "50px" }}>
+    <Container
+      className="mt-15"
+      style={{ marginTop: "200px", marginBottom: "100px" }}
+    >
       <Row>
         <Col
           md={6}
@@ -14,10 +17,15 @@ const Features2 = () => {
           }}
         >
           <div>
-            <h2 style={{ fontSize: "2.5rem" }}>Analyze responses with automatic summaries</h2>
+            <h2 style={{ fontSize: "2.5rem" }}>
+              Effortlessly analyze responses with Form Fusion's automatic
+              summaries feature
+            </h2>
             <p>
-              See charts with response data update in real-time. Or open the raw
-              data with Google Sheets for deeper analysis or automation.
+              Gain insights at a glance by viewing charts with response data
+              that update in real-time. Whether you're tracking survey results,
+              collecting feedback, or conducting research, our platform provides
+              you with clear visualizations to understand your data better.
             </p>
           </div>
         </Col>

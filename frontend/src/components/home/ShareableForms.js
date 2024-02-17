@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const ShareableForms = () => {
   return (
-    <Container className="mt-5 bg-light rounded">
+    <Container className="mt-5 bg-light rounded" style={{marginTop : "200px", marginBottom : "100px"}}>
       <Row>
         <Col md={4} className="mb-4">
           <div className="p-4">

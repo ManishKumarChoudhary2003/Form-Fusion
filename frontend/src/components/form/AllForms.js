@@ -167,7 +167,7 @@ const AllForms = () => {
         <div className="row row-cols-1 row-cols-md-4 g-4">
           {formData.map((form) => (
             <div key={form.formId} className="col mb-4">
-              <Card className="h-100" style={{ position: "relative" }}>
+              <Card className="h-100 shadow" style={{ position: "relative" }}>
                 {/* Top Row */}
                 <Card.Img
                   style={{ cursor: "pointer" }}
