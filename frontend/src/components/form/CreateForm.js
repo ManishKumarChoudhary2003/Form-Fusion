@@ -93,7 +93,7 @@ const CreateForm = () => {
 
   return (
     <div className="container mt-5 mb-5 border-0 shadow" style={{ width: "80%", margin: "auto" }}>
-      <div className="card p-4" style={{ maxWidth: "800px", margin: "auto", position: "relative" }}>
+      <div className="card p-4 border-0" style={{ maxWidth: "800px", minHeight : "350px", margin: "auto", position: "relative" }}>
         <h2 className="mb-4">Create Form</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formTitle">
@@ -118,35 +118,55 @@ const CreateForm = () => {
   
           <Button
             className="ml-3"
-            variant="primary"
+            variant="info"
             type="submit"
-            style={{
-              width: "auto",
-              position: "absolute",
-              bottom: "10px",
-              left: showAddQuestionButton ? "calc(50% + 60px)" : "10px", 
-              padding: "0.375rem 0.75rem",
-              fontSize: "0.875rem",
-              lineHeight: "1.5",
-            }}
+            style={{ 
+                borderColor: "black",
+                marginTop : "0px",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                fontSize: "1rem",
+                position: "absolute",
+                width: "auto",
+                left: showAddQuestionButton ? "calc(50% + 60px)" : "10px", 
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                transition: "background-color 0.1s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#d3e7ff")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            // style={{
+            //   width: "auto",
+            //   position: "absolute",
+            //   bottom: "10px",
+            //   left: showAddQuestionButton ? "calc(50% + 60px)" : "10px", 
+            //   padding: "0.375rem 0.75rem",
+            //   fontSize: "0.875rem",
+            //   lineHeight: "1.5",
+            // }}
           >
             {formId === undefined ? "Add Questions" : "Update"}
           </Button>
   
           {showAddQuestionButton && (
-            <Button
-              className="mt-3"
+            <Button 
               variant="info"
               onClick={addQuestions}
-              style={{
-                width: "auto",
-                position: "absolute",
-                bottom: "10px",
-                left: "10px",
-                padding: "0.375rem 0.75rem",
-                fontSize: "0.875rem",
-                lineHeight: "1.5",
+              style={{ 
+                borderColor: "black",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                fontSize: "1rem",
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                transition: "background-color 0.1s",
               }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#d7edf6")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Add Questions
             </Button>

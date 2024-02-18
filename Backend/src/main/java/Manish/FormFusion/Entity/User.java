@@ -1,5 +1,6 @@
 package Manish.FormFusion.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -18,6 +19,10 @@ public class User {
     //    @JsonIgnore
     private String password;
 
+    private Long contact;
+
+    private String country;
+
     @Column(unique = true)
     @Email
     private String email;
@@ -33,12 +38,11 @@ public class User {
     private List<Answer> answers;
 
 
-
     public User() {
 
     }
 
-    public User(String username, String password, String email, String role, List<Form> forms, List<Response> responses,List<Answer> answers) {
+    public User(String username, String password, String email, Long contact, String country, String role, List<Form> forms, List<Response> responses, List<Answer> answers) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -46,6 +50,8 @@ public class User {
         this.forms = forms;
         this.responses = responses;
         this.answers = answers;
+        this.contact = contact;
+        this.country = country;
     }
 
     public Long getUserId() {
@@ -62,6 +68,22 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Long getContact() {
+        return contact;
+    }
+
+    public void setContact(Long contact) {
+        this.contact = contact;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getPassword() {
@@ -112,7 +134,7 @@ public class User {
         this.answers = answers;
     }
 
-//    @Override
+    //    @Override
 //    public String toString() {
 //        return "User{" +
 //                "userId=" + userId +
@@ -124,15 +146,15 @@ public class User {
 ////                ", responses=" + responses +
 //                '}';
 //    }
-
     @Override
     public String toString() {
         return "{" +
                 "\"userId\": \"" + userId + "\"," +
                 "\"username\": \"" + username + "\"," +
-                "\"password\": \"" + password + "\"," +
                 "\"email\": \"" + email + "\"," +
-                "\"role\": \"" + role + "\"" +
+                "\"role\": \"" + role + "\"," +
+                "\"contact\": \"" + contact + "\"," +
+                "\"country\": \"" + country + "\"" +
                 "}";
     }
 

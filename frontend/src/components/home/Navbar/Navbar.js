@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,7 +11,7 @@ const Navbar = () => {
   const closeMenu = () => {
     setMenuOpen(false);
   };
-  
+
   const isAuthenticated = localStorage.getItem("isLoggedIn") === "100";
   const userId = localStorage.getItem("userId");
 
@@ -135,7 +135,7 @@ const Navbar = () => {
             >
               Go to Forms
             </button>
-            <button
+            {/* <button
               onClick={() => {
                 navigate(`/user/${userId}/create-form`);
                 closeMenu();
@@ -157,12 +157,9 @@ const Navbar = () => {
               }
             >
               New Form
-            </button>
+            </button> */}
             <button
-              onClick={() => {
-                navigate("/logout");
-                closeMenu();
-              }}
+              onClick={() => navigate(`/user/user-details/${userId}`)}
               style={{
                 color: "#1372c0",
                 border: "none",
@@ -179,28 +176,56 @@ const Navbar = () => {
                 (e.target.style.backgroundColor = "transparent")
               }
             >
-              Logout
-            </button>
-            <button
-              style={{
-                color: "#1372c0", 
-                border: "none",
-                fontWeight: "bold",
-                marginTop: "5px",
-                padding: "0.5rem 1rem",
-                fontSize: "1.2rem",
-                cursor: "pointer",
-                backgroundColor: "transparent",
-                transition: "background-color 0s",
-              }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#ecf5fa")}
-              onMouseLeave={(e) =>
-                (e.target.style.backgroundColor = "transparent")
-              }
-            >
-              Account
-            </button>
+              My Account
+            </button>{" "}
           </>
+        )}
+        {
+          <button
+            onClick={() => navigate("/contact-us")}
+            style={{
+              color: "#1372c0",
+              border: "none",
+              fontWeight: "bold",
+              marginTop: "5px",
+              padding: "0.5rem 1rem",
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              transition: "background-color 0s",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#ecf5fa")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
+          >
+            Contact Us
+          </button>
+        }
+        {isAuthenticated && (
+          <button
+            onClick={() => {
+              navigate("/logout");
+              closeMenu();
+            }}
+            style={{
+              color: "#1372c0",
+              border: "none",
+              fontWeight: "bold",
+              marginTop: "5px",
+              padding: "0.5rem 1rem",
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              transition: "background-color 0s",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#ecf5fa")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
+          >
+            Logout
+          </button>
         )}
       </ul>
       <div className="burger" onClick={toggleMenu}>

@@ -23,6 +23,11 @@ import LoginLayout from "./pages/LoginLayout";
 import LogoutLayout from "./pages/LogoutLayout";
 import RegisterLayout from "./pages/RegisterLayout";
 import FormLayout from "./pages/FormLayout";
+import Account from "./components/user/Account";
+import AccountLayout from "./pages/AccountLayout";
+import Contact from "./components/contact/Contact";
+import ContactLayout from "./pages/ContactLayout";
+import UpdateQuestionLayout from "./pages/UpdateQuestionLayout";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -42,6 +47,14 @@ const App = () => {
         {
           index: true,
           element: <Welcome />,
+        },
+        {
+          path: "user/user-details/:userId",
+          element: (
+            <AccountLayout>
+              <Account />
+            </AccountLayout>
+          ),
         },
         {
           path: "user/:userId/all-forms",
@@ -86,7 +99,7 @@ const App = () => {
         },
         {
           path: "user/:userId/update-question/:formId/:questionId",
-          element: <UpdateQuestion />,
+          element: <UpdateQuestionLayout> <UpdateQuestion /></UpdateQuestionLayout>,
         },
 
         {
@@ -140,6 +153,14 @@ const App = () => {
         <FormLayout>
           <Form />
         </FormLayout>
+      ),
+    },
+    {
+      path: "/contact-us",
+      element: (
+        <ContactLayout>
+          <Contact />
+        </ContactLayout>
       ),
     },
     {

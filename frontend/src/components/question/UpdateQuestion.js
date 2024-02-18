@@ -114,7 +114,7 @@ const UpdateQuestion = () => {
 
   return (
     <div>
-      <div className="container card mt-5 md-5" style={{backgroundColor : "#e7e7fb", maxWidth : "600px"}}>
+      <div className="container shadow card mt-5 md-5" style={{backgroundColor : "#f9feff", maxWidth : "600px"}}>
       <h2>Update Question</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -161,9 +161,25 @@ const UpdateQuestion = () => {
               </div>
             ))}
           </div>
-          <button type="submit" className="btn btn-primary">
-            Update Question
-          </button>
+          <button
+              type="submit"
+              style={{
+                marginTop : "20px",
+                borderColor: "white",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                fontSize: "1rem",
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                transition: "background-color 0.1s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            >
+              Update Question
+            </button>
         </form>
       </div>
     </div>

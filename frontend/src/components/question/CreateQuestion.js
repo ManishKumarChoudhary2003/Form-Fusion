@@ -3,7 +3,14 @@ import { createQuestionForFormApiService } from "../../api/QuestionApiService";
 import { useNavigate, useParams } from "react-router-dom";
 import AllQuestions from "./AllQuestions";
 import { setFormLinkForFormApiService } from "../../api/FormApiService";
-import { Button, Form, InputGroup, FormControl, Card, Alert } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  InputGroup,
+  FormControl,
+  Card,
+  Alert,
+} from "react-bootstrap";
 
 const CreateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
@@ -71,15 +78,32 @@ const CreateQuestion = () => {
 
   return (
     <div className="container mt-5">
-      <Card className="p-4" style={{ maxWidth: "600px", margin: "auto" }}>
+      <Card className="p-4 card border-0 shadow" style={{ maxWidth: "600px", margin: "auto" }}>
         <h2 className="mb-4">Create Question</h2>
-        <Button
+        {/* <Button
           variant="primary"
           className="mb-3"
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? "Hide Form" : "Add Question"}
-        </Button>
+        </Button> */}
+        <button
+          type="submit"
+          onClick={() => setShowForm(!showForm)}
+          style={{
+            borderColor: "black",
+            borderRadius: "0.25rem",
+            padding: "0.5rem 1rem",
+            fontSize: "1rem",
+            cursor: "pointer",
+            backgroundColor: "transparent",
+            transition: "background-color 0.1s",
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#e2eaf9")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+        >
+          {showForm ? "Hide Form" : "Add Question"}
+        </button>
         {showForm && (
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="questionText">
@@ -121,15 +145,78 @@ const CreateQuestion = () => {
               </Alert>
             )}
             <div className="d-grid gap-2">
-              <Button type="submit" variant="primary">
+              {" "}
+              <button
+                type="submit"
+                style={{
+                  borderColor: "white",
+                  borderRadius: "0.25rem",
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                  transition: "background-color 0.1s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#def2fb")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Question
+              </button>
+              <button
+                type="submit"
+                onClick={display}
+                style={{
+                  borderColor: "white",
+                  borderRadius: "0.25rem",
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                  transition: "background-color 0.1s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#d7e9f0")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Show Questions
+              </button>
+              {/* <Button type="submit" variant="primary">
                 Create Question
               </Button>
               <Button onClick={display} variant="secondary">
                 Show Questions
-              </Button>
-              <Button onClick={generateFormLink} variant="secondary">
+              </Button> */}
+              {/* <Button onClick={generateFormLink} variant="secondary">
                 Generate Form Link
-              </Button>
+              </Button> */}
+              <button
+                type="submit"
+                onClick={generateFormLink}
+                style={{
+                  borderColor: "white",
+                  borderRadius: "0.25rem",
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                  transition: "background-color 0.1s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#dfeef3")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Generate Form Link
+              </button>
             </div>
           </Form>
         )}
@@ -140,18 +227,6 @@ const CreateQuestion = () => {
 };
 
 export default CreateQuestion;
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useState } from "react";
 // import { createQuestionForFormApiService } from "../../api/QuestionApiService";
@@ -196,7 +271,7 @@ export default CreateQuestion;
 //       console.log("Token -> ", token, " user Id -> ", userId);
 //       await setFormLinkForFormApiService(userId, formId, token);
 //       console.log("Token -> ", token, " user Id -> ", userId);
-//       navigate(`/user/${userId}/all-forms`); 
+//       navigate(`/user/${userId}/all-forms`);
 //     } catch (error) {
 //       console.error("Error generating form link:", error);
 //     }

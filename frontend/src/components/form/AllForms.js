@@ -21,8 +21,9 @@ const AllForms = () => {
     const fetchData = async () => {
       try {
         if (!userId || !token) {
-          throw new Error("User ID or token is missing");
+          throw new Error("You are not logged in. Please log in!");
         }
+        
         const response = await retrieveAllFormsForUserApiService(userId, token);
         console.log("Response: -> ", response);
         const formattedData = response.map((form) => ({

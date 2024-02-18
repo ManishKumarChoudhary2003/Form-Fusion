@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { userLoginApiService } from "../../api/AuthApiService";
 import { authActions } from "../../store/auth-slice";
 import { retrieveUserByEmailApiService } from "../../api/UserApiService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 
 const LoginComponent = () => {
@@ -60,7 +60,7 @@ const LoginComponent = () => {
             setSuccessMessage("");
             navigate("/");
             window.location.reload();
-          }, 2000);
+          }, 1000);
           console.log("Login successful:", token);
         })
         .catch((error) => {
@@ -73,22 +73,25 @@ const LoginComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 p-1">
       <Row className="justify-content-md-center">
         <Col md={6}>
-          <h2 className="mb-4">Login</h2>
+          <h1 className="mb-4">Login</h1>
           {error && <Alert variant="danger">{error}</Alert>}
           {successMessage && (
             <Alert variant="success">{successMessage}</Alert>
           )}
+          <p>Please fill out the form to login:</p>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email">
               <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
                 value={email}
-                onChange={handleEmailChange} 
+                onChange={handleEmailChange}
                 required
+                style={{backgroundColor: "#f0f0f0" }}
+                className="text-secondary"
               />
             </Form.Group>
             <Form.Group controlId="password">
@@ -96,14 +99,45 @@ const LoginComponent = () => {
               <Form.Control
                 type="password"
                 value={password}
-                onChange={handlePasswordChange} 
+                onChange={handlePasswordChange}
                 required
+                style={{backgroundColor: "#f0f0f0" }}
+                className="text-secondary"
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
-              Login
-            </Button>
+            <button
+                type="submit"
+                style={{
+                  marginTop: "30px",
+                  borderColor: "#c3d9e1",
+                  borderRadius: "0.25rem",
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                  transition: "background-color 0.1s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#f8fdff")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Login
+              </button>
           </Form>
+           <p>
+              Don't have an account?{" "}
+              <a
+                href="/register"
+                style={{ textDecoration: "none", color: "#1372c0" }}
+                onMouseEnter={(e) => (e.target.style.color = "#000000")}
+                onMouseLeave={(e) => (e.target.style.color = "#1372c0")}
+              >
+                Register here
+              </a>
+            </p>
         </Col>
       </Row>
     </Container>
@@ -111,6 +145,7 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
+
 
 
 

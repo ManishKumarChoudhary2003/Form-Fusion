@@ -21,7 +21,7 @@ const Footer = () => {
               <p style={{ marginBottom: "5px" }}>+91 8955946276</p>
               <p style={{ marginBottom: "5px" }}>
                 <a
-                    className="text-info"
+                  className="text-info"
                   href="mailto:cmanishkumar193@gmail.com"
                   style={{ textDecoration: "none" }}
                 >
@@ -34,18 +34,44 @@ const Footer = () => {
                 <a
                   href="https://manish-kumar-choudhary.netlify.app/"
                   target="_blank"
-                  rel="noopener noreferrer" 
-                  style={{ textDecoration: "none", color  : "#560ad1" }}
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "#560ad1" }}
                 >
                   portfolio
                 </a>{" "}
                 for more information.
               </p>
+              <p>
+                <a 
+                  href="https://www.linkedin.com/in/manishkumarchoudhary/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "#0a85d1" }}
+                >
+                  Linkedln
+                </a>{" "}
+                <a className="ml-2"
+                  href="https://github.com/Manishkumarchoudhary2003"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "#0a85d1" }}
+                >
+                  Github
+                </a>{" "}
+                <a className="ml-2"
+                  href="https://www.instagram.com/manish_.96/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "#0a85d1" }}
+                >
+                  Instagram
+                </a>
+              </p>
             </div>
           </Col>
         </Row>
       </Container>
-      <div className="text-center mt-3">
+      <div className="text-center mt-1">
         <p>© {new Date().getFullYear()} Form Fusion. All rights reserved.</p>
       </div>
     </footer>
