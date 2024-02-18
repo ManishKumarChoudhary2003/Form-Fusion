@@ -21,9 +21,8 @@ const Footer = () => {
               <p style={{ marginBottom: "5px" }}>+91 8955946276</p>
               <p style={{ marginBottom: "5px" }}>
                 <a
-                  className="text-info"
                   href="mailto:cmanishkumar193@gmail.com"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none", color  :"#5770c3" }}
                 >
                   cmanishkumar193@gmail.com
                 </a>
@@ -35,7 +34,7 @@ const Footer = () => {
                   href="https://manish-kumar-choudhary.netlify.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ textDecoration: "none", color: "#560ad1" }}
+                  style={{ textDecoration: "none", color: "#150aac" }}
                 >
                   portfolio
                 </a>{" "}

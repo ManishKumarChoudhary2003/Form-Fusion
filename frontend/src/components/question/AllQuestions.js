@@ -76,40 +76,96 @@ const AllQuestions = () => {
         <div className="row row-cols-1 row-cols-md-4 g-4">
           {questionsData.map((question, index) => (
             <div key={question.questionId} className="col mb-4">
-              <Card className="h-100">
+              <Card className="h-100" style={{ minWidth: "300px" }}>
                 <Card.Body>
                   <Card.Title>
-                    {index + 1}. {question.text}
+                    <div className="row align-items-center">
+                      <div className="col">
+                        {index + 1}. {question.text}
+                      </div>
+                      <div className="col-auto">
+                        <Dropdown className="dots-dropdown">
+                          <Dropdown.Toggle
+                            id="dropdown-basic"
+                            style={{
+                              backgroundColor: "transparent",
+                              border: "none",
+                              transition: "background-color 0.3s, border 0.1s",
+                              display: "flex",
+                              flexDirection: "column",
+                              borderRadius: "50%",
+                              alignItems: "center", // Align items vertically
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "6px",
+                                height: "6px",
+                                borderRadius: "50%",
+                                backgroundColor: "black",
+                                marginTop: "3px",
+                              }}
+                            ></div>{" "}
+                            {/* Adjust margin to position below */}
+                            <div
+                              style={{
+                                width: "6px",
+                                height: "6px",
+                                borderRadius: "50%",
+                                backgroundColor: "black",
+                                marginTop: "3px",
+                              }}
+                            ></div>
+                            <div
+                              style={{
+                                width: "6px",
+                                height: "6px",
+                                borderRadius: "50%",
+                                backgroundColor: "black",
+                                marginTop: "3px",
+                              }}
+                            ></div>
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              onClick={() =>
+                                updateQuestion(question.questionId)
+                              }
+                            >
+                              Update Question
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() =>
+                                deleteQuestion(question.questionId)
+                              }
+                            >
+                              Delete Question
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                    </div>
                   </Card.Title>
                   {question.options.length > 0 ? (
                     <ul className="list-unstyled mb-0">
-                      {question.options.map((option) => (
-                        <li key={option.optionId}>{option.optionData}</li>
+                      {question.options.map((option, optionIndex) => (
+                        <li key={option.optionId}>
+                          {option.optionData}
+                          {/* Render dots on the last option */}
+                          {optionIndex === question.options.length - 1 && (
+                            <div className="dots">
+                              <div className="dot"></div>
+                              <div className="dot"></div>
+                              <div className="dot"></div>
+                            </div>
+                          )}
+                        </li>
                       ))}
                     </ul>
                   ) : (
                     <p>No options available</p>
                   )}
                 </Card.Body>
-                <Card.Footer className="text-end">
-                  <Dropdown>
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                      more
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => updateQuestion(question.questionId)}
-                      >
-                        Update Question
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => deleteQuestion(question.questionId)}
-                      >
-                        Delete Question
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Card.Footer>
               </Card>
             </div>
           ))}
@@ -120,6 +176,8 @@ const AllQuestions = () => {
 };
 
 export default AllQuestions;
+
+
 
 // import React, { useState, useEffect } from "react";
 // import {
