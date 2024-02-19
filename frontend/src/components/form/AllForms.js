@@ -7,8 +7,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Spinner, Card, Dropdown, Alert } from "react-bootstrap";
 import form1 from "../../assets/form.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const AllForms = () => {
   const [formData, setFormData] = useState(null);
@@ -46,6 +44,7 @@ const AllForms = () => {
     };
 
     fetchData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, token]);
 
   // Filter forms based on search query
@@ -167,11 +166,11 @@ const AllForms = () => {
           <div className="input-group">
             <input
               type="text"
-              className="form-control border-0 rounded-0" 
+              className="form-control border-0 rounded-0"
               placeholder="Search by form title or description"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ height: "40px"}}
+              style={{ height: "40px" }}
             />
           </div>
         </div>
@@ -202,7 +201,9 @@ const AllForms = () => {
           className="container text-center mt-5 md-5"
           style={{ maxWidth: "800px", minHeight: "100px", fontSize: "2rem" }}
         >
-          <Alert style={{ backgroundColor: "#f8ffff",border  :"none" }}>No Forms Found</Alert>
+          <Alert style={{ backgroundColor: "#f8ffff", border: "none" }}>
+            No Forms Found
+          </Alert>
         </div>
       ) : (
         <div className="row row-cols-1 row-cols-md-4 g-4">
@@ -250,8 +251,7 @@ const AllForms = () => {
                           backgroundColor: "black",
                           marginTop: "2px",
                         }}
-                      ></div>{" "}
-                      {/* Adjust margin to position below */}
+                      ></div>{" "} 
                       <div
                         style={{
                           width: "6px",
@@ -271,52 +271,156 @@ const AllForms = () => {
                         }}
                       ></div>
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu >
                       <Dropdown.Item
-                        onClick={() => seeForm(form.formId)}
-                        className="text-secondary"
+                        style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => seeForm(form.formId)} 
                       >
                         See Form
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => updateForm(form.formId)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => updateForm(form.formId)} 
                       >
                         Update Form
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => deleteForm(form.formId)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => deleteForm(form.formId)} 
                       >
                         Delete Form
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => seeResponses(form.formId)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => seeResponses(form.formId)} 
                       >
                         See Responses
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => seeSubmission(form.formId)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => seeSubmission(form.formId)} 
                       >
                         See Submission
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => copyLinkToClipboard(form.link)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => copyLinkToClipboard(form.link)} 
                       >
                         Copy Link
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => shareViaWhatsApp(form.link)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem",
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => shareViaWhatsApp(form.link)} 
                       >
                         Share via WhatsApp
                       </Dropdown.Item>
                       <Dropdown.Item
-                        onClick={() => shareViaEmail(form.link)}
-                        className="text-secondary"
+                      style={{
+                          borderColor: "white",
+                          borderRadius: "0.25rem", 
+                          fontSize: "0.9rem",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          transition: "background-color 0.1s",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "#ececec")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "transparent")
+                        }
+                        onClick={() => shareViaEmail(form.link)} 
                       >
                         Share via Email
                       </Dropdown.Item>
@@ -333,8 +437,6 @@ const AllForms = () => {
 };
 
 export default AllForms;
-
-
 
 // import React, { useState, useEffect } from "react";
 // import {

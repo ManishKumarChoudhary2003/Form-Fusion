@@ -3,16 +3,17 @@ import { retrieveUserApiService } from "../../api/UserApiService";
 import { Alert, Spinner } from "react-bootstrap";
 import avatar from "../../assets/user.jpeg";
 import gif from "../../assets/gif.gif";
-import { retrieveAllFormsForUserApiService } from "../../api/FormApiService";
 import { useParams } from "react-router-dom";
+import { retrieveAllFormsForUserApiService } from "../../api/FormApiService";
 
-const Account = () => {
+const UserAccount = () => {
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
+  const { userId } = useParams();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -78,13 +79,12 @@ const Account = () => {
         className="text-center mb-5"
         style={{ color: "#0093b1", fontSize: "3rem" }}
       >
-        Personal Profile
+        User's Profile
       </h2>
       <div className="row ml-5">
         <div className="col-md-4">
           {user && (
             <img
-              //   src="https://user-images.githubusercontent.com/55389276/140866485-8fb1c876-9a8f-4d6a-98dc-08c4981eaf70.gif"
               src={gif}
               alt="User"
               className="img-fluid mt-5"
@@ -92,7 +92,7 @@ const Account = () => {
           )}
         </div>
         <div className="col-md-8 justify-content-center">
-          <div className="row mb-3">
+          <div className="row">
             <div className="col mb-5" style={{ marginRight: "250px" }}>
               {user && (
                 <div className="d-flex align-items-center justify-content-center">
@@ -139,4 +139,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default UserAccount;

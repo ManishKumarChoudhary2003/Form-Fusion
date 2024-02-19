@@ -4,7 +4,7 @@ import {
   updateQuestionForFormApiService,
 } from "../../api/QuestionApiService";
 import { useParams, useNavigate } from "react-router-dom";
-import { Spinner, Alert } from "react-bootstrap";
+import { Spinner, Alert, Button } from "react-bootstrap";
 
 const UpdateQuestion = () => {
   const [questionText, setQuestionText] = useState("");
@@ -46,6 +46,7 @@ const UpdateQuestion = () => {
     } else {
       setLoading(false);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId, questionId, token]);
 
   const handleSubmit = async (event) => {
@@ -86,15 +87,14 @@ const UpdateQuestion = () => {
   if (loading) {
     return (
       <div>
-        <div className="text-center"> 
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
       </div>
     );
   }
-
 
   if (error) {
     return (
@@ -114,8 +114,11 @@ const UpdateQuestion = () => {
 
   return (
     <div>
-      <div className="container shadow card mt-5 md-5" style={{backgroundColor : "#f9feff", maxWidth : "600px"}}>
-      <h2>Update Question</h2>
+      <div
+        className="container shadow card mt-5 md-5"
+        style={{ backgroundColor: "#fdffff", maxWidth: "600px" }}
+      >
+        <h2>Update Question</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="questionText" className="form-label">
@@ -142,44 +145,70 @@ const UpdateQuestion = () => {
                 />
                 {index === options.length - 1 && (
                   <button
-                    type="button"
-                    className="btn btn-outline-secondary"
+                    style={{
+                      borderColor: "white",
+                      borderRadius: "0.25rem",
+                      padding: "0.5rem 1rem",
+                      fontSize: "1rem",
+                      cursor: "pointer",
+                      backgroundColor: "transparent",
+                      transition: "background-color 0.1s",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = "#939090")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = "#ccc")
+                    }
                     onClick={addOption}
                   >
                     Add
                   </button>
                 )}
                 {index !== options.length - 1 && (
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={() => removeOption(index)}
-                  >
-                    Remove
-                  </button>
+                  <Button
+                      style={{
+                        borderColor: "white",
+                        borderRadius: "0.25rem",
+                        padding: "0.5rem 1rem",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                        backgroundColor: "#f3cfcf",
+                        transition: "background-color 0.1s",
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = "#fd8b8b")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor = "#f3cfcf")
+                      }
+                      onClick={() => removeOption(index)}
+                    >
+                      Remove
+                    </Button>
                 )}
               </div>
             ))}
           </div>
           <button
-              type="submit"
-              style={{
-                marginTop : "20px",
-                borderColor: "white",
-                borderRadius: "0.25rem",
-                padding: "0.5rem 1rem",
-                fontSize: "1rem",
-                cursor: "pointer",
-                backgroundColor: "transparent",
-                transition: "background-color 0.1s",
-              }}
-              onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
-              onMouseLeave={(e) =>
-                (e.target.style.backgroundColor = "transparent")
-              }
-            >
-              Update Question
-            </button>
+            type="submit"
+            style={{
+              marginTop: "20px",
+              borderColor: "white",
+              borderRadius: "0.25rem",
+              padding: "0.5rem 1rem",
+              fontSize: "1rem",
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              transition: "background-color 0.1s",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
+          >
+            Update Question
+          </button>
         </form>
       </div>
     </div>

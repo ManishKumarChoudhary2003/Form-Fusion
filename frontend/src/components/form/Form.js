@@ -1,12 +1,8 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import { retrieveAllQuestionsForFormApiService } from "../../api/QuestionApiService";
 import { useNavigate, useParams } from "react-router-dom";
 import { responseForFormApiService } from "../../api/ResponseApiService";
 import { submitAnswerForQuestionForFormApiService } from "../../api/AnswerApiService";
-import { Button, Modal } from "react-bootstrap";
 import { retrieveFormForUserApiService } from "../../api/FormApiService";
 import { Spinner, Alert } from "react-bootstrap";
 
@@ -16,12 +12,9 @@ const Form = () => {
   const [form, setForm] = useState(null);
   const [error, setError] = useState(null);
   const [answers, setAnswers] = useState({});
-  const [showModal, setShowModal] = useState(false);
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
 
   const { userId, formId } = useParams();
-  // const userId = localStorage.getItem("userId");
-  // const token = localStorage.getItem("token");
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,12 +41,14 @@ const Form = () => {
     };
 
     fetchData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId]);
-  
 
+  document.body.style.backgroundColor = "#f6f1fa";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     const isAnyAnswerEmpty = Object.values(answers).some(
       (answer) => !answer.trim()
@@ -62,29 +57,28 @@ const Form = () => {
     if (isAnyAnswerEmpty) {
       alert("Please fill out all the answers before submitting the form.");
     } else {
-      setShowModal(true);
-    }
-  };
-
-  const handleConfirmSubmit = async () => {
-    try {
-      await Promise.all(
-        questions.map((question) =>
-          submitAnswerForQuestionForFormApiService(
-            userId,
-            formId,
-            question.questionId,
-            { answer: answers[question.questionId] || "" }
+      try {
+        await Promise.all(
+          questions.map((question) =>
+            submitAnswerForQuestionForFormApiService(
+              userId,
+              formId,
+              question.questionId,
+              { answer: answers[question.questionId] || "" }
+            )
           )
-        )
-      );
+        );
 
-      await responseForFormApiService(userId, formId);
-      setShowModal(false);
-      navigate(-1);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      return error;
+        await responseForFormApiService(userId, formId);
+        setSuccessMessageVisible(true);
+        setTimeout(() => {
+          setSuccessMessageVisible(false);
+          navigate(-1);
+        }, 1000); 
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setError("An error occurred while submitting the form");
+      }
     }
   };
 
@@ -92,9 +86,6 @@ const Form = () => {
     setAnswers({ ...answers, [questionId]: value });
   };
 
-  const handleClose = () => {
-    setShowModal(false);
-  };
   if (loading) {
     return (
       <div>
@@ -116,142 +107,142 @@ const Form = () => {
       </div>
     );
   }
-    return (
-      <div style={{backgroundColor : "#f6f1fa"}}>
-        <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirmation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to submit the form?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleConfirmSubmit}>
-              Confirm
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        <form
-          onSubmit={handleSubmit}
-          className="container mt-1 card shadow"
-          style={{
-            maxWidth: "450px",
-            backgroundColor: "#fdfaff",
-            padding: "30px",
-          }}
-        >
-          <div
+
+  return (
+    <div style={{ backgroundColor: "#f6f1fa" }}>
+      {successMessageVisible && (
+        <div className="mt-3 text-center">
+          <Alert
             style={{
-              marginBottom: "50px",
-              border: "1px solid #6c757d",
-              padding: "10px",
+              backgroundColor: "#f6f1fa",
+              border: "none",
+              fontSize: "1.2rem",
             }}
           >
-            <h1 style={{ color: "#7264db" }}>{form.title}</h1>
-            <p style={{ color: "#b292db" }}>{form.description}</p>
-          </div> 
+            Form submitted successfully!
+          </Alert>
+        </div>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="container mt-1 card shadow"
+        style={{
+          maxWidth: "450px",
+          backgroundColor: "#fdfaff",
+          padding: "30px",
+        }}
+      >
+        <div
+          style={{
+            marginBottom: "50px",
+            border: "1px solid #6c757d",
+            padding: "10px",
+          }}
+        >
+          <h1 style={{ color: "#080c56" }}>{form.title}</h1>
+          <p style={{ color: "#293650" }}>{form.description}</p>
+        </div>
 
-          {questions.map((question, index) => (
-            <div key={question.questionId} className="mb-5">
-              <p
-                className="mb-3"
-                style={{
-                  color: "#5a627c",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >{`${index + 1}. ${question.text}`}</p>
-              <div className="mb-3">
-                {question.options.length === 0 ? (
-                  <input
-                    style={{ maxWidth: "300px" }}
-                    type="text"
-                    className="form-control"
-                    id={`answer-${question.questionId}`}
-                    placeholder="Your answer here..."
-                    required
-                    value={answers[question.questionId] || ""}
-                    onChange={(e) =>
-                      handleAnswerChange(question.questionId, e.target.value)
-                    }
-                  />
-                ) : (
-                  question.options.map((option, i) => (
-                    <div key={i} className="form-check">
-                      {option.optionData ? (
-                        <>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name={`answer-${question.questionId}`}
-                            id={`option-${question.questionId}-${i}`}
-                            value={option.optionData}
-                            required
-                            checked={
-                              answers[question.questionId] === option.optionData
-                            }
-                            onChange={() =>
-                              handleAnswerChange(
-                                question.questionId,
-                                option.optionData
-                              )
-                            }
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={`option-${question.questionId}-${i}`}
-                          >
-                            {option.optionData}
-                          </label>
-                        </>
-                      ) : (
+        {questions.map((question, index) => (
+          <div key={question.questionId} className="mb-3">
+            <p
+              className="mb-3"
+              style={{
+                color: "#5a627c",
+                fontSize: "18px",
+                fontWeight: "bold",
+              }}
+            >{`${index + 1}. ${question.text}`}</p>
+            <div className="mb-2">
+              {question.options.length === 0 ? (
+                <input
+                  style={{ maxWidth: "300px" }}
+                  type="text"
+                  className="form-control"
+                  id={`answer-${question.questionId}`}
+                  placeholder="Your answer here..."
+                  required
+                  value={answers[question.questionId] || ""}
+                  onChange={(e) =>
+                    handleAnswerChange(question.questionId, e.target.value)
+                  }
+                />
+              ) : (
+                question.options.map((option, i) => (
+                  <div key={i} className="form-check">
+                    {option.optionData ? (
+                      <>
                         <input
-                          style={{ maxWidth: "300px" }}
-                          type="text"
-                          className="form-control"
-                          id={`answer-${question.questionId}`}
-                          placeholder="Your answer here..."
+                          className="form-check-input"
+                          type="radio"
+                          name={`answer-${question.questionId}`}
+                          id={`option-${question.questionId}-${i}`}
+                          value={option.optionData}
                           required
-                          value={answers[question.questionId] || ""}
-                          onChange={(e) =>
+                          checked={
+                            answers[question.questionId] === option.optionData
+                          }
+                          onChange={() =>
                             handleAnswerChange(
                               question.questionId,
-                              e.target.value
+                              option.optionData
                             )
                           }
                         />
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
+                        <label
+                          className="form-check-label"
+                          htmlFor={`option-${question.questionId}-${i}`}
+                        >
+                          {option.optionData}
+                        </label>
+                      </>
+                    ) : (
+                      <input
+                        style={{ maxWidth: "300px" }}
+                        type="text"
+                        className="form-control"
+                        id={`answer-${question.questionId}`}
+                        placeholder="Your answer here..."
+                        required
+                        value={answers[question.questionId] || ""}
+                        onChange={(e) =>
+                          handleAnswerChange(
+                            question.questionId,
+                            e.target.value
+                          )
+                        }
+                      />
+                    )}
+                  </div>
+                ))
+              )}
             </div>
-          ))}
-          <div className=" gap-2  mx-auto"> 
-            <button
-                type="submit"
-                style={{
-                  marginTop : "60px",
-                  borderColor: "white",
-                  borderRadius: "0.25rem",
-                  padding: "0.5rem 1rem",
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  backgroundColor: "transparent",
-                  transition: "background-color 0.1s",
-                }}
-                onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
-                onMouseLeave={(e) =>
-                  (e.target.style.backgroundColor = "transparent")
-                }
-              >
-                Submit
-              </button>
           </div>
-        </form>
-      </div>
-    );
+        ))}
+        <div className=" gap-2  mx-auto">
+          <button
+            type="submit"
+            style={{
+              marginTop: "60px",
+              borderColor: "white",
+              borderRadius: "0.25rem",
+              padding: "0.5rem 1rem",
+              fontSize: "1rem",
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              transition: "background-color 0.1s",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#e4ecef")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default Form;

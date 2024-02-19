@@ -29,6 +29,7 @@ const ResponseData = () => {
     };
 
     fetchData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId, token]);
 
   if (loading) {
@@ -52,37 +53,43 @@ const ResponseData = () => {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Response Data</h2>
-      {responses.length > 0 && (
-        <div className="mb-4">
-          <h3 className="text-center">{responses[0].form.title}</h3>
-          <p className="text-center">{responses[0].form.description}</p>
+      {responses.length > 0 ? (
+        <>
+          <div className="mb-4">
+            <h3 className="text-center">{responses[0].form.title}</h3>
+            <p className="text-center">{responses[0].form.description}</p>
+          </div>
+          <Table striped bordered hover className="mx-auto" style={{ maxWidth: "600px" }}>
+            <thead>
+              <tr>
+                <th>Sr. No</th>
+                <th>Response ID</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {responses.map((response, index) => {
+                const timestamp = new Date(response.timestamp);
+                const date = timestamp.toLocaleDateString();
+                const time = timestamp.toLocaleTimeString();
+                return (
+                  <tr key={response.responseId}>
+                    <td>{index + 1}</td>
+                    <td>{response.responseId}</td>
+                    <td>{date}</td>
+                    <td>{time}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </>
+      ) : (
+        <div className="text-center mt-5">
+          <Alert style={{backgroundColor : "#f9ffff", border : "none", padding : "50px"}}>No responses available for this form.</Alert>
         </div>
       )}
-      <Table striped bordered hover className="mx-auto" style={{ maxWidth: "600px" }}>
-        <thead>
-          <tr>
-            <th>Sr. No</th>
-            <th>Response ID</th>
-            <th>Date</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {responses.map((response, index) => {
-            const timestamp = new Date(response.timestamp);
-            const date = timestamp.toLocaleDateString();
-            const time = timestamp.toLocaleTimeString();
-            return (
-              <tr key={response.responseId}>
-                <td>{index + 1}</td>
-                <td>{response.responseId}</td>
-                <td>{date}</td>
-                <td>{time}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
     </div>
   );
 };

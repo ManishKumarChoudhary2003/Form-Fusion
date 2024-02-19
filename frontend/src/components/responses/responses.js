@@ -76,6 +76,7 @@ const Responses = () => {
 
     fetchData();
     fetchQuestionsData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId, token]);
 
   if (loading) {
@@ -175,11 +176,25 @@ const Responses = () => {
           >
             <div className="card-body d-flex justify-content-between align-items-center">
               <h5 className="card-title">{`${index + 1}. ${question.text}`}</h5>
+            
               <button
-                className="btn btn-primary"
+                type="submit"
                 onClick={() => handleShowChart(index)}
+                style={{ 
+                  borderColor: "white",
+                  borderRadius: "0.25rem",
+                  padding: "0.5rem 1rem",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  backgroundColor: "transparent",
+                  transition: "background-color 0.1s",
+                }}
+                onMouseEnter={(e) => (e.target.style.backgroundColor = "#d3e4eb")}
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
               >
-                {selectedQuestionIndex === index ? "Hide" : "Show"}
+                 {selectedQuestionIndex === index ? "Hide" : "Show"}
               </button>
             </div>
             {selectedQuestionIndex === index && (
@@ -192,7 +207,7 @@ const Responses = () => {
                     width={380}
                   />
                 ) : (
-                  <p className="text-danger">
+                  <p className="text-danger text-center">
                     No answers available for this question.
                   </p>
                 )}

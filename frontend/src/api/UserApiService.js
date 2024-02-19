@@ -35,6 +35,22 @@ export const retrieveUserApiService = (userId,token) => {
     });
 };
 
+export const delteUserApiService = (userId,token) => {
+  return ApiClient.delete(`/user/${userId}/delete-user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      console.log("Delete User Data--->>>", response.data);
+      return response.data; 
+    })
+    .catch((error) => {
+      console.log("Delete an Error--->>>", error);
+      throw error;
+    });
+};
+
 export const retrieveUserByEmailApiService = (email, token) => {
   return ApiClient.get(`/user/email/${email}`, {
     headers: {

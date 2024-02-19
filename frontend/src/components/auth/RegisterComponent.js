@@ -51,6 +51,7 @@ const RegisterComponent = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
@@ -82,7 +83,7 @@ const RegisterComponent = () => {
       setTimeout(() => {
         setSuccessMessage("");
         navigate("/login");
-      }, 2000);
+      }, 500);
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setErrorMessage(

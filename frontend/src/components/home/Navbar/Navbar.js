@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <nav className="shadow bg-white">
       <div className={`logo nameDisplay ${isMenuOpen ? "hide" : ""}`}>
-        <h2 className="ml-5">Form Fusion</h2>
+        <h2 className="ml-5" style={{cursor : "pointer"}} onClick={() => {navigate("/")}}>Form Fusion</h2>
       </div>
       <ul className={`nav-links ${isMenuOpen ? "show" : ""}`}>
         {/* <NavLink to="/" className="navItem">
@@ -199,7 +199,7 @@ const Navbar = () => {
               (e.target.style.backgroundColor = "transparent")
             }
           >
-            Contact Us
+            About Us
           </button>
         }
         {isAuthenticated && (

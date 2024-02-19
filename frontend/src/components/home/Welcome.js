@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Home from "./Home";
 import HomeLayout from "../../pages/HomeLayout";
 import Features1 from "./Features1";
@@ -15,9 +15,9 @@ const Welcome = () => {
   //    navgate("/all-forms")
   // }
 
-  // useEffect(() =>{
-  //   window.location.reload();
-  // },[])
+  useEffect(() =>{
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },[])
 
   // useEffect(() => {
   //   const fetchWelcomeMessage = async () => {

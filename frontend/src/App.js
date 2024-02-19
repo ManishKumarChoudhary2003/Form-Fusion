@@ -28,6 +28,10 @@ import AccountLayout from "./pages/AccountLayout";
 import Contact from "./components/contact/Contact";
 import ContactLayout from "./pages/ContactLayout";
 import UpdateQuestionLayout from "./pages/UpdateQuestionLayout";
+import AllUsers from "./components/user/AllUsers";
+import AllUsersLayout from "./pages/AllUsersLayout";
+import UserAccount from "./components/user/UserAccount";
+import UserAccountLayout from "./pages/UserAccountLayout";
 
 const App = () => {
   // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -99,7 +103,12 @@ const App = () => {
         },
         {
           path: "user/:userId/update-question/:formId/:questionId",
-          element: <UpdateQuestionLayout> <UpdateQuestion /></UpdateQuestionLayout>,
+          element: (
+            <UpdateQuestionLayout>
+              {" "}
+              <UpdateQuestion />
+            </UpdateQuestionLayout>
+          ),
         },
 
         {
@@ -118,6 +127,22 @@ const App = () => {
               {" "}
               <ResponseData />
             </ResponseDataLayout>
+          ),
+        },
+        {
+          path: "/users/all-users-details",
+          element: (
+            <AllUsersLayout>
+              <AllUsers />
+            </AllUsersLayout>
+          ),
+        },
+        {
+          path: "/users/all-users-details/:userId",
+          element: (
+            <UserAccountLayout>
+              <UserAccount />
+            </UserAccountLayout>
           ),
         },
         {
@@ -163,6 +188,7 @@ const App = () => {
         </ContactLayout>
       ),
     },
+
     {
       path: "*",
       element: <ErrorPage />,

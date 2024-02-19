@@ -1,8 +1,8 @@
 package Manish.FormFusion.controller;
 
 
-import Manish.FormFusion.entity.User;
-import Manish.FormFusion.repository.UserRepository;
+import Manish.FormFusion.entity.*;
+import Manish.FormFusion.repository.*;
 import Manish.FormFusion.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +26,19 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FormRepository formRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
+    @Autowired
+    private OptionsRepository optionsRepository;
+
+    @Autowired
+    private ResponseRepository responseRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @GetMapping("/all")
     public ResponseEntity<String> getAllUsers() {
@@ -76,6 +86,42 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
+
+    @DeleteMapping("/{userId}/delete-user")
+    public ResponseEntity<String> deleteUserById(@PathVariable Long userId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
+            List<Form> forms = formRepository.findByUser(user);
+
+            for (Form form : forms) {
+                // Delete responses related to each form
+                List<Response> responses = responseRepository.findByFormAndUser(form, user);
+                responseRepository.deleteAll(responses);
+                List<Question> questions = questionRepository.findByForm(form);
+                for (Question question : questions) {
+                    // Delete options related to each question
+                    List<Options> options = optionsRepository.findByQuestion(question);
+                    optionsRepository.deleteAll(options);
+                    List<Answer> answers = answerRepository.findByQuestionAndFormAndUser(question, form, user);
+                    answerRepository.deleteAll(answers);
+                }
+                questionRepository.deleteAll(questions);
+            }
+
+            formRepository.deleteAll(forms);
+
+            userRepository.delete(user);
+
+            return ResponseEntity.ok("User with ID " + userId + " and all associated forms, questions, options, and answers have been deleted.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting the user and associated forms, questions, options, and answers.");
+        }
+    }
+
 
 //    @GetMapping("/{userId}")
 //    public ResponseEntity<User> getUserById(@PathVariable Long userId) {

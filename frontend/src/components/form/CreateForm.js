@@ -41,6 +41,8 @@ const CreateForm = () => {
     } else {
       setLoading(false);
     }
+    
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId, token]);
 
   const handleSubmit = async (event) => {

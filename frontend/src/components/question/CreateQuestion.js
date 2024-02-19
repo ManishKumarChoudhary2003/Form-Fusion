@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createQuestionForFormApiService } from "../../api/QuestionApiService";
 import { useNavigate, useParams } from "react-router-dom";
 import AllQuestions from "./AllQuestions";
 import { setFormLinkForFormApiService } from "../../api/FormApiService";
-import {
+import { 
   Button,
   Form,
   InputGroup,
@@ -23,6 +23,10 @@ const CreateQuestion = () => {
 
   const { formId } = useParams();
   const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,7 +82,10 @@ const CreateQuestion = () => {
 
   return (
     <div className="container mt-5">
-      <Card className="p-4 card border-0 shadow" style={{ maxWidth: "600px", margin: "auto" }}>
+      <Card
+        className="p-4 card border-0 shadow"
+        style={{ maxWidth: "600px", margin: "auto" }}
+      >
         <h2 className="mb-4">Create Question</h2>
         {/* <Button
           variant="primary"
@@ -96,7 +103,7 @@ const CreateQuestion = () => {
             padding: "0.5rem 1rem",
             fontSize: "1rem",
             cursor: "pointer",
-            backgroundColor: "transparent",
+            backgroundColor: "#e0f1f5",
             transition: "background-color 0.1s",
           }}
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#e2eaf9")}
@@ -125,12 +132,43 @@ const CreateQuestion = () => {
                     onChange={(e) => handleOptionChange(index, e.target.value)}
                   />
                   {index === options.length - 1 ? (
-                    <Button variant="outline-secondary" onClick={addOption}>
+                    <Button
+                      style={{
+                        borderColor: "white",
+                        borderRadius: "0.25rem",
+                        padding: "0.5rem 1rem",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                        backgroundColor: "#ccc",
+                        transition: "background-color 0.1s",
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = "#939090")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor = "#ccc")
+                      }
+                      onClick={addOption}
+                    >
                       Add
                     </Button>
                   ) : (
                     <Button
-                      variant="outline-danger"
+                      style={{
+                        borderColor: "white",
+                        borderRadius: "0.25rem",
+                        padding: "0.5rem 1rem",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                        backgroundColor: "#f3cfcf",
+                        transition: "background-color 0.1s",
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = "#fd8b8b")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor = "#f3cfcf")
+                      }
                       onClick={() => removeOption(index)}
                     >
                       Remove

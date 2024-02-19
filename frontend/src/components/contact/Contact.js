@@ -8,32 +8,44 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <Container className="py-4 rounded p-5" style={{backgroundColor : "#f9fdff"}}>
-       
+      <Container
+        className="py-4 rounded p-5"
+        style={{ backgroundColor: "#f9fdff" }}
+      >
         <Row>
           <Col lg={6} className="py-4">
-            <Image
-              src={avatar}
-              alt="Avatar"
-              width="300px"
-              className="img-fluid rounded-circle ml-5 mt-5 mb-5"
-            />
+            <a href="https://manish-kumar-choudhary.netlify.app/" 
+                target="_blank"
+                rel="noopener noreferrer">
+              <Image
+                src={avatar}
+                alt="Avatar"
+                width="300px"
+                className="img-fluid rounded-circle ml-5 mt-5 mb-5"
+              />
+            </a>
           </Col>
-          <Col lg={6} className="py-4 mt-5">
-          <div>
-          <p style={{color : "#1c4bab", fontSize : "1.2rem"}}>
-            Form Fusion: Seamlessly merge user responses with dynamic forms for
+          <Col lg={6} className="py-4 mt-2">
+            <div>
+              {/* Form Fusion: Seamlessly merge user responses with dynamic forms for
             streamlined data collection and analysis. Simplify feedback
-            processes.
-          </p>
-        </div>
-            <h2 className="mb-4">Contact Info</h2>
+            processes. */}
+              <h1 style={{ color: "#1c4bab", fontSize: "2.5rem" }}>
+                I'm Manish Kumar Choudhary
+              </h1>
+              <p style={{ color: "#565a5a" }}>
+                I'm a 3rd-year Computer Science student at JIET Group of
+                Institutions, Jodhpur with hands-on experience in JAVA,
+                JavaScript, React.js, Spring Boot, and Hibernate.
+              </p>
+              <p>Let's create something extraordinary together! 🚀</p>
+            </div>
+            <h3 className="mb-4 mt-5">Contact Info</h3>
             <p className="mb-1">+91 8955946276</p>
             <p className="mb-1">
               <a
-                className="text-info"
                 href="mailto:cmanishkumar193@gmail.com"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: "#1138bb" }}
               >
                 cmanishkumar193@gmail.com
               </a>

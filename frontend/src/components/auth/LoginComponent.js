@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { userLoginApiService } from "../../api/AuthApiService";
 import { authActions } from "../../store/auth-slice";
 import { retrieveUserByEmailApiService } from "../../api/UserApiService";
-import { useNavigate, Link } from "react-router-dom";
-import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Form, Alert, Container, Row, Col } from "react-bootstrap";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +24,8 @@ const LoginComponent = () => {
       dispatch(authActions.setUserId(storedUserId));
       dispatch(authActions.setAuthentication());
     }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [dispatch]);
 
   const handleEmailChange = (event) => {
@@ -69,7 +71,7 @@ const LoginComponent = () => {
     } catch (error) {
       setError("Invalid email or password");
       console.error("Error logging in:", error);
-    } 
+    }
   };
 
   return (
@@ -78,9 +80,7 @@ const LoginComponent = () => {
         <Col md={6}>
           <h1 className="mb-4">Login</h1>
           {error && <Alert variant="danger">{error}</Alert>}
-          {successMessage && (
-            <Alert variant="success">{successMessage}</Alert>
-          )}
+          {successMessage && <Alert variant="success">{successMessage}</Alert>}
           <p>Please fill out the form to login:</p>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email">
@@ -90,7 +90,7 @@ const LoginComponent = () => {
                 value={email}
                 onChange={handleEmailChange}
                 required
-                style={{backgroundColor: "#f0f0f0" }}
+                style={{ backgroundColor: "#f0f0f0" }}
                 className="text-secondary"
               />
             </Form.Group>
@@ -101,43 +101,41 @@ const LoginComponent = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                style={{backgroundColor: "#f0f0f0" }}
+                style={{ backgroundColor: "#f0f0f0" }}
                 className="text-secondary"
               />
             </Form.Group>
             <button
-                type="submit"
-                style={{
-                  marginTop: "30px",
-                  borderColor: "#c3d9e1",
-                  borderRadius: "0.25rem",
-                  padding: "0.5rem 1rem",
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  backgroundColor: "transparent",
-                  transition: "background-color 0.1s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.target.style.backgroundColor = "#f8fdff")
-                }
-                onMouseLeave={(e) =>
-                  (e.target.style.backgroundColor = "transparent")
-                }
-              >
-                Login
-              </button>
+              type="submit"
+              style={{
+                marginTop: "30px",
+                borderColor: "#c3d9e1",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                fontSize: "1rem",
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                transition: "background-color 0.1s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#f8fdff")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            >
+              Login
+            </button>
           </Form>
-           <p>
-              Don't have an account?{" "}
-              <a
-                href="/register"
-                style={{ textDecoration: "none", color: "#1372c0" }}
-                onMouseEnter={(e) => (e.target.style.color = "#000000")}
-                onMouseLeave={(e) => (e.target.style.color = "#1372c0")}
-              >
-                Register here
-              </a>
-            </p>
+          <p>
+            Don't have an account?{" "}
+            <a
+              href="/register"
+              style={{ textDecoration: "none", color: "#1372c0" }}
+              onMouseEnter={(e) => (e.target.style.color = "#000000")}
+              onMouseLeave={(e) => (e.target.style.color = "#1372c0")}
+            >
+              Register here
+            </a>
+          </p>
         </Col>
       </Row>
     </Container>
@@ -145,31 +143,6 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { useDispatch } from "react-redux";
 // import React, { useState, useEffect } from "react";
@@ -244,7 +217,7 @@ export default LoginComponent;
 //   };
 
 //   return (
-//     <div> 
+//     <div>
 //       <div className="container card mt-5">
 //         <h2 className="col-md-6 offset-md-3">Login</h2>
 //         {error && <div className="alert alert-danger">{error}</div>}

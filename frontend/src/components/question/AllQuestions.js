@@ -38,6 +38,8 @@ const AllQuestions = () => {
     };
 
     fetchData();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId]);
 
   const updateQuestion = (questionId) => {
@@ -128,6 +130,20 @@ const AllQuestions = () => {
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
                             <Dropdown.Item
+                              style={{
+                                borderColor: "white",
+                                borderRadius: "0.25rem",
+                                fontSize: "0.9rem",
+                                cursor: "pointer",
+                                backgroundColor: "transparent",
+                                transition: "background-color 0.1s",
+                              }}
+                              onMouseEnter={(e) =>
+                                (e.target.style.backgroundColor = "#ececec")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.target.style.backgroundColor = "transparent")
+                              }
                               onClick={() =>
                                 updateQuestion(question.questionId)
                               }
@@ -135,6 +151,20 @@ const AllQuestions = () => {
                               Update Question
                             </Dropdown.Item>
                             <Dropdown.Item
+                              style={{
+                                borderColor: "white",
+                                borderRadius: "0.25rem",
+                                fontSize: "0.9rem",
+                                cursor: "pointer",
+                                backgroundColor: "transparent",
+                                transition: "background-color 0.1s",
+                              }}
+                              onMouseEnter={(e) =>
+                                (e.target.style.backgroundColor = "#ececec")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.target.style.backgroundColor = "transparent")
+                              }
                               onClick={() =>
                                 deleteQuestion(question.questionId)
                               }
@@ -150,7 +180,7 @@ const AllQuestions = () => {
                     <ul className="list-unstyled mb-0">
                       {question.options.map((option, optionIndex) => (
                         <li key={option.optionId}>
-                          {option.optionData}
+                           {option.optionData}
                           {/* Render dots on the last option */}
                           {optionIndex === question.options.length - 1 && (
                             <div className="dots">
@@ -176,8 +206,6 @@ const AllQuestions = () => {
 };
 
 export default AllQuestions;
-
-
 
 // import React, { useState, useEffect } from "react";
 // import {
