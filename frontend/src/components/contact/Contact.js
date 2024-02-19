@@ -4,7 +4,7 @@ import avatar from "../../assets/avatar.jpeg";
 // import Manish from "../../assets/Manish.png"
 import Navbar from "../home/Navbar/Navbar";
 
-const Contact = () => {
+const Contact = () => { 
   return (
     <>
       <Navbar />
@@ -14,9 +14,11 @@ const Contact = () => {
       >
         <Row>
           <Col lg={6} className="py-4">
-            <a href="https://manish-kumar-choudhary.netlify.app/" 
-                target="_blank"
-                rel="noopener noreferrer">
+            <a
+              href="https://manish-kumar-choudhary.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image
                 src={avatar}
                 alt="Avatar"
@@ -32,7 +34,9 @@ const Contact = () => {
             processes. */}
               <h1 style={{ color: "#1c4bab", fontSize: "2.5rem" }}>
                 I'm Manish Kumar Choudhary
+              
               </h1>
+
               <p style={{ color: "#565a5a" }}>
                 I'm a 3rd-year Computer Science student at JIET Group of
                 Institutions, Jodhpur with hands-on experience in JAVA,

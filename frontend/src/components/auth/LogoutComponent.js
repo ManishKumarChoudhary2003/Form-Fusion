@@ -12,11 +12,13 @@ const LogoutComponent = () => {
   const handleLogout = () => {
     dispatch(authActions.setToken(null));
     dispatch(authActions.setUserId(null));
+    dispatch(authActions.setRole(null));
     dispatch(authActions.setAuthentication(false));
 
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
 
     navigate("/");
     window.location.reload();

@@ -34,13 +34,16 @@ import UserAccount from "./components/user/UserAccount";
 import UserAccountLayout from "./pages/UserAccountLayout";
 
 const App = () => {
-  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isAdmin = localStorage.getItem("role") === "ADMIN_ROLES";
 
-  // function AuthenticatedRoute({ children }) {
-  //   if (isAuthenticated) return children;
+  function AuthenticatedRoute({ children }) {
+    if (isAdmin) return children;
+    else{
+       return <ErrorPage/>
+    }
 
-  //   return <Navigate to="/" />;
-  // }
+    // return <Navigate to="/" />;
+  }
 
   const router = createBrowserRouter([
     {
@@ -132,17 +135,22 @@ const App = () => {
         {
           path: "/users/all-users-details",
           element: (
-            <AllUsersLayout>
-              <AllUsers />
-            </AllUsersLayout>
+            <AuthenticatedRoute>
+              {" "}
+              <AllUsersLayout>
+                <AllUsers />
+              </AllUsersLayout>
+            </AuthenticatedRoute>
           ),
         },
         {
           path: "/users/all-users-details/:userId",
           element: (
-            <UserAccountLayout>
-              <UserAccount />
-            </UserAccountLayout>
+            <AuthenticatedRoute>
+              <UserAccountLayout>
+                <UserAccount />
+              </UserAccountLayout>
+            </AuthenticatedRoute>
           ),
         },
         {

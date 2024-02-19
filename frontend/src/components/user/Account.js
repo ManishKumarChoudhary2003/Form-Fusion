@@ -4,7 +4,6 @@ import { Alert, Spinner } from "react-bootstrap";
 import avatar from "../../assets/user.jpeg";
 import gif from "../../assets/gif.gif";
 import { retrieveAllFormsForUserApiService } from "../../api/FormApiService";
-import { useParams } from "react-router-dom";
 
 const Account = () => {
   const [user, setUser] = useState(null);
@@ -14,6 +13,7 @@ const Account = () => {
 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -103,7 +103,13 @@ const Account = () => {
                     height="150px"
                     className="img-fluid mr-3"
                   />
-                  <h1>{user.username}</h1>
+                  <div>
+                    <h1>{user.username}</h1>
+                    <p style={{color : "#11485a"}}>
+                      You Logged in as{" "}
+                      {role === "USER_ROLES" ? "User" : "Admin"}
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

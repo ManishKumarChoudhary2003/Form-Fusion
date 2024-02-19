@@ -49,8 +49,13 @@ const LoginComponent = () => {
           const user = response;
           if (user && user.userId) {
             const userId = user.userId;
-            localStorage.setItem("userId", userId);
+            console.log(user.role);
             dispatch(authActions.setUserId(userId));
+            localStorage.setItem("userId", userId);
+            if(user.role){
+              localStorage.setItem("role", user.role);
+              dispatch(authActions.setRole(user.role));
+            }
           } else {
             console.error("User or userId not found in response:", response);
           }

@@ -14,11 +14,20 @@ const Navbar = () => {
 
   const isAuthenticated = localStorage.getItem("isLoggedIn") === "100";
   const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role") === "ADMIN_ROLES";
 
   return (
     <nav className="shadow bg-white">
       <div className={`logo nameDisplay ${isMenuOpen ? "hide" : ""}`}>
-        <h2 className="ml-5" style={{cursor : "pointer"}} onClick={() => {navigate("/")}}>Form Fusion</h2>
+        <h2
+          className="ml-5"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Form Fusion
+        </h2>
       </div>
       <ul className={`nav-links ${isMenuOpen ? "show" : ""}`}>
         {/* <NavLink to="/" className="navItem">
@@ -159,7 +168,10 @@ const Navbar = () => {
               New Form
             </button> */}
             <button
-              onClick={() => navigate(`/user/user-details/${userId}`)}
+              onClick={() => {
+                navigate(`/user/user-details/${userId}`);
+                closeMenu();
+              }}
               style={{
                 color: "#1372c0",
                 border: "none",
@@ -182,7 +194,10 @@ const Navbar = () => {
         )}
         {
           <button
-            onClick={() => navigate("/contact-us")}
+            onClick={() => {
+              navigate("/contact-us");
+              closeMenu();
+            }}
             style={{
               color: "#1372c0",
               border: "none",
@@ -202,6 +217,31 @@ const Navbar = () => {
             About Us
           </button>
         }
+        {isAuthenticated && role && (
+          <button
+            onClick={() => {
+              navigate("/users/all-users-details");
+              closeMenu();
+            }}
+            style={{
+              color: "#1372c0",
+              border: "none",
+              fontWeight: "bold",
+              marginTop: "5px",
+              padding: "0.5rem 1rem",
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              transition: "background-color 0s",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#ecf5fa")}
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundColor = "transparent")
+            }
+          >
+            All Users
+          </button>
+        )}
         {isAuthenticated && (
           <button
             onClick={() => {

@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import feature2 from "../../assets/feature2.png";
-import chart from "../../assets/chart.png"
 
 const Features2 = () => {
   return (
@@ -33,7 +32,7 @@ const Features2 = () => {
         <Col
           md={6}
           style={{
-            backgroundImage: `url(${chart})`,
+            backgroundImage: `url(${feature2})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             minHeight: "370px",
