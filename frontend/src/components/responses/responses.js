@@ -79,6 +79,8 @@ const Responses = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [userId, formId, token]);
 
+  
+
   if (loading) {
     return (
       <div>
