@@ -74,7 +74,7 @@ const Form = () => {
         setTimeout(() => {
           setSuccessMessageVisible(false);
           navigate(-1);
-        }, 1000); 
+        }, 1000);
       } catch (error) {
         console.error("Error submitting form:", error);
         setError("An error occurred while submitting the form");
@@ -142,18 +142,13 @@ const Form = () => {
           <h1 style={{ color: "#080c56" }}>{form.title}</h1>
           <p style={{ color: "#293650" }}>{form.description}</p>
         </div>
-
         {questions.map((question, index) => (
           <div key={question.questionId} className="mb-3">
             <p
               className="mb-3"
-              style={{
-                color: "#5a627c",
-                fontSize: "18px",
-                fontWeight: "bold",
-              }}
+              style={{ color: "#7D91D8", fontSize: "18px", fontWeight: "bold" }}
             >{`${index + 1}. ${question.text}`}</p>
-            <div className="mb-2">
+            <div className="mb-3">
               {question.options.length === 0 ? (
                 <input
                   style={{ maxWidth: "300px" }}
@@ -219,11 +214,12 @@ const Form = () => {
             </div>
           </div>
         ))}
+
         <div className=" gap-2  mx-auto">
           <button
             type="submit"
             style={{
-              marginTop: "60px",
+              marginTop: "40px",
               borderColor: "white",
               borderRadius: "0.25rem",
               padding: "0.5rem 1rem",

@@ -148,7 +148,7 @@ const AllQuestions = () => {
                                 updateQuestion(question.questionId)
                               }
                             >
-                              Update Question
+                              Update
                             </Dropdown.Item>
                             <Dropdown.Item
                               style={{
@@ -169,7 +169,7 @@ const AllQuestions = () => {
                                 deleteQuestion(question.questionId)
                               }
                             >
-                              Delete Question
+                              Delete
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>

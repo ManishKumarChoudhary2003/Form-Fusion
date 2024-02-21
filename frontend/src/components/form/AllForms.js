@@ -61,6 +61,7 @@ const AllForms = () => {
       .writeText(link)
       .then(() => {
         console.log("Link copied to clipboard:", link);
+        console.log("Link copied to clipboard:", copiedLink);
         setCopiedLink(link);
         setTimeout(() => setCopiedLink(null), 500);
       })
@@ -289,7 +290,7 @@ const AllForms = () => {
                         }
                         onClick={() => seeForm(form.formId)} 
                       >
-                        See Form
+                        View
                       </Dropdown.Item>
                       <Dropdown.Item
                       style={{
@@ -308,7 +309,7 @@ const AllForms = () => {
                         }
                         onClick={() => updateForm(form.formId)} 
                       >
-                        Update Form
+                        Update
                       </Dropdown.Item>
                       <Dropdown.Item
                       style={{
@@ -327,7 +328,7 @@ const AllForms = () => {
                         }
                         onClick={() => deleteForm(form.formId)} 
                       >
-                        Delete Form
+                        Delete 
                       </Dropdown.Item>
                       <Dropdown.Item
                       style={{
@@ -346,7 +347,7 @@ const AllForms = () => {
                         }
                         onClick={() => seeResponses(form.formId)} 
                       >
-                        See Responses
+                        Responses
                       </Dropdown.Item>
                       <Dropdown.Item
                       style={{
@@ -365,7 +366,7 @@ const AllForms = () => {
                         }
                         onClick={() => seeSubmission(form.formId)} 
                       >
-                        See Submission
+                        Submissions
                       </Dropdown.Item>
                       <Dropdown.Item
                       style={{

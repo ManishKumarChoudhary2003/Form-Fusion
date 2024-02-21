@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { retrieveAllResponsesApiService } from "../../api/ResponseApiService";
-import { Table, Spinner, Alert, Button } from "react-bootstrap";
+import { Table, Spinner, Alert } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -59,11 +59,13 @@ const ResponseData = () => {
           pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
         }
-        pdf.save("response-data.pdf");
+        pdf.save("submissions.pdf");
 
         if (generateButton) {
           generateButton.style.display = "block";
         }
+        window.location.reload();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     } else {
       console.error("Response data element not found.");
