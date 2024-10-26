@@ -216,13 +216,6 @@ public class FormController {
     @GetMapping("/{userId}/all-forms")
     public ResponseEntity<String> getAllFormsForUser(@PathVariable Long userId) {
         try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String username = authentication.getName();
-//            User user = userRepository.findByUsername(username);
-//
-//            if (userId != null && !userId.equals(user.getUserId())) {
-//                throw new UsernameNotFoundException("Provided userId does not match the authenticated user");
-//            }
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
